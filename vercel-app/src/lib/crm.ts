@@ -1,5 +1,6 @@
 import { createHmac } from "node:crypto";
-import { del, get, list, put } from "@vercel/blob";
+import { del, list, put } from "@vercel/blob";
+import { getPrivateBlob } from "./blob-read";
 import { listBookingsInRange, type CalBooking } from "./admin/cal";
 import { listOrders, type StoredOrder } from "./orders";
 import { getTreatmentsCatalog, type Treatment } from "./treatments";
@@ -337,7 +338,7 @@ export interface CrmStore {
 
 const blobStore: CrmStore = {
   async read(pathname) {
-    const result = await get(pathname, { access: "private", useCache: false });
+    const result = await getPrivateBlob(pathname);
     if (!result) return null;
     return new Response(result.stream).text();
   },

@@ -1,4 +1,5 @@
-import { del, get, list, put } from "@vercel/blob";
+import { del, list, put } from "@vercel/blob";
+import { getPrivateBlob } from "../blob-read";
 
 /**
  * Mana's state on Vercel Blob (same private store as orders/catalog,
@@ -37,7 +38,7 @@ const HISTORY_MAX_MESSAGES = 24;
 const HISTORY_MAX_CHARS = 2000;
 
 async function readJson<T>(pathname: string): Promise<T | null> {
-  const result = await get(pathname, { access: "private", useCache: false });
+  const result = await getPrivateBlob(pathname);
   if (!result || result.statusCode !== 200) return null;
   try {
     return (await new Response(result.stream).json()) as T;
@@ -71,7 +72,7 @@ interface OwnerRecord {
  * (webhook route) must treat a throw as a hard error, never as "unbound".
  */
 export async function getOwnerChatId(): Promise<number | null> {
-  const result = await get(OWNER_PATH, { access: "private", useCache: false });
+  const result = await getPrivateBlob(OWNER_PATH);
   // The SDK returns null only for a genuinely missing blob (true 404).
   if (!result) return null;
   if (result.statusCode !== 200) {
@@ -482,10 +483,7 @@ export async function appendAudit(
   entry: Omit<AuditEntry, "at">
 ): Promise<void> {
   try {
-    const existing = await get(AUDIT_PATH, {
-      access: "private",
-      useCache: false,
-    });
+    const existing = await getPrivateBlob(AUDIT_PATH);
     let text = "";
     if (existing && existing.statusCode === 200) {
       text = await new Response(existing.stream).text();

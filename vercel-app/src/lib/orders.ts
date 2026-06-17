@@ -1,4 +1,5 @@
-import { get, list, put } from "@vercel/blob";
+import { list, put } from "@vercel/blob";
+import { getPrivateBlob } from "./blob-read";
 
 /**
  * Order persistence on Vercel Blob (private store `vv-orders`).
@@ -135,10 +136,7 @@ export async function getOrder(
   orderNumber: string
 ): Promise<StoredOrder | null> {
   if (!isValidOrderNumber(orderNumber)) return null;
-  const result = await get(orderPathname(orderNumber), {
-    access: "private",
-    useCache: false,
-  });
+  const result = await getPrivateBlob(orderPathname(orderNumber));
   if (!result || result.statusCode !== 200) return null;
   return (await new Response(result.stream).json()) as StoredOrder;
 }
@@ -163,10 +161,7 @@ export async function listOrders(
   const orders = await Promise.all(
     blobs.map(async (blob): Promise<StoredOrder | null> => {
       try {
-        const result = await get(blob.pathname, {
-          access: "private",
-          useCache: false,
-        });
+        const result = await getPrivateBlob(blob.pathname);
         if (!result || result.statusCode !== 200) return null;
         return (await new Response(result.stream).json()) as StoredOrder;
       } catch (error) {

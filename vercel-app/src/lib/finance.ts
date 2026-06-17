@@ -1,4 +1,5 @@
-import { del, get, list, put } from "@vercel/blob";
+import { del, list, put } from "@vercel/blob";
+import { getPrivateBlob } from "./blob-read";
 
 /**
  * Manual finance ledger on Vercel Blob (private store `vv-orders`),
@@ -158,7 +159,7 @@ export async function listAllBlobPathnames(
 
 const blobStore: LedgerStore = {
   async read(pathname) {
-    const result = await get(pathname, { access: "private", useCache: false });
+    const result = await getPrivateBlob(pathname);
     // The SDK returns null for a missing blob (fresh store) and THROWS on
     // transport/auth errors — those propagate to the caller (never clobber).
     if (!result) return null;

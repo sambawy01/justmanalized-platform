@@ -1,4 +1,5 @@
-import { del, get, list, put } from "@vercel/blob";
+import { del, list, put } from "@vercel/blob";
+import { getPrivateBlob } from "../blob-read";
 
 /**
  * Weekly business backup (/api/cron/backup, Monday 03:00 Cairo).
@@ -75,7 +76,7 @@ export interface BackupSnapshot {
 }
 
 async function readBlobText(pathname: string): Promise<string | null> {
-  const result = await get(pathname, { access: "private", useCache: false });
+  const result = await getPrivateBlob(pathname);
   if (!result || result.statusCode !== 200) return null;
   return await new Response(result.stream).text();
 }

@@ -1,4 +1,5 @@
-import { get, put } from "@vercel/blob";
+import { put } from "@vercel/blob";
+import { getPrivateBlob } from "./blob-read";
 import { SHOP_PRODUCTS } from "./shop-products";
 
 /**
@@ -298,10 +299,7 @@ export function toPublicProduct(p: Product): PublicProduct {
  * subsequent save would clobber the real catalog with seed data.
  */
 export async function getCatalog(): Promise<Product[]> {
-  const result = await get(CATALOG_PATHNAME, {
-    access: "private",
-    useCache: false,
-  });
+  const result = await getPrivateBlob(CATALOG_PATHNAME);
   // The SDK returns null for a missing blob (fresh store) and throws on
   // transport/auth errors — those propagate to the caller.
   if (!result) return cloneSeed();
