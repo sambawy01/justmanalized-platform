@@ -77,10 +77,14 @@
   });
 
   // ---- Collection cards entrance (slide up + in) ----
+  // immediateRender:false keeps the cards at their natural (visible) state until the
+  // trigger actually plays — so if ScrollTrigger never fires (e.g. Lenis + touch),
+  // the cards stay visible instead of being stuck at opacity:0 on mobile.
   if (track) {
     gsap.from(track.querySelectorAll(".coll-card"), {
       opacity: 0, y: 30, duration: 0.7, stagger: 0.06, ease: "power2.out",
-      scrollTrigger: { trigger: ".collection", start: "top 80%" },
+      immediateRender: false, clearProps: "opacity,transform",
+      scrollTrigger: { trigger: ".collection", start: "top 85%", once: true },
     });
   }
 
