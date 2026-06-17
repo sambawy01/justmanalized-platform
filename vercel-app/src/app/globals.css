@@ -1,0 +1,79 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/*
+ * Earthy light brand theme — Victoria Vasilyeva Holistic Beauty
+ * background #FAF7F2 · text #3A332C · accent: muted clay/bronze #A9745A
+ * shadcn-style tokens for the booking-calendar components.
+ */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-manrope);
+  /* "serif" token now carries the fashion display face (Tenor Sans) so every
+     font-serif heading across /book and /admin inherits the new system. */
+  --font-serif: var(--font-tenor);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: #faf7f2;
+  --foreground: #3a332c;
+  --card: #fffdf9;
+  --card-foreground: #3a332c;
+  --popover: #fffdf9;
+  --popover-foreground: #3a332c;
+  --primary: #a9745a;
+  --primary-foreground: #fdf9f3;
+  --secondary: #efe8dd;
+  --secondary-foreground: #3a332c;
+  --muted: #f1ece4;
+  --muted-foreground: #847866;
+  --accent: #a9745a;
+  --accent-foreground: #fdf9f3;
+  --destructive: #b5483a;
+  --border: rgba(58, 51, 44, 0.14);
+  --input: rgba(58, 51, 44, 0.18);
+  --ring: #a9745a;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+  /* Fashion-editorial display system: headings set in the display face go
+     ALL CAPS with generous tracking. Non-heading font-serif text (labels,
+     inline names) stays sentence case for readability. */
+  h1.font-serif,
+  h2.font-serif,
+  h3.font-serif {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    line-height: 1.3;
+    font-weight: 400;
+  }
+}

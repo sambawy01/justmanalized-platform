@@ -1,0 +1,45 @@
+# Weekly report — Sunday 18:00 Africa/Cairo.
+#
+# Double UTC schedule + server-side Cairo guard (weekday Sunday AND hour 18)
+# — same DST-proof pattern as the daily brief; the off-hour firing returns
+# {skipped}. The hour guard alone is not airtight against 60-minute-plus
+# Actions delays or a dispatch during the window — the route also claims a
+# per-day sent marker before sending. Auth: Bearer CRON_SECRET, fail closed.
+#
+# PUBLIC-LOG HYGIENE: this repo is public, so Actions logs are world-
+# readable. Only {ok, skipped, error} from the response is ever printed —
+# the full body carries business data (revenue, top treatments).
+#
+# NOTE: GitHub auto-disables scheduled workflows after 60 days without
+# repository activity — keepalive.yml re-enables them weekly (see there).
+name: cron-weekly-report
+
+on:
+  schedule:
+    - cron: "0 15 * * 0" # Sun 18:00 Cairo while Cairo is UTC+3 (DST)
+    - cron: "0 16 * * 0" # Sun 18:00 Cairo while Cairo is UTC+2 (winter)
+  workflow_dispatch: {}
+
+permissions: {}
+
+concurrency:
+  group: cron-weekly-report
+  cancel-in-progress: false
+
+jobs:
+  call:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Call /api/cron/weekly-report
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          set -euo pipefail
+          code=$(curl -sS -m 120 -o /tmp/resp.json -w '%{http_code}' \
+            -H "Authorization: Bearer ${CRON_SECRET}" \
+            "https://book.victoriaholisticbeauty.com/api/cron/weekly-report")
+          echo "HTTP ${code}"
+          # Public repo: never dump the full body (business data) into logs.
+          jq '{ok, skipped, error}' /tmp/resp.json || echo "(non-JSON response body suppressed)"
+          test "${code}" = "200"

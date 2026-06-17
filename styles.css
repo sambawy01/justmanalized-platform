@@ -1,0 +1,1377 @@
+/* ===== Earthen Calm design system =====
+   Off-white / sand / warm-grey palette, harmonized with the booking app
+   (bg #FAF7F2 · text #3A332C · clay accent). All flat text/bg pairs ≥ 4.5:1. */
+:root {
+  --bg: #FAF7F2;          /* off-white base */
+  --bg-2: #F3EDE3;        /* sand band — voice, chat header */
+  --bg-3: #EDE5D8;        /* deeper sand — reserve, footer */
+  --card: #FFFDF9;        /* warm off-white card surfaces */
+  --ink: #3A332C;         /* primary text — deep warm grey-brown */
+  --ink-soft: #675D50;    /* secondary text */
+  --clay: #A9745A;        /* decorative accent — borders, washes */
+  --clay-deep: #8A5238;   /* accent text: labels, prices, links, CTA fill */
+  --clay-pale: #E9CDAF;   /* large accent over photo scrims only */
+  --photo-ink: #F4EFE7;   /* text over photo scrims */
+  --line: rgba(58, 51, 44, 0.16);
+  --scrim: 33, 27, 22;    /* warm near-black for photo washes */
+  --serif: Georgia, serif; /* legacy fallback — unused */
+  --sans: "Manrope", "Jost", system-ui, sans-serif;
+  --display: "Tenor Sans", "Manrope", system-ui, sans-serif; /* fashion display — ALL CAPS, tracked */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --logo-ink: invert(0.82) sepia(0.5) saturate(2) brightness(0.85); /* white logo → deep warm brown */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html.js { scroll-behavior: auto; }
+body {
+  font-family: var(--sans);
+  font-weight: 400;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--clay-deep); color: var(--bg); }
+
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+/* Amendment 1: label as h2 must not inherit serif/16em-max-width from h2 rule */
+.label {
+  font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--clay-deep); margin-bottom: 18px;
+  font-family: var(--sans); font-weight: 600; max-width: none;
+}
+/* Display headings — fashion-editorial: Tenor Sans, ALL CAPS, generous tracking.
+   Caps + tracking widen lines ~30%, so sizes run smaller than the old serif scale
+   (critical for long RU headlines). */
+h2 {
+  font-family: var(--display); font-weight: 400; font-size: clamp(23px, 3.2vw, 38px);
+  line-height: 1.32; letter-spacing: 0.13em; text-transform: uppercase;
+  max-width: 18em; color: var(--ink);
+}
+.body-copy { font-size: 17px; line-height: 1.75; max-width: 34em; margin-top: 22px; color: var(--ink-soft); }
+
+.section-light { background: var(--bg); color: var(--ink); padding: clamp(90px, 14vh, 160px) 0; }
+.voice.section-light { background: var(--bg-2); }
+.section-dark  { color: var(--photo-ink); } /* photo bands: light text over warm scrim */
+
+/* ===== Grain ===== */
+.grain {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0.4; mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+}
+
+/* ===== Nav — always visible. Base = solid light translucent bar, dark text.
+   On hero pages with JS, main.js toggles .visible when the hero leaves view:
+   the un-.visible state floats transparent over the hero with photo-legible
+   light text. Pages without a hero (blog) carry .nav-solid → always solid.
+   No-JS fallback: solid bar everywhere (legible on every section). ===== */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 28px;
+  transition: background-color 0.5s var(--ease), border-color 0.5s var(--ease),
+              color 0.5s var(--ease), text-shadow 0.5s var(--ease);
+  background: rgba(250, 247, 242, 0.92);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  color: var(--ink);
+}
+/* Floating-over-hero state: transparent, light text over the photo scrim.
+   :not(.menu-open) — while the mobile menu is open the bar snaps solid so the
+   dropdown panel always sits on an opaque card surface (see nav.js section). */
+.has-js .nav:not(.visible):not(.nav-solid):not(.menu-open) {
+  background: transparent;
+  border-bottom-color: transparent;
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+  color: var(--photo-ink);
+  text-shadow: 0 1px 10px rgba(26, 21, 17, 0.7);
+}
+.has-js .nav:not(.visible):not(.nav-solid):not(.menu-open) .nav-logo {
+  filter: drop-shadow(0 1px 6px rgba(26, 21, 17, 0.65)) drop-shadow(0 2px 16px rgba(26, 21, 17, 0.4));
+}
+.has-js .nav:not(.visible):not(.nav-solid):not(.menu-open) .nav-cta {
+  border-color: rgba(233, 205, 175, 0.8); color: var(--photo-ink);
+}
+.has-js .nav:not(.visible):not(.nav-solid):not(.menu-open) .nav-cta:hover {
+  background: rgba(244, 239, 231, 0.14);
+}
+.nav-brand { font-family: var(--display); font-size: 18px; letter-spacing: 0.18em; }
+.nav-links { display: flex; gap: 28px; align-items: center; font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; }
+.nav-links a { white-space: nowrap; }
+.nav-links a { opacity: 0.85; transition: opacity 0.3s; }
+.nav-links a:hover { opacity: 1; }
+.nav-cta { border: 1px solid var(--clay); border-radius: 999px; padding: 8px 18px; color: var(--clay-deep); opacity: 1 !important; }
+.nav-cta:hover { background: rgba(169, 116, 90, 0.1); }
+@media (max-width: 480px) {
+  .nav { padding: 9px 14px; }
+  .nav .nav-logo { height: 38px; } /* .nav prefix outranks the base .nav-logo rule below */
+  .nav-links { gap: 12px; font-size: 11px; }
+  .nav-cta { padding: 6px 12px; }
+}
+@media (max-width: 480px) {
+  .nav-links a:nth-child(2) { display: none; } /* hide About: keeps Journal + RU + Reserve and room for the logo */
+}
+
+
+/* ===== Logo recolor: white script → deep warm brown on light backgrounds ===== */
+.nav-logo, .reserve-logo { filter: var(--logo-ink); }
+
+/* ===== Hero — bright B&W portrait, warm veil, soft center scrim ===== */
+.hero { position: relative; min-height: 100vh; min-height: 100svh; display: grid; place-items: center; overflow: hidden; color: var(--photo-ink); }
+.hero-media { position: absolute; inset: 0; }
+.hero-media img {
+  width: 100%; height: 100%; object-fit: cover; object-position: 65% center;
+  filter: sepia(0.28) contrast(1.02) brightness(0.97); /* warms the B&W studio shot into the earthy family */
+  animation: kenburns 30s var(--ease) infinite alternate;
+}
+@keyframes kenburns { from { transform: scale(1) translateY(0); } to { transform: scale(1.08) translateY(-1.5%); } }
+.hero-wash {
+  position: absolute; inset: 0;
+  background:
+    /* top scrim: keeps the floating nav legible over the light upper photo */
+    linear-gradient(180deg, rgba(var(--scrim), 0.55) 0%, rgba(var(--scrim), 0) 26%),
+    radial-gradient(ellipse 80% 70% at 50% 45%, rgba(var(--scrim), 0.6) 0%, rgba(var(--scrim), 0) 75%),
+    linear-gradient(180deg, rgba(var(--scrim), 0.38) 0%, rgba(var(--scrim), 0.34) 45%, rgba(26, 21, 17, 0.94) 100%);
+}
+.hero-content { position: relative; z-index: 2; text-align: center; padding: 0 20px; }
+.hero-name { line-height: 1.05; }
+.hero-logo { width: min(540px, 80vw); height: auto; margin: 0 auto; filter: drop-shadow(0 2px 10px rgba(26, 21, 17, 0.7)) drop-shadow(0 2px 28px rgba(26, 21, 17, 0.5)); }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.nav-logo { height: 46px; width: auto; display: block; object-fit: contain; object-position: left center; }
+.nav-brand { min-width: 0; }
+.hero-sub { margin-top: 18px; font-size: 12px; font-weight: 500; letter-spacing: 0.5em; text-indent: 0.5em; color: var(--photo-ink); text-shadow: 0 1px 12px rgba(26, 21, 17, 0.6); }
+.hero-line { margin-top: 26px; font-family: var(--display); font-weight: 400; font-size: clamp(12px, 1.4vw, 15px); letter-spacing: 0.32em; text-indent: 0.32em; text-transform: uppercase; color: var(--photo-ink); text-shadow: 0 1px 12px rgba(26, 21, 17, 0.6); }
+.cta {
+  display: inline-block; margin-top: 38px; padding: 16px 38px;
+  border: 1px solid var(--clay); border-radius: 999px;
+  font-size: 13px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--ink); position: relative; overflow: hidden;
+  transition: border-color 0.4s, color 0.4s, background-color 0.4s;
+}
+button.cta { background: none; font-family: inherit; line-height: inherit; cursor: pointer; appearance: none; -webkit-appearance: none; }
+.hero .cta { color: var(--photo-ink); border-color: rgba(233, 205, 175, 0.75); }
+.cta::after {  /* shimmer sweep */
+  content: ""; position: absolute; top: 0; bottom: 0; width: 60%; left: -80%;
+  background: linear-gradient(105deg, transparent, rgba(169, 116, 90, 0.28), transparent);
+  transform: skewX(-18deg); transition: transform 0.7s var(--ease);
+}
+.cta:hover::after { transform: skewX(-18deg) translateX(330%); }
+.cta:hover { border-color: var(--clay-deep); }
+.hero .cta:hover { border-color: var(--clay-pale); }
+.cta-solid { background: var(--clay-deep); border-color: var(--clay-deep); color: var(--bg); }
+.cta-solid:hover { background: #6F4029; border-color: #6F4029; }
+.scroll-cue { position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%); z-index: 2; }
+.scroll-cue span {
+  display: block; width: 1px; height: 64px; background: rgba(244, 239, 231, 0.8);
+  transform-origin: top; animation: cue 2.4s var(--ease) infinite;
+}
+@keyframes cue { 0% { transform: scaleY(0); } 55% { transform: scaleY(1); transform-origin: top; } 56% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+/* ===== Philosophy ===== */
+.split-2 { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(40px, 6vw, 90px); align-items: center; }
+.photo-portrait { aspect-ratio: 3 / 4; overflow: hidden; border-radius: 2px; }
+.photo-portrait img { width: 100%; height: 100%; object-fit: cover; filter: sepia(0.22) saturate(0.95) brightness(0.98) contrast(1.03); }
+@media (max-width: 820px) { .split-2 { grid-template-columns: 1fr; } .photo-portrait { order: -1; max-width: 420px; } }
+
+/* ===== Credentials — education & experience as a gilt timeline =====
+   Serif display lines (year-anchored titles) over quiet Manrope support text,
+   threaded on a thin gold rule — the same gilt family as the shop frames.
+   The closing flourish sits in a static gold-framed panel. */
+.credentials { margin-top: 42px; }
+.credentials .label { margin-bottom: 22px; }
+.cred-list { list-style: none; max-width: 34em; }
+.cred-item { position: relative; padding-left: 30px; }
+.cred-item + .cred-item { margin-top: 24px; }
+.cred-item::before { /* gold node */
+  content: ""; position: absolute; left: 0; top: 3px;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: linear-gradient(160deg, #C9A45C, #B8924C);
+  box-shadow: 0 0 0 3px rgba(201, 164, 92, 0.16);
+}
+.cred-item::after { /* gold thread to the next entry */
+  content: ""; position: absolute; left: 4px; top: 20px; bottom: -20px;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(184, 146, 76, 0.55), rgba(184, 146, 76, 0.14));
+}
+.cred-item:last-child::after { content: none; }
+.cred-year {
+  display: block;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.22em;
+  color: var(--clay-deep);
+}
+.cred-title {
+  display: block; margin-top: 7px;
+  font-family: var(--display); font-weight: 400;
+  font-size: 15px; line-height: 1.5; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--ink);
+}
+.cred-detail {
+  display: block; margin-top: 4px;
+  font-size: 13.5px; line-height: 1.6; color: var(--ink-soft);
+}
+/* Closing flourish — serif italic line inside a quiet static gold frame */
+.about-flourish {
+  position: relative; margin-top: 36px; max-width: 34em;
+  padding: 18px 24px; border-radius: 12px;
+  background: rgba(201, 164, 92, 0.07);
+}
+.about-flourish::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  padding: 1.5px; pointer-events: none;
+  background: linear-gradient(180deg, rgba(201, 164, 92, 0.85), rgba(184, 146, 76, 0.55));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+}
+.about-flourish span {
+  display: block;
+  font-family: var(--display); text-transform: uppercase; letter-spacing: 0.16em;
+  font-size: 19px; line-height: 1.5; color: var(--clay-deep);
+}
+
+/* ===== Treatments — rows link through to booking ===== */
+.treatments .wrap { position: relative; }
+.t-list { list-style: none; margin-top: 40px; }
+.t-group { margin-top: 56px; }
+.t-row {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 18px;
+  padding: 22px 8px; border-bottom: 1px solid var(--line);
+  position: relative;
+  transition: background-color 0.3s var(--ease);
+}
+.t-name {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(14px, 1.8vw, 17px); line-height: 1.6;
+  letter-spacing: 0.14em; text-transform: uppercase;
+}
+/* Stretched link: accessible name = treatment name; covers the whole row */
+.t-link { color: inherit; transition: color 0.3s; }
+.t-link::after { content: ""; position: absolute; inset: 0; }
+.t-link:focus-visible { outline: none; }
+.t-row:has(.t-link:focus-visible) { outline: 2px solid var(--clay-deep); outline-offset: 2px; }
+/* Amendment 4: targets .t-name .t-sub (HTML uses <span class="t-sub">) */
+.t-name .t-sub { font-family: var(--sans); font-weight: 400; font-size: 13px; color: var(--ink-soft); margin-left: 10px; letter-spacing: 0.04em; text-transform: none; }
+.t-price { flex: none; margin-left: auto; color: var(--clay-deep); font-size: 15px; letter-spacing: 0.05em; }
+.t-price small { color: var(--ink-soft); font-size: 12px; }
+/* Always-visible clickability cue (no hover needed on touch) */
+.t-arrow {
+  flex: none; align-self: center; color: var(--clay-deep); font-size: 17px; line-height: 1;
+  transition: transform 0.3s var(--ease);
+}
+@media (hover: hover) {
+  .t-row:hover { background: var(--card); }
+  .t-row:hover .t-link { color: var(--clay-deep); text-decoration: underline; text-decoration-color: var(--clay); text-underline-offset: 6px; text-decoration-thickness: 1px; }
+  .t-row:hover .t-arrow { transform: translateX(6px); }
+}
+@media (max-width: 560px) {
+  .t-row { flex-direction: column; align-items: flex-start; gap: 6px; padding: 18px 36px 18px 8px; }
+  .t-arrow { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); }
+  .t-row:hover .t-arrow { transform: translateY(-50%) translateX(4px); }
+}
+
+/* ===== Setting — photo band, light text over warm scrim ===== */
+.setting { position: relative; min-height: 80vh; min-height: 80svh; display: grid; align-items: end; overflow: hidden; }
+.setting-media { position: absolute; inset: -12% 0; will-change: transform; }
+.setting-slide {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  filter: brightness(0.8) contrast(1.02) sepia(0.12);
+  opacity: 0; transition: opacity 1.2s var(--ease);
+}
+.setting-slide.is-active { opacity: 1; }
+.setting-wash { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(var(--scrim), 0.6), rgba(var(--scrim), 0.68) 42%, rgba(var(--scrim), 0.94)); }
+.setting-content { position: relative; z-index: 2; padding-top: 16vh; padding-bottom: 11vh; }
+.setting .label { color: var(--photo-ink); }
+/* Headline — the philosophy in six words; the second half glows clay-pale */
+.setting-head {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(23px, 3.1vw, 38px); line-height: 1.4;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--photo-ink); max-width: 16em;
+  text-shadow: 0 1px 14px rgba(26, 21, 17, 0.45);
+}
+.setting-head em { font-style: normal; color: var(--clay-pale); }
+/* Supporting line — the proof in one breath */
+.setting-line {
+  margin-top: 22px;
+  font-size: 15px; font-weight: 500; line-height: 1.75;
+  letter-spacing: 0.015em; color: var(--photo-ink); max-width: 37em;
+  text-shadow: 0 1px 10px rgba(26, 21, 17, 0.5);
+}
+/* Stat trio — oversized serif numerals on a gold hairline shelf */
+.setting-stats {
+  list-style: none;
+  margin-top: clamp(34px, 5.5vh, 52px); padding-top: clamp(24px, 3.5vh, 34px);
+  position: relative;
+  display: flex; align-items: flex-start;
+}
+.setting-stats::before { /* gold hairline shelf — same gilt family as the frames */
+  content: ""; position: absolute; left: 0; top: 0; height: 1px;
+  width: min(100%, 620px);
+  background: linear-gradient(90deg, rgba(201, 164, 92, 0.85), rgba(184, 146, 76, 0.45) 60%, rgba(184, 146, 76, 0));
+}
+.setting-stats li { max-width: 13.5em; }
+.setting-stats li + li {
+  position: relative;
+  margin-left: clamp(26px, 4.5vw, 56px); padding-left: clamp(26px, 4.5vw, 56px);
+}
+.setting-stats li + li::before { /* vertical gold thread between stats */
+  content: ""; position: absolute; left: 0; top: 8px; bottom: 4px; width: 1px;
+  background: linear-gradient(180deg, rgba(201, 164, 92, 0.7), rgba(184, 146, 76, 0.1));
+}
+.stat-num {
+  display: block;
+  font-family: var(--display);
+  font-size: clamp(48px, 6.5vw, 84px); line-height: 1;
+  color: var(--clay-pale);
+  text-shadow: 0 1px 14px rgba(26, 21, 17, 0.4);
+}
+.stat-cap {
+  display: block; margin-top: 10px;
+  font-size: 10.5px; font-weight: 600; line-height: 1.75;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--photo-ink);
+  text-shadow: 0 1px 10px rgba(26, 21, 17, 0.5);
+}
+/* Slim CTA — anchors to The Approach */
+.setting-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-top: clamp(30px, 4.5vh, 42px); padding-bottom: 7px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--photo-ink);
+  border-bottom: 1px solid rgba(201, 164, 92, 0.75);
+  transition: color 0.4s, border-color 0.4s;
+}
+.setting-cta-arrow { transition: transform 0.4s var(--ease); }
+.setting-cta:hover { color: var(--clay-pale); border-color: #E8CB8F; }
+.setting-cta:hover .setting-cta-arrow { transform: translateX(5px); }
+@media (max-width: 640px) {
+  .setting-content { padding-top: 14vh; padding-bottom: 12vh; }
+  .setting-stats { flex-direction: column; }
+  .setting-stats li { max-width: none; display: flex; align-items: baseline; gap: 16px; }
+  .setting-stats li + li { margin-left: 0; padding-left: 0; margin-top: 18px; padding-top: 18px; }
+  .setting-stats li + li::before { /* thread turns horizontal when stacked */
+    top: 0; bottom: auto; left: 0; width: 72px; height: 1px;
+    background: linear-gradient(90deg, rgba(201, 164, 92, 0.7), rgba(184, 146, 76, 0.1));
+  }
+  .stat-num { font-size: 46px; min-width: 2.6ch; }
+  .stat-cap { margin-top: 0; }
+}
+
+/* ===== Voice ===== */
+/* Amendment 3: HTML uses figure/figcaption — selectors kept as-is */
+.voice blockquote p { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.1em; font-size: clamp(17px, 2.3vw, 27px); line-height: 1.6; max-width: 30em; color: var(--ink); }
+.voice figcaption { display: block; margin-top: 28px; font-style: normal; font-size: 13px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--clay-deep); }
+
+/* ===== Reserve — deep sand band, light ===== */
+.reserve { background: var(--bg-3); padding: clamp(100px, 16vh, 180px) 0 0; text-align: center; }
+.reserve-logo { width: min(340px, 70vw); margin: 0 auto; }
+/* Amendment 2: h2.reserve-line must not be constrained by h2's max-width: 16em */
+.reserve-line { margin-top: 30px; font-family: var(--display); font-size: clamp(14px, 1.8vw, 19px); line-height: 1.6; letter-spacing: 0.2em; text-indent: 0.2em; text-transform: uppercase; color: var(--clay-deep); max-width: none; margin-left: auto; margin-right: auto; }
+.reserve-meta { margin-top: 34px; font-style: normal; font-size: 14px; color: var(--ink-soft); }
+.reserve-meta a { text-decoration: underline; text-underline-offset: 3px; }
+.reserve-meta a:hover { color: var(--clay-deep); }
+:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 3px; }
+.footer {
+  margin-top: clamp(70px, 10vh, 120px); padding: 22px 28px;
+  display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+  font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-soft);
+  border-top: 1px solid var(--line);
+}
+
+/* ===== Animation initial states (JS removes) ===== */
+.js .reveal, .js .reveal-soft { opacity: 0; transform: translateY(28px); }
+.js .img-reveal img { transform: scale(1.08); }
+.js .hero-name { opacity: 0; }
+
+/* ===== Reduced motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  .hero-media img, .scroll-cue span, .cta::after { animation: none !important; transition: none !important; }
+  .js .reveal, .js .reveal-soft, .js .hero-name { opacity: 1 !important; transform: none !important; }
+  .js .img-reveal img { transform: none !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* ===== Concierge chat =====
+   Vassili floats above everything (nav z-50, tmodal scrim z-70) on every page. */
+.chat-launcher {
+  position: fixed; right: 24px; bottom: 24px; z-index: 80;
+  width: 64px; height: 64px; border-radius: 50%;
+  border: none; cursor: pointer;
+  background: radial-gradient(circle at 50% 50%, rgba(169,116,90,0) 0%, rgba(169,116,90,0.18) 34%, rgba(138,82,56,0.82) 66%, #54311E 100%);
+  backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px);
+  display: grid; place-items: center;
+  box-shadow: 0 10px 30px rgba(58, 51, 44, 0.35), inset 0 1px 0 rgba(255, 253, 249, 0.28);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.chat-launcher:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(58, 51, 44, 0.4), inset 0 1px 0 rgba(255, 253, 249, 0.28);
+}
+.chat-launcher:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 3px; }
+.chat-launcher svg { display: block; }
+
+.chat-launcher .v-flare { transform-origin: 48px 11.5px; animation: v-twinkle 3.4s ease-in-out infinite; }
+@keyframes v-twinkle {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(0.78) rotate(8deg); opacity: 0.75; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chat-launcher .v-flare { animation: none; }
+}
+
+/* Breathing pulse ring — draws the eye until the chat is opened once */
+.chat-launcher::before {
+  content: ""; position: absolute; inset: -2px; border-radius: 50%;
+  border: 2px solid var(--clay); pointer-events: none;
+  animation: chat-pulse 3.2s var(--ease) infinite;
+}
+@keyframes chat-pulse {
+  0% { transform: scale(1); opacity: 0.65; }
+  70%, 100% { transform: scale(1.42); opacity: 0; }
+}
+.chat-launcher.calm::before { animation: none; opacity: 0; }
+
+
+/* Golden frame with a traveling flare — launcher + teaser share the animation */
+@property --vg-angle {
+  syntax: "<angle>"; initial-value: 0deg; inherits: false;
+}
+@keyframes vg-sweep { to { --vg-angle: 360deg; } }
+
+.chat-launcher::after {
+  content: ""; position: absolute; inset: -6px; border-radius: 50%;
+  padding: 2px; pointer-events: none;
+  background: conic-gradient(from var(--vg-angle),
+    #C9A45C 0deg, #E8CB8F 38deg, #FFF3D6 58deg, #E8CB8F 78deg,
+    #C9A45C 120deg, #B8924C 240deg, #C9A45C 360deg);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: vg-sweep 4.5s linear infinite;
+}
+
+.chat-teaser::before {
+  content: ""; position: absolute; inset: -3px; border-radius: 17px;
+  padding: 2px; pointer-events: none;
+  background: conic-gradient(from var(--vg-angle),
+    #C9A45C 0deg, #E8CB8F 38deg, #FFF3D6 58deg, #E8CB8F 78deg,
+    #C9A45C 120deg, #B8924C 240deg, #C9A45C 360deg);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: vg-sweep 4.5s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-launcher::after, .chat-teaser::before {
+    animation: none;  /* static golden frame, no moving flare */
+  }
+}
+
+/* Intro teaser — "Meet Vassili" card above the launcher */
+.chat-teaser {
+  position: fixed; right: 24px; bottom: 102px; z-index: 80;
+  width: min(300px, calc(100vw - 32px));
+  background: var(--card); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: 0 14px 40px rgba(58, 51, 44, 0.2);
+  opacity: 0; transform: translateY(10px);
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+}
+.chat-teaser.show { opacity: 1; transform: none; }
+.chat-teaser[hidden] { display: none; }
+.chat-teaser::after { /* notch pointing to the launcher */
+  content: ""; position: absolute; right: 24px; bottom: -7px;
+  width: 12px; height: 12px; background: var(--card);
+  border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  transform: rotate(45deg);
+}
+.chat-teaser-body {
+  display: block; width: 100%; text-align: left;
+  background: none; border: none; cursor: pointer;
+  padding: 14px 38px 14px 18px; border-radius: 14px;
+  color: inherit;
+}
+.chat-teaser-body:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 2px; }
+.chat-teaser-name {
+  display: block; font-family: var(--display); font-weight: 400;
+  font-size: 13px; line-height: 1.5; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--clay-deep);
+  margin-bottom: 6px;
+}
+.chat-teaser-line {
+  display: block; font-family: var(--sans); font-weight: 400;
+  font-size: 13px; line-height: 1.5; color: var(--ink-soft);
+}
+.chat-teaser-close {
+  position: absolute; top: 8px; right: 8px;
+  background: none; border: none; cursor: pointer; padding: 6px;
+  color: var(--ink-soft); display: grid; place-items: center;
+  border-radius: 6px; transition: color 0.3s;
+}
+.chat-teaser-close:hover { color: var(--ink); }
+.chat-teaser-close:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 1px; }
+
+.chat-card {
+  position: fixed; right: 24px; bottom: 102px; z-index: 80;
+  width: 360px; max-width: calc(100vw - 32px); max-height: 60vh;
+  display: flex; flex-direction: column;
+  background: var(--card); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: 0 18px 50px rgba(58, 51, 44, 0.22);
+  overflow: hidden;
+  animation: chat-in 0.35s var(--ease);
+}
+.chat-card[hidden] { display: none; }
+@keyframes chat-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+.chat-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 18px; border-bottom: 1px solid var(--line);
+  background: var(--bg-2);
+}
+.chat-title { font-family: var(--display); font-weight: 400; font-size: 13.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--clay-deep); }
+.chat-close {
+  background: none; border: none; cursor: pointer; padding: 6px;
+  color: var(--ink-soft); display: grid; place-items: center;
+  border-radius: 6px; transition: color 0.3s;
+}
+.chat-close:hover { color: var(--ink); }
+
+.chat-messages {
+  flex: 1; overflow-y: auto; padding: 16px;
+  display: flex; flex-direction: column; gap: 10px;
+  min-height: 120px;
+}
+.chat-bubble {
+  max-width: 85%; padding: 10px 14px; border-radius: 12px;
+  font-size: 14px; line-height: 1.55; white-space: pre-wrap; word-break: break-word;
+}
+.chat-assistant {
+  align-self: flex-start; border-bottom-left-radius: 4px;
+  background: var(--bg-2); color: var(--ink);
+}
+.chat-user {
+  align-self: flex-end; border-bottom-right-radius: 4px;
+  background: rgba(169, 116, 90, 0.13); color: var(--ink);
+  border: 1px solid rgba(169, 116, 90, 0.35);
+}
+.chat-link { color: var(--clay-deep); text-decoration: underline; text-underline-offset: 3px; }
+.chat-link:hover { color: #6F4029; }
+
+.chat-typing { display: flex; gap: 5px; align-items: center; padding: 14px; }
+.chat-typing span {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--clay-deep);
+  opacity: 0.4; animation: chat-dot 1.2s infinite;
+}
+.chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+.chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes chat-dot { 0%, 60%, 100% { opacity: 0.35; } 30% { opacity: 1; } }
+
+.chat-input {
+  display: flex; gap: 8px; padding: 12px;
+  border-top: 1px solid var(--line); background: var(--bg-2);
+}
+.chat-input input {
+  flex: 1; min-width: 0; padding: 10px 14px;
+  background: var(--bg); color: var(--ink);
+  border: 1px solid rgba(58, 51, 44, 0.22); border-radius: 999px;
+  font-family: var(--sans); font-size: 14px; font-weight: 400;
+}
+.chat-input input::placeholder { color: var(--ink-soft); }
+.chat-input input:focus { outline: none; border-color: var(--clay-deep); }
+.chat-send {
+  flex: none; width: 40px; height: 40px; border-radius: 50%;
+  border: none; background: var(--clay-deep); color: var(--bg);
+  cursor: pointer; display: grid; place-items: center; transition: background 0.3s;
+}
+.chat-send:hover { background: #6F4029; }
+.chat-send:disabled { opacity: 0.5; cursor: default; }
+
+@media (max-width: 480px) {
+  .chat-launcher { right: 16px; bottom: 16px; }
+  .chat-teaser { right: 16px; bottom: 92px; width: min(300px, calc(100vw - 32px)); }
+  .chat-card { right: 16px; left: 16px; width: auto; bottom: 92px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chat-card { animation: none !important; }
+  .chat-launcher { transition: none !important; }
+  .chat-launcher::before { animation: none !important; opacity: 0; }
+  .chat-teaser { transition: none !important; transform: none; }
+  .chat-typing span { animation: none !important; opacity: 0.8; }
+}
+
+/* Reserve dual CTAs — flex row, both pills normalized to identical boxes */
+.reserve-content .cta-row {
+  margin-top: 38px;
+  display: flex; justify-content: center; align-items: stretch;
+  gap: 14px; flex-wrap: wrap;
+}
+.reserve-content .cta-row .cta {
+  margin: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 54px; padding: 0 38px; line-height: 1;
+  border-width: 1px; border-style: solid;
+}
+
+/* ===== Treatment info card modal ===== */
+html.tmodal-open { overflow: hidden; }
+.tmodal-overlay {
+  position: fixed; inset: 0; z-index: 70;
+  display: grid; place-items: center; padding: 24px;
+  background: rgba(33, 27, 22, 0.55);
+  backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+  animation: tmodal-fade 0.3s var(--ease);
+}
+.tmodal-overlay[hidden] { display: none; }
+@keyframes tmodal-fade { from { opacity: 0; } to { opacity: 1; } }
+.tmodal {
+  position: relative;
+  width: min(560px, 100%); max-height: min(84vh, 720px); overflow-y: auto;
+  background: var(--card); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 14px;
+  padding: 38px 38px 34px;
+  box-shadow: 0 24px 70px rgba(33, 27, 22, 0.35);
+  animation: tmodal-in 0.4s var(--ease);
+}
+@keyframes tmodal-in { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+.tmodal:focus { outline: none; }
+.tmodal-close {
+  position: absolute; top: 14px; right: 14px;
+  width: 38px; height: 38px; border-radius: 50%;
+  background: none; border: none; cursor: pointer;
+  display: grid; place-items: center;
+  color: var(--ink-soft); transition: color 0.3s, background-color 0.3s;
+}
+.tmodal-close:hover { color: var(--ink); background: var(--bg-2); }
+.tmodal-title {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(17px, 2.6vw, 21px); line-height: 1.55;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink); padding-right: 34px;
+}
+.tmodal-sub {
+  margin-top: 10px;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--clay-deep);
+}
+.tmodal-body { margin-top: 18px; font-size: 15px; line-height: 1.8; color: var(--ink-soft); }
+.tmodal-detail { margin-top: 16px; font-size: 14px; letter-spacing: 0.04em; color: var(--clay-deep); }
+.tmodal-actions {
+  margin-top: 28px;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 16px;
+}
+.tmodal-book {
+  display: inline-block; padding: 15px 34px; border-radius: 999px;
+  background: var(--clay-deep); color: var(--bg);
+  font-size: 13px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
+  transition: background-color 0.3s;
+}
+.tmodal-book:hover { background: #6F4029; }
+.tmodal-wa {
+  font-size: 13px; color: var(--ink-soft);
+  text-decoration: underline; text-underline-offset: 3px;
+  transition: color 0.3s;
+  background: none; border: 0; padding: 0; font-family: inherit; cursor: pointer;
+}
+.tmodal-wa:hover { color: var(--clay-deep); }
+@media (max-width: 560px) {
+  /* Bottom sheet on small screens */
+  .tmodal-overlay { padding: 0; align-items: end; grid-template-columns: 1fr; place-items: end stretch; }
+  .tmodal {
+    width: 100%; max-height: 86vh; max-height: 86svh;
+    border-radius: 18px 18px 0 0; border-left: 0; border-right: 0; border-bottom: 0;
+    padding: 30px 24px calc(28px + env(safe-area-inset-bottom));
+    animation: tmodal-up 0.45s var(--ease);
+  }
+  @keyframes tmodal-up { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+  .tmodal-actions { align-items: stretch; }
+  .tmodal-book { text-align: center; }
+  .tmodal-wa { text-align: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tmodal-overlay, .tmodal { animation: none !important; }
+}
+
+/* ===== Journal ===== */
+/* Blog pages: no hero, no main.js — nav carries .nav-solid so the base solid
+   bar always shows. Pages are fully static; entrances are CSS-only. */
+
+.journal-main { padding-top: clamp(110px, 16vh, 170px); }
+.journal-head { margin-bottom: clamp(44px, 7vh, 76px); }
+.journal-title {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(30px, 4.6vw, 54px); line-height: 1.18;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink);
+}
+.journal-desc { margin-top: 18px; font-size: 16px; line-height: 1.7; color: var(--ink-soft); max-width: 34em; }
+
+.journal-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 28px; padding-bottom: clamp(80px, 12vh, 140px);
+}
+@media (max-width: 1020px) { .journal-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px)  { .journal-grid { grid-template-columns: 1fr; gap: 24px; } }
+
+.post-card {
+  display: flex; flex-direction: column;
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 14px rgba(58, 51, 44, 0.06);
+  transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
+}
+.post-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(58, 51, 44, 0.14); }
+.post-card:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 3px; }
+
+/* --- Card/banner photography: fixed-ratio frame, cover crop. Per-image
+   focal points are tuned inline via object-position on the img. --- */
+.post-art {
+  position: relative; aspect-ratio: 16 / 10; overflow: hidden;
+  background: var(--bg-2); /* warm sand while the photo loads */
+}
+/* Single-column mobile: taller frame so portrait photography breathes
+   instead of being reduced to a tight eye-band crop */
+@media (max-width: 680px) {
+  .post-art { aspect-ratio: 4 / 3; }
+}
+.post-art img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease);
+}
+.post-card:hover .post-art img { transform: scale(1.04); }
+@media (prefers-reduced-motion: reduce) {
+  .post-art img { transition: none; }
+  .post-card:hover .post-art img { transform: none; }
+}
+
+.post-body { display: flex; flex-direction: column; flex: 1; padding: 22px 22px 24px; }
+.post-meta {
+  font-size: 11.5px; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--clay-deep);
+}
+.post-title {
+  margin-top: 12px;
+  font-family: var(--display); font-weight: 400;
+  font-size: 15px; line-height: 1.65; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink); max-width: none;
+}
+.post-excerpt { margin-top: 12px; flex: 1; font-size: 14.5px; line-height: 1.65; color: var(--ink-soft); }
+.post-read {
+  margin-top: 20px;
+  font-size: 11.5px; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--clay-deep);
+}
+.post-card:hover .post-read { text-decoration: underline; text-underline-offset: 4px; }
+
+/* --- Article reading layout --- */
+.article-wrap { max-width: 760px; margin: 0 auto; padding: 0 24px clamp(80px, 12vh, 140px); }
+.article-back {
+  display: inline-block; margin-bottom: 28px;
+  font-size: 11.5px; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--clay-deep);
+}
+.article-back:hover { text-decoration: underline; text-underline-offset: 4px; }
+.article-art { aspect-ratio: 21 / 9; border-radius: 12px; }
+@media (max-width: 680px) {
+  .article-art { aspect-ratio: 16 / 10; }
+}
+.article-meta { margin-top: 32px; }
+.article-title {
+  margin-top: 14px;
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(20px, 2.9vw, 29px); line-height: 1.45;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink);
+}
+.article-body { margin-top: 34px; max-width: 65ch; }
+.article-body p { font-size: 17px; line-height: 1.85; color: var(--ink); }
+.article-body p + p { margin-top: 1.35em; }
+.article-body h2 { /* inherits the caps display system from the global h2 rule */
+  margin: 2.4em 0 1em;
+  font-size: 15px; line-height: 1.65; letter-spacing: 0.2em; max-width: none;
+}
+
+/* --- Quiet end-of-article CTA row --- */
+.article-cta {
+  margin-top: clamp(56px, 9vh, 88px); padding-top: 38px;
+  border-top: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; align-items: center; gap: 18px;
+}
+.article-cta-line {
+  width: 100%;
+  font-family: var(--display); text-transform: uppercase; letter-spacing: 0.16em;
+  font-size: 14px; color: var(--ink-soft);
+}
+.article-cta .cta { margin-top: 0; padding: 13px 30px; }
+
+/* Footer used standalone on blog pages (no reserve band above it) */
+.footer-flat { margin-top: 0; background: var(--bg-3); }
+
+/* CSS-only entrance for cards and article (no main.js on blog pages) */
+@media (prefers-reduced-motion: no-preference) {
+  .post-card, .article-wrap > * { animation: journal-rise 0.8s var(--ease) backwards; }
+  .post-card:nth-child(2) { animation-delay: 0.07s; }
+  .post-card:nth-child(3) { animation-delay: 0.14s; }
+  .post-card:nth-child(4) { animation-delay: 0.21s; }
+  .post-card:nth-child(5) { animation-delay: 0.28s; }
+  .post-card:nth-child(6) { animation-delay: 0.35s; }
+  .article-wrap > *:nth-child(2) { animation-delay: 0.06s; }
+  .article-wrap > *:nth-child(3) { animation-delay: 0.12s; }
+  .article-wrap > *:nth-child(4) { animation-delay: 0.18s; }
+  .article-wrap > *:nth-child(n+5) { animation-delay: 0.24s; }
+}
+@keyframes journal-rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ===== Studio Shop =====
+   Shop pages reuse the journal shell (.nav-solid, .journal-main, .journal-head).
+   Product cards are rendered by shop.js from the PRODUCT data block. Art areas
+   show real 900×900 product photos (assets/img/shop/<slug>.jpg) under a soft
+   uniform warm grade so the mixed-source set reads as one collection; cards
+   with photo:null fall back to the tinted gradient + serif initial. */
+
+/* Header trust row — one quiet line of buying reassurance under the title */
+.shop-trust {
+  margin-top: 20px; display: flex; flex-wrap: wrap; align-items: baseline;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--clay-deep);
+}
+.shop-trust span { white-space: nowrap; padding: 2px 0; }
+.shop-trust span + span::before { content: "·"; margin: 0 12px; color: var(--clay); font-weight: 400; }
+
+.shop-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 30px 24px; padding-bottom: clamp(130px, 18vh, 200px); /* clearance for the cart bar */
+}
+@media (max-width: 1020px) { .shop-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 780px)  { .shop-grid { grid-template-columns: repeat(2, 1fr); gap: 20px 16px; } }
+@media (max-width: 540px)  { .shop-grid { grid-template-columns: 1fr; gap: 26px; } }
+
+.shop-card {
+  position: relative; cursor: pointer;
+  display: flex; flex-direction: column;
+  background: var(--card); border: none; border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(58, 51, 44, 0.05), 0 12px 32px -20px rgba(58, 51, 44, 0.2);
+  transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
+}
+/* Static gold frame — same gilt family as the button frame, but quiet and
+   NEVER animated. Masked padding technique keeps the 2px gradient ring crisp
+   on the rounded corners; it brightens slightly on hover/focus to signal that
+   the whole card is clickable. */
+.shop-card::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  padding: 2px; pointer-events: none; z-index: 3;
+  background: linear-gradient(180deg, #C9A45C, #B8924C);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: 0.6;
+  transition: opacity 0.45s var(--ease);
+}
+.shop-card:focus-visible::before { opacity: 1; }
+@media (hover: hover) {
+  .shop-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 2px 4px rgba(58, 51, 44, 0.05), 0 26px 48px -20px rgba(58, 51, 44, 0.3);
+  }
+  .shop-card:hover::before { opacity: 1; }
+  .shop-card:hover .shop-art img { transform: scale(1.03); }
+}
+
+/* Art frame — photo (or placeholder gradient) edge-to-edge, square */
+.shop-art {
+  position: relative; aspect-ratio: 1 / 1; overflow: hidden;
+  background: linear-gradient(165deg, var(--tint-a, var(--bg-2)), var(--tint-b, var(--bg-3)));
+  display: grid; place-items: center;
+}
+.shop-art::before { /* soft window light for the placeholder art (photos cover it) */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(85% 65% at 28% 18%, rgba(255, 253, 249, 0.5), transparent 70%);
+}
+.shop-initial {
+  position: relative;
+  font-family: var(--display);
+  font-size: clamp(72px, 8.5vw, 110px); line-height: 1;
+  color: var(--clay-deep); opacity: 0.32; /* decorative, aria-hidden */
+  user-select: none; -webkit-user-select: none;
+}
+.shop-art img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  /* uniform warm grade, same family as .photo-portrait — unifies mixed sources */
+  filter: sepia(0.16) saturate(0.92) contrast(1.02) brightness(1.01);
+  transition: transform 0.6s var(--ease);
+}
+.shop-art::after { /* faint clay veil + hairline keeps photos seated in the card */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(233, 205, 175, 0.1), rgba(138, 82, 56, 0.07));
+  mix-blend-mode: multiply;
+  box-shadow: inset 0 -1px 0 rgba(58, 51, 44, 0.1);
+}
+
+.shop-body { display: flex; flex-direction: column; flex: 1; padding: 18px 20px 20px; }
+.shop-name {
+  font-family: var(--display); font-weight: 400;
+  font-size: 14.5px; line-height: 1.6; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink); max-width: none;
+}
+.shop-sub {
+  margin-top: 6px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.shop-price {
+  margin-top: 14px; flex: 1;
+  display: flex; align-items: baseline; gap: 8px;
+  font-size: 17.5px; font-weight: 600; letter-spacing: 0.02em; color: var(--clay-deep);
+}
+.shop-price small { font-size: 12.5px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-soft); }
+
+/* Add-to-order — full-width solid clay pill that becomes a full-width stepper */
+.shop-action { margin-top: 16px; min-height: 46px; display: flex; }
+.shop-add {
+  position: relative; isolation: isolate;
+  width: 100%; min-height: 46px; padding: 12px 16px; border-radius: 999px; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: none; background: var(--card); color: var(--clay-deep);
+  font-family: var(--sans); font-size: 11.5px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s var(--ease);
+}
+/* Golden frame — 3px, with a flare that sweeps the frame on hover/focus */
+.shop-add::before {
+  content: ""; position: absolute; inset: 0; border-radius: 999px;
+  padding: 3px; pointer-events: none; z-index: -1;
+  background: conic-gradient(from var(--vg-angle),
+    #C9A45C 0deg, #E8CB8F 38deg, #FFF3D6 58deg, #E8CB8F 78deg,
+    #C9A45C 120deg, #B8924C 240deg, #C9A45C 360deg);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+}
+/* Flare runs while hovering ANYWHERE on the product card (the whole card is
+   the clickable surface), on keyboard focus, and on direct hover inside the
+   product modal. */
+.shop-card:hover .shop-add::before,
+.pmodal .shop-add:hover::before,
+.shop-add:focus-visible::before {
+  animation: vg-sweep 1.6s linear infinite;
+}
+.shop-add:hover { background: #FFFAF0; color: #6F4029; }
+.shop-add:active { transform: scale(0.98); }
+.shop-add:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 4px; }
+.shop-stepper {
+  display: flex; align-items: center; justify-content: space-between; width: 100%;
+  border: 1px solid var(--clay-deep); border-radius: 999px; overflow: hidden;
+  background: var(--card); min-height: 46px;
+}
+.shop-step {
+  width: 52px; min-height: 44px; align-self: stretch; border: none; background: none; cursor: pointer;
+  font-family: var(--sans); font-size: 20px; line-height: 1; color: var(--clay-deep);
+  display: grid; place-items: center;
+  transition: background-color 0.3s;
+}
+.shop-step:hover { background: rgba(169, 116, 90, 0.14); }
+.shop-step:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: -3px; border-radius: 999px; }
+.shop-qty { min-width: 32px; text-align: center; font-size: 16px; font-weight: 600; color: var(--ink); }
+
+/* CSS-only entrance, mirrors the journal cards */
+@media (prefers-reduced-motion: no-preference) {
+  .shop-card { animation: journal-rise 0.8s var(--ease) backwards; }
+  .shop-card:nth-child(2) { animation-delay: 0.05s; }
+  .shop-card:nth-child(3) { animation-delay: 0.1s; }
+  .shop-card:nth-child(4) { animation-delay: 0.15s; }
+  .shop-card:nth-child(5) { animation-delay: 0.2s; }
+  .shop-card:nth-child(6) { animation-delay: 0.25s; }
+  .shop-card:nth-child(7) { animation-delay: 0.3s; }
+  .shop-card:nth-child(8) { animation-delay: 0.35s; }
+}
+
+/* --- Floating cart bar — bottom-center, below Vassili's z-80 launcher and
+   horizontally clear of it; on small screens it keeps a right gutter so the
+   two never collide. --- */
+.cart-bar {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  z-index: 60;
+  display: inline-flex; align-items: center; gap: 16px;
+  max-width: min(560px, calc(100vw - 200px));
+  padding: 16px 28px; border: none; border-radius: 999px; cursor: pointer;
+  background: var(--clay-deep); color: var(--bg);
+  font-family: var(--sans); font-size: 13.5px; font-weight: 600; letter-spacing: 0.06em;
+  box-shadow: 0 14px 36px rgba(33, 27, 22, 0.35), inset 0 1px 0 rgba(255, 253, 249, 0.22);
+  transition: background-color 0.3s, box-shadow 0.3s;
+  animation: cart-in 0.4s var(--ease);
+}
+.cart-bar:hover { background: #6F4029; box-shadow: 0 18px 42px rgba(33, 27, 22, 0.42), inset 0 1px 0 rgba(255, 253, 249, 0.22); }
+.cart-bar:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 3px; }
+.cart-bar[hidden] { display: none; }
+.cart-bar-sum { white-space: nowrap; }
+.cart-bar-cta {
+  white-space: nowrap; text-transform: uppercase; letter-spacing: 0.16em; font-size: 11.5px; color: var(--bg);
+  border-left: 1px solid rgba(255, 253, 249, 0.35); padding-left: 16px;
+}
+@keyframes cart-in { from { opacity: 0; transform: translate(-50%, 14px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@media (max-width: 640px) {
+  .cart-bar {
+    left: 16px; right: 92px; bottom: 16px; transform: none;
+    max-width: none; justify-content: space-between;
+    padding: 14px 16px; gap: 10px; font-size: 13px;
+  }
+  .cart-bar-cta { padding-left: 10px; letter-spacing: 0.1em; font-size: 11px; }
+  @keyframes cart-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+}
+
+/* --- Product detail modal — large photo, full desc, gold-framed Add --- */
+html.pmodal-open { overflow: hidden; }
+/* The modal focus-traps, so Vassili (z-80) would float unreachable above it —
+   hide the chat affordances while the product dialog is open. */
+html.pmodal-open .chat-launcher,
+html.pmodal-open .chat-teaser,
+html.pmodal-open .chat-card { display: none; }
+.pmodal-overlay {
+  position: fixed; inset: 0; z-index: 70;
+  display: grid; place-items: center; padding: 24px;
+  background: rgba(33, 27, 22, 0.55);
+  backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+  animation: tmodal-fade 0.3s var(--ease);
+}
+.pmodal {
+  position: relative;
+  width: min(560px, 100%); max-height: min(88vh, 780px); overflow-y: auto;
+  background: var(--card); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: 0 24px 70px rgba(33, 27, 22, 0.35);
+  animation: tmodal-in 0.4s var(--ease);
+}
+.pmodal:focus { outline: none; }
+.pmodal-close {
+  position: absolute; top: 14px; right: 14px; z-index: 2;
+  width: 38px; height: 38px; border-radius: 50%;
+  background: rgba(255, 253, 249, 0.85); border: none; cursor: pointer;
+  display: grid; place-items: center;
+  color: var(--ink); transition: color 0.3s, background-color 0.3s;
+  backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+}
+.pmodal-close:hover { background: var(--card); color: #6F4029; }
+/* Large product photo — edge-to-edge at the top of the sheet, same warm
+   grade and clay veil as the cards so the two read as one system. */
+.pmodal-art {
+  position: relative; height: clamp(220px, 36vh, 320px); overflow: hidden;
+  background: linear-gradient(165deg, var(--tint-a, var(--bg-2)), var(--tint-b, var(--bg-3)));
+  display: grid; place-items: center;
+}
+.pmodal-art img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  filter: sepia(0.16) saturate(0.92) contrast(1.02) brightness(1.01);
+}
+.pmodal-art::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(233, 205, 175, 0.1), rgba(138, 82, 56, 0.07));
+  mix-blend-mode: multiply;
+  box-shadow: inset 0 -1px 0 rgba(58, 51, 44, 0.1);
+}
+.pmodal-body { padding: 26px 34px 34px; }
+.pmodal-title {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(17px, 2.6vw, 21px); line-height: 1.55;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink); max-width: none;
+}
+.pmodal-sub {
+  margin-top: 10px;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--clay-deep);
+}
+.pmodal-desc { margin-top: 16px; font-size: 15px; line-height: 1.8; color: var(--ink-soft); }
+.pmodal-price {
+  margin-top: 18px;
+  display: flex; align-items: baseline; gap: 8px;
+  font-size: 20px; font-weight: 600; letter-spacing: 0.02em; color: var(--clay-deep);
+}
+.pmodal-price small { font-size: 13px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-soft); }
+.pmodal-action { margin-top: 24px; display: flex; }
+.pmodal-action .shop-add { min-height: 52px; font-size: 12.5px; }
+.pmodal-action .shop-stepper { min-height: 52px; }
+@media (max-width: 560px) {
+  /* Bottom sheet on small screens, like the treatment modal */
+  .pmodal-overlay { padding: 0; align-items: end; place-items: end stretch; }
+  .pmodal {
+    width: 100%; max-height: 90vh; max-height: 90svh;
+    border-radius: 18px 18px 0 0; border-left: 0; border-right: 0; border-bottom: 0;
+    animation: tmodal-up 0.45s var(--ease);
+  }
+  .pmodal-art { height: clamp(200px, 32vh, 280px); }
+  .pmodal-body { padding: 24px 22px calc(28px + env(safe-area-inset-bottom)); }
+}
+
+/* --- Order panel — same visual language as the treatment modal --- */
+html.order-open { overflow: hidden; }
+/* The panel focus-traps, so Vassili (z-80) would float unreachable above it —
+   hide the chat affordances while the order dialog is open. */
+html.order-open .chat-launcher,
+html.order-open .chat-teaser,
+html.order-open .chat-card { display: none; }
+.order-overlay {
+  position: fixed; inset: 0; z-index: 70;
+  display: grid; place-items: center; padding: 24px;
+  background: rgba(33, 27, 22, 0.55);
+  backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+  animation: tmodal-fade 0.3s var(--ease);
+}
+.order-overlay[hidden] { display: none; }
+.order-panel {
+  position: relative;
+  width: min(540px, 100%); max-height: min(86vh, 760px); overflow-y: auto;
+  background: var(--card); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 16px;
+  padding: 38px 36px 34px;
+  box-shadow: 0 24px 70px rgba(33, 27, 22, 0.35);
+  animation: tmodal-in 0.4s var(--ease);
+}
+.order-panel:focus { outline: none; }
+.order-close {
+  position: absolute; top: 14px; right: 14px;
+  width: 38px; height: 38px; border-radius: 50%;
+  background: none; border: none; cursor: pointer;
+  display: grid; place-items: center;
+  color: var(--ink-soft); transition: color 0.3s, background-color 0.3s;
+}
+.order-close:hover { color: var(--ink); background: var(--bg-2); }
+.order-title {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(17px, 2.6vw, 21px); line-height: 1.55;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink); padding-right: 34px; max-width: none;
+}
+.order-items { list-style: none; margin-top: 20px; border-top: 1px solid var(--line); }
+.order-items li {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 14px;
+  padding: 11px 0; border-bottom: 1px solid var(--line);
+  font-size: 14.5px; line-height: 1.5;
+}
+.order-item-name { color: var(--ink); }
+.order-item-qty { color: var(--ink-soft); font-size: 13px; }
+.order-item-price { margin-left: auto; white-space: nowrap; color: var(--clay-deep); }
+.order-total {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 14px;
+  padding-top: 14px; font-size: 15.5px; font-weight: 600;
+}
+.order-total-sum { color: var(--clay-deep); white-space: nowrap; }
+.order-total-sum small { font-weight: 500; font-size: 12.5px; color: var(--ink-soft); }
+
+/* COD notice — bordered clay panel, same language as the booking policy panel */
+.cod-note {
+  margin-top: 20px; padding: 14px 16px;
+  border: 1px solid var(--clay); border-radius: 10px;
+  background: rgba(169, 116, 90, 0.08);
+  color: var(--clay-deep); font-size: 13.5px; line-height: 1.65;
+}
+
+.order-form { margin-top: 10px; }
+.order-field { margin-top: 16px; }
+.order-field label {
+  display: block; margin-bottom: 7px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--clay-deep);
+}
+.order-field input, .order-field textarea {
+  width: 100%; padding: 12px 14px;
+  background: var(--bg); color: var(--ink);
+  border: 1px solid rgba(58, 51, 44, 0.22); border-radius: 10px;
+  font-family: var(--sans); font-size: 15px; font-weight: 400; line-height: 1.5;
+}
+.order-field textarea { resize: vertical; min-height: 72px; }
+.order-field input::placeholder, .order-field textarea::placeholder { color: var(--ink-soft); opacity: 1; }
+.order-field input:focus, .order-field textarea:focus { outline: none; border-color: var(--clay-deep); }
+.field-error { display: none; margin-top: 6px; font-size: 12.5px; color: #9C2F1D; }
+.order-field.invalid input, .order-field.invalid textarea { border-color: #9C2F1D; }
+.order-field.invalid .field-error { display: block; }
+
+.order-submit {
+  display: block; width: 100%; margin-top: 24px; min-height: 50px;
+  padding: 15px 34px; border: none; border-radius: 999px; cursor: pointer;
+  background: var(--clay-deep); color: var(--bg);
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  transition: background-color 0.3s, opacity 0.3s;
+}
+.order-submit:hover { background: #6F4029; }
+.order-submit:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 3px; }
+.order-submit:disabled { opacity: 0.6; cursor: default; }
+
+/* Failure bubble — graceful mailto fallback when the order API is unreachable */
+.order-fail {
+  margin-top: 16px; padding: 13px 15px;
+  border: 1px solid rgba(156, 47, 29, 0.45); border-radius: 10px;
+  background: rgba(156, 47, 29, 0.06);
+  color: #8E2B1A; font-size: 13.5px; line-height: 1.65;
+}
+.order-fail[hidden] { display: none; }
+.order-fail a { color: inherit; text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
+
+.order-success { text-align: center; padding: 26px 4px 12px; }
+.order-success-mark {
+  width: 56px; height: 56px; margin: 0 auto 20px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: rgba(169, 116, 90, 0.13); color: var(--clay-deep);
+  font-size: 24px;
+}
+.order-success-title {
+  font-family: var(--display); font-weight: 400;
+  font-size: 16px; line-height: 1.6; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--ink); max-width: none;
+}
+.order-success-line { margin-top: 12px; font-size: 14.5px; line-height: 1.7; color: var(--ink-soft); }
+.order-success .order-submit { margin-top: 26px; }
+
+@media (max-width: 560px) {
+  /* Bottom sheet on small screens, like the treatment modal */
+  .order-overlay { padding: 0; align-items: end; place-items: end stretch; }
+  .order-panel {
+    width: 100%; max-height: 90vh; max-height: 90svh;
+    border-radius: 18px 18px 0 0; border-left: 0; border-right: 0; border-bottom: 0;
+    padding: 28px 22px calc(26px + env(safe-area-inset-bottom));
+    animation: tmodal-up 0.45s var(--ease);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cart-bar, .order-overlay, .order-panel { animation: none !important; }
+  .shop-card { animation: none !important; transition: none !important; }
+  .shop-card:hover { transform: none; }
+  .shop-art img { transition: none; }
+  .shop-card:hover .shop-art img { transform: none; }
+  .shop-add, .shop-add:active { transition: none; transform: none; }
+  .shop-card:hover .shop-add::before,
+  .pmodal .shop-add:hover::before,
+  .shop-add:focus-visible::before { animation: none; }
+  .shop-card::before { transition: none; }
+  .pmodal-overlay, .pmodal { animation: none !important; }
+}
+
+/* Six links (Treatments · About · Journal · Shop · lang · CTA): progressive
+   hiding priority — Treatments is the core business link and NEVER hides.
+   Drop order: About (≤480, rule above) → Journal (≤430) → Shop (≤390). */
+@media (max-width: 430px) {
+  .nav-links a:nth-child(3) { display: none; } /* Journal */
+}
+@media (max-width: 390px) {
+  .nav-links a:nth-child(4) { display: none; } /* Shop */
+}
+
+/* ===== Mobile menu (nav.js) ==================================================
+   Everything below is gated behind html.has-navjs, which nav.js adds on load.
+   Without JS none of it applies and the progressive-hiding rules above keep
+   the original phone behavior. nav.js restructures the bar into:
+     .nav > .nav-brand + .nav-right > (.nav-links · .nav-cta · .nav-toggle)
+   On desktop the .nav-right wrapper reproduces the original inline layout;
+   ≤700px the links become a card dropdown behind the hamburger toggle. */
+
+/* -- Desktop: invisible restructuring. .nav-right carries the same typography
+      the CTA used to inherit from .nav-links. */
+html.has-navjs .nav-right {
+  display: flex; align-items: center; gap: 28px;
+  font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+}
+html.has-navjs .nav-right a { white-space: nowrap; }
+.nav-toggle { display: none; } /* hamburger exists only ≤700px */
+
+@media (max-width: 480px) {
+  html.has-navjs .nav-right { gap: 12px; font-size: 11px; }
+}
+
+@media (max-width: 700px) {
+  /* -- Bar: logo + CTA + hamburger. Re-show every link inside the panel,
+        overriding the no-JS progressive-hiding rules above (display:none). */
+  html.has-navjs .nav-right { gap: 10px; }
+
+  /* -- Hamburger toggle: two gold-clay lines, right-aligned and unequal —
+        they even up and morph into an ✕ when the menu opens. 44px target. */
+  html.has-navjs .nav-toggle {
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-end;
+    gap: 7px; width: 44px; height: 44px; padding: 0 9px;
+    margin: -4px -9px -4px -2px; /* visual right edge aligns with the bar padding */
+    background: none; border: 0; border-radius: 8px; cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  html.has-navjs .nav-toggle:focus-visible {
+    outline: 2px solid currentColor; outline-offset: 2px;
+  }
+  html.has-navjs .nav-toggle-line {
+    display: block; height: 2px; border-radius: 2px;
+    background: linear-gradient(90deg, var(--clay), var(--clay-deep));
+    transition: transform 0.35s var(--ease), width 0.35s var(--ease),
+                background-color 0.3s, box-shadow 0.3s;
+  }
+  html.has-navjs .nav-toggle-line:nth-child(1) { width: 26px; }
+  html.has-navjs .nav-toggle-line:nth-child(2) { width: 17px; }
+  /* Over-hero transparent bar: lines go photo-ink with a legibility shadow,
+     matching the logo and CTA treatment. */
+  .has-js .nav:not(.visible):not(.nav-solid):not(.menu-open) .nav-toggle-line {
+    background: var(--photo-ink);
+    box-shadow: 0 1px 6px rgba(26, 21, 17, 0.65), 0 2px 14px rgba(26, 21, 17, 0.4);
+  }
+  /* Open: both lines 22px, pivoting around the icon centre into an ✕ */
+  html.has-navjs .nav.menu-open .nav-toggle-line:nth-child(1) {
+    width: 22px; transform: translateY(4.5px) rotate(45deg);
+  }
+  html.has-navjs .nav.menu-open .nav-toggle-line:nth-child(2) {
+    width: 22px; transform: translateY(-4.5px) rotate(-45deg);
+  }
+
+  /* -- Panel: full-width card dropdown under the bar, gold hairline on top */
+  html.has-navjs .nav-links {
+    position: absolute; top: 100%; left: 0; right: 0;
+    display: block; padding: 10px 0 18px;
+    background: var(--card); color: var(--ink); text-shadow: none;
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 28px 48px -22px rgba(33, 27, 22, 0.35);
+    visibility: hidden; opacity: 0; transform: translateY(-8px);
+    transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), visibility 0s 0.3s;
+  }
+  html.has-navjs .nav-links::before { /* gold hairline — same gilt family as the frames */
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, rgba(201, 164, 92, 0) 0%, #C9A45C 22%, #B8924C 78%, rgba(184, 146, 76, 0) 100%);
+  }
+  html.has-navjs .nav.menu-open .nav-links {
+    visibility: visible; opacity: 1; transform: none;
+    transition: opacity 0.35s var(--ease), transform 0.35s var(--ease), visibility 0s;
+  }
+
+  /* -- Links: tracked-caps display list; overrides the no-JS display:none hiding */
+  html.has-navjs .nav-links a {
+    display: block; padding: 16px 28px;
+    font-family: var(--display); font-weight: 400; font-size: 15px; line-height: 1.4;
+    letter-spacing: 0.24em; text-transform: uppercase; color: var(--ink);
+    opacity: 0; transform: translateY(10px);
+    transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+  }
+  html.has-navjs .nav-links a + a { border-top: 1px solid rgba(58, 51, 44, 0.07); }
+  html.has-navjs .nav-links a:focus-visible {
+    outline: 2px solid var(--clay-deep); outline-offset: -2px;
+  }
+  /* Language switcher: quiet letterspaced Manrope, clay accent */
+  html.has-navjs .nav-links a[hreflang] {
+    font-family: var(--sans); font-weight: 600; font-size: 12px;
+    letter-spacing: 0.24em; text-transform: uppercase; color: var(--clay-deep);
+    padding-top: 17px; padding-bottom: 17px;
+  }
+  /* Staggered entrance */
+  html.has-navjs .nav.menu-open .nav-links a { opacity: 1; transform: none; }
+  html.has-navjs .nav.menu-open .nav-links a:nth-child(1) { transition-delay: 0.04s; }
+  html.has-navjs .nav.menu-open .nav-links a:nth-child(2) { transition-delay: 0.08s; }
+  html.has-navjs .nav.menu-open .nav-links a:nth-child(3) { transition-delay: 0.12s; }
+  html.has-navjs .nav.menu-open .nav-links a:nth-child(4) { transition-delay: 0.16s; }
+  html.has-navjs .nav.menu-open .nav-links a:nth-child(5) { transition-delay: 0.20s; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.has-navjs .nav-links,
+  html.has-navjs .nav.menu-open .nav-links,
+  html.has-navjs .nav-links a,
+  html.has-navjs .nav-toggle-line {
+    transition: none !important; transition-delay: 0s !important;
+  }
+}
