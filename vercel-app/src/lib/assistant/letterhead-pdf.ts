@@ -27,7 +27,7 @@ import PDFDocument from "pdfkit";
  * fonts' repertoire (emoji, CJK, …) had to be removed so the tool can warn.
  */
 
-const LOGO_URL = "https://justmanalized.com/assets/logo.png";
+const LOGO_URL = "https://justmanalized.com/assets/logo-light.png";
 const BRAND_NAME = "JUST MANALIZED";
 const FOOTER_TEXT =
   "justmanalized.com  ·  hello@justmanalized.com";

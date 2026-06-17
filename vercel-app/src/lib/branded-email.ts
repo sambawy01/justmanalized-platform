@@ -42,8 +42,8 @@ export function brandedEmailHtml(options: BrandedEmailOptions): string {
   <div style="max-width:560px;margin:0 auto;padding:32px 16px;">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:separate;width:100%;">
       <tr>
-        <td align="center" bgcolor="#100D0B" style="background-color:#100D0B;padding:28px 24px;border-radius:16px 16px 0 0;">
-          <span style="display:inline-block;color:#F4EFE7;font-family:'Tenor Sans',Georgia,serif;font-size:22px;letter-spacing:0.22em;text-transform:uppercase;">${BRAND_NAME}</span>
+        <td align="center" bgcolor="#100D0B" style="background-color:#100D0B;padding:26px 24px;border-radius:16px 16px 0 0;">
+          <img src="https://justmanalized.com/assets/logo-light.png" width="210" alt="${BRAND_NAME}" style="display:block;width:210px;max-width:72%;height:auto;border:0;margin:0 auto;" />
         </td>
       </tr>
     </table>
