@@ -1392,3 +1392,49 @@ html.has-navjs .nav-right a { white-space: nowrap; }
     transition: none !important; transition-delay: 0s !important;
   }
 }
+
+/* ===== Collection — sideways product carousel (fashion cards) ===== */
+.collection { padding: clamp(90px, 14vh, 160px) 0; overflow: hidden; }
+.collection-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: clamp(26px, 4vw, 44px); }
+.collection-head h2 { margin-top: 0; }
+.collection-arrows { display: flex; gap: 10px; flex: none; }
+.coll-arrow {
+  width: 46px; height: 46px; border-radius: 999px; border: 1px solid var(--line);
+  background: var(--card); color: var(--ink); display: grid; place-items: center; cursor: pointer;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease), opacity 0.3s;
+}
+.coll-arrow:hover { background: var(--clay-deep); color: var(--bg); border-color: var(--clay-deep); }
+.coll-arrow:disabled { opacity: 0.3; cursor: default; }
+@media (hover: none) { .collection-arrows { display: none; } }
+
+.collection-track {
+  display: flex; gap: clamp(14px, 2vw, 24px);
+  overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
+  padding: 6px max(24px, calc((100vw - 1100px) / 2 + 24px)) 10px;
+  scroll-padding-left: max(24px, calc((100vw - 1100px) / 2 + 24px));
+  scrollbar-width: none;
+}
+.collection-track::-webkit-scrollbar { display: none; }
+
+.coll-card { flex: 0 0 clamp(228px, 72vw, 296px); scroll-snap-align: start; display: flex; flex-direction: column; color: var(--ink); }
+.coll-card-img { display: block; aspect-ratio: 3 / 4; overflow: hidden; border-radius: 4px; background: linear-gradient(165deg, var(--bg-2), var(--bg-3)); }
+.coll-card-img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; transition: transform 0.7s var(--ease); }
+@media (hover: hover) { .coll-card:hover .coll-card-img img { transform: scale(1.05); } }
+.coll-card-meta { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; margin-top: 15px; align-items: baseline; }
+.coll-card-name { font-family: var(--display); font-size: 19px; letter-spacing: 0.01em; }
+.coll-card-price { font-family: var(--display); font-size: 16px; color: var(--clay-deep); text-align: right; white-space: nowrap; }
+.coll-card-sub { grid-column: 1 / -1; font-size: 12.5px; color: var(--ink-soft); letter-spacing: 0.02em; margin-top: 2px; }
+
+/* trailing "shop all" tile */
+.coll-card-all-inner {
+  display: grid; place-items: center; text-align: center; aspect-ratio: 3 / 4; width: 100%;
+  border: 1px solid var(--clay); border-radius: 4px; color: var(--clay-deep);
+  font-family: var(--display); text-transform: uppercase; letter-spacing: 0.16em; font-size: 15px; line-height: 1.5;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease);
+}
+.coll-card-all-arrow { display: block; margin-top: 12px; font-size: 22px; }
+@media (hover: hover) { .coll-card-all:hover .coll-card-all-inner { background: var(--clay-deep); color: var(--bg); } }
+
+.collection-foot { margin-top: clamp(22px, 3vw, 34px); }
+@media (prefers-reduced-motion: reduce) { .collection-track { scroll-behavior: auto; } .coll-card-img img { transition: none; } }

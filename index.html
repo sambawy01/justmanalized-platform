@@ -132,60 +132,66 @@
       </div>
     </section>
 
-    <!-- ============ 5 · THE COLLECTION ============ -->
-    <section class="treatments section-light" id="collection">
-      <div class="wrap">
-        <p class="label reveal">The Hats</p>
-        <h2 class="reveal">The Collection</h2>
-        <ul class="t-list">
-          <li class="t-row">
-            <span class="t-name"><a class="t-link" href="shop.html">Golden Hour</a> <span class="t-sub">Gold metallic straw · rhinestone trim</span></span>
-            <span class="t-price">E£3,500</span>
-            <span class="t-arrow" aria-hidden="true">→</span>
-          </li>
-          <li class="t-row">
-            <span class="t-name"><a class="t-link" href="shop.html">Aqua Concho</a> <span class="t-sub">Natural straw · turquoise &amp; silver concho</span></span>
-            <span class="t-price">E£3,000</span>
-            <span class="t-arrow" aria-hidden="true">→</span>
-          </li>
-          <li class="t-row">
-            <span class="t-name"><a class="t-link" href="shop.html">Magenta Sunset</a> <span class="t-sub">Dark straw · magenta band · silver concho</span></span>
-            <span class="t-price">E£2,800</span>
-            <span class="t-arrow" aria-hidden="true">→</span>
-          </li>
-          <li class="t-row">
-            <span class="t-name"><a class="t-link" href="shop.html">Turquoise Oasis</a> <span class="t-sub">Natural straw · turquoise concho</span></span>
-            <span class="t-price">E£2,800</span>
-            <span class="t-arrow" aria-hidden="true">→</span>
-          </li>
-          <li class="t-row">
-            <span class="t-name"><a class="t-link" href="shop.html">Midnight Marina</a> <span class="t-sub">Dark woven straw · embellished band</span></span>
-            <span class="t-price">E£2,800</span>
-            <span class="t-arrow" aria-hidden="true">→</span>
-          </li>
-          <li class="t-row">
-            <span class="t-name"><a class="t-link" href="shop.html">Crimson Marina</a> <span class="t-sub">Red straw · gold concho</span></span>
-            <span class="t-price">E£2,600</span>
-            <span class="t-arrow" aria-hidden="true">→</span>
-          </li>
-          <li class="t-row">
-            <span class="t-name"><a class="t-link" href="shop.html">Wanderlust</a> <span class="t-sub">Patterned straw · statement concho</span></span>
-            <span class="t-price">E£2,600</span>
-            <span class="t-arrow" aria-hidden="true">→</span>
-          </li>
-          <li class="t-row">
-            <span class="t-name"><a class="t-link" href="shop.html">Coral Crush</a> <span class="t-sub">Coral straw · beaded band</span></span>
-            <span class="t-price">E£2,400</span>
-            <span class="t-arrow" aria-hidden="true">→</span>
-          </li>
-          <li class="t-row">
-            <span class="t-name"><a class="t-link" href="shop.html">Coastal Natural</a> <span class="t-sub">Natural straw · beaded band</span></span>
-            <span class="t-price">E£2,200</span>
-            <span class="t-arrow" aria-hidden="true">→</span>
-          </li>
-        </ul>
-        <p class="label t-group reveal"><a class="t-link" href="shop.html">See the full shop &rarr;</a></p>
+    <!-- ============ 5 · THE COLLECTION — sideways carousel ============ -->
+    <section class="collection section-light" id="collection">
+      <div class="wrap collection-head">
+        <div>
+          <p class="label reveal">The Hats</p>
+          <h2 class="reveal">The Collection</h2>
+        </div>
+        <div class="collection-arrows reveal">
+          <button class="coll-arrow" type="button" data-coll-prev aria-label="Previous hats">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <button class="coll-arrow" type="button" data-coll-next aria-label="More hats">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
       </div>
+
+      <div class="collection-track" id="collectionTrack" role="list" aria-label="Hat collection">
+        <a class="coll-card" role="listitem" href="shop.html">
+          <span class="coll-card-img"><img src="assets/img/shop/golden-hour-rhinestone.jpg" alt="Golden Hour" loading="lazy" /></span>
+          <span class="coll-card-meta"><span class="coll-card-name">Golden Hour</span><span class="coll-card-sub">Gold metallic · rhinestone trim</span><span class="coll-card-price">E£3,500</span></span>
+        </a>
+        <a class="coll-card" role="listitem" href="shop.html">
+          <span class="coll-card-img"><img src="assets/img/shop/aqua-concho.jpg" alt="Aqua Concho" loading="lazy" /></span>
+          <span class="coll-card-meta"><span class="coll-card-name">Aqua Concho</span><span class="coll-card-sub">Natural straw · turquoise &amp; silver</span><span class="coll-card-price">E£3,000</span></span>
+        </a>
+        <a class="coll-card" role="listitem" href="shop.html">
+          <span class="coll-card-img"><img src="assets/img/shop/magenta-sunset.jpg" alt="Magenta Sunset" loading="lazy" /></span>
+          <span class="coll-card-meta"><span class="coll-card-name">Magenta Sunset</span><span class="coll-card-sub">Dark straw · magenta band</span><span class="coll-card-price">E£2,800</span></span>
+        </a>
+        <a class="coll-card" role="listitem" href="shop.html">
+          <span class="coll-card-img"><img src="assets/img/shop/turquoise-oasis.jpg" alt="Turquoise Oasis" loading="lazy" /></span>
+          <span class="coll-card-meta"><span class="coll-card-name">Turquoise Oasis</span><span class="coll-card-sub">Natural straw · turquoise concho</span><span class="coll-card-price">E£2,800</span></span>
+        </a>
+        <a class="coll-card" role="listitem" href="shop.html">
+          <span class="coll-card-img"><img src="assets/img/shop/midnight-marina.jpg" alt="Midnight Marina" loading="lazy" /></span>
+          <span class="coll-card-meta"><span class="coll-card-name">Midnight Marina</span><span class="coll-card-sub">Dark woven · embellished band</span><span class="coll-card-price">E£2,800</span></span>
+        </a>
+        <a class="coll-card" role="listitem" href="shop.html">
+          <span class="coll-card-img"><img src="assets/img/shop/crimson-marina.jpg" alt="Crimson Marina" loading="lazy" /></span>
+          <span class="coll-card-meta"><span class="coll-card-name">Crimson Marina</span><span class="coll-card-sub">Red straw · gold concho</span><span class="coll-card-price">E£2,600</span></span>
+        </a>
+        <a class="coll-card" role="listitem" href="shop.html">
+          <span class="coll-card-img"><img src="assets/img/shop/wanderlust-red.jpg" alt="Wanderlust" loading="lazy" /></span>
+          <span class="coll-card-meta"><span class="coll-card-name">Wanderlust</span><span class="coll-card-sub">Patterned straw · statement concho</span><span class="coll-card-price">E£2,600</span></span>
+        </a>
+        <a class="coll-card" role="listitem" href="shop.html">
+          <span class="coll-card-img"><img src="assets/img/shop/coral-crush.jpg" alt="Coral Crush" loading="lazy" /></span>
+          <span class="coll-card-meta"><span class="coll-card-name">Coral Crush</span><span class="coll-card-sub">Coral straw · beaded band</span><span class="coll-card-price">E£2,400</span></span>
+        </a>
+        <a class="coll-card" role="listitem" href="shop.html">
+          <span class="coll-card-img"><img src="assets/img/shop/coastal-natural.jpg" alt="Coastal Natural" loading="lazy" /></span>
+          <span class="coll-card-meta"><span class="coll-card-name">Coastal Natural</span><span class="coll-card-sub">Natural straw · beaded band</span><span class="coll-card-price">E£2,200</span></span>
+        </a>
+        <a class="coll-card coll-card-all" role="listitem" href="shop.html">
+          <span class="coll-card-all-inner">Shop all<br />hats<span class="coll-card-all-arrow" aria-hidden="true">→</span></span>
+        </a>
+      </div>
+
+      <p class="wrap collection-foot reveal"><a class="t-link" href="shop.html">See the full shop &rarr;</a></p>
     </section>
 
     <!-- ============ 6 · CLOSING — "Begin" ============ -->

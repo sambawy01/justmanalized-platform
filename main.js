@@ -15,6 +15,24 @@
   );
   navObserver.observe(hero);
 
+  // ---- Collection carousel arrows (basic nav — works with or without GSAP) ----
+  const track = document.getElementById("collectionTrack");
+  if (track) {
+    const prevBtn = document.querySelector("[data-coll-prev]");
+    const nextBtn = document.querySelector("[data-coll-next]");
+    const step = () => Math.max(260, Math.round(track.clientWidth * 0.8));
+    if (prevBtn) prevBtn.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: "smooth" }));
+    if (nextBtn) nextBtn.addEventListener("click", () => track.scrollBy({ left: step(), behavior: "smooth" }));
+    const updateArrows = () => {
+      const max = track.scrollWidth - track.clientWidth - 4;
+      if (prevBtn) prevBtn.disabled = track.scrollLeft <= 4;
+      if (nextBtn) nextBtn.disabled = track.scrollLeft >= max;
+    };
+    track.addEventListener("scroll", updateArrows, { passive: true });
+    window.addEventListener("resize", updateArrows);
+    updateArrows();
+  }
+
   if (reduced || !window.gsap || !window.ScrollTrigger || !window.Lenis) return; // static experience
 
   document.documentElement.classList.add("js");
@@ -58,13 +76,13 @@
     });
   });
 
-  // ---- Treatments cascade ----
-  gsap.utils.toArray(".t-list").forEach((list) => {
-    gsap.from(list.querySelectorAll(".t-row"), {
-      opacity: 0, y: 24, duration: 0.7, stagger: 0.07, ease: "power2.out",
-      scrollTrigger: { trigger: list, start: "top 82%" },
+  // ---- Collection cards entrance (slide up + in) ----
+  if (track) {
+    gsap.from(track.querySelectorAll(".coll-card"), {
+      opacity: 0, y: 30, duration: 0.7, stagger: 0.06, ease: "power2.out",
+      scrollTrigger: { trigger: ".collection", start: "top 80%" },
     });
-  });
+  }
 
   // ---- Setting photo rotation ----
   const slides = gsap.utils.toArray(".setting-slide");
