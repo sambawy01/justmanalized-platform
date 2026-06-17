@@ -20,13 +20,15 @@ import {
 
 export const BRAND = {
   name: "Just Manalized",
-  // PLACEHOLDER persona — confirm the assistant's name/voice in the brand brief.
   assistantName: "the Just Manalized concierge",
   facts:
-    "Just Manalized is a hats brand. We make and sell hats — see SHOP PRODUCTS for the current range, materials, sizing and prices. " +
-    "Orders ship with cash on delivery across Egypt (typical delivery 24–72h). " +
-    "[PLACEHOLDER brand story — replace with the real Just Manalized brief.]",
-  // PLACEHOLDER contact channels — replace with the real ones.
+    "Just Manalized = Manal + manual. Hand-embellished, one-of-one straw cowboy hats, " +
+    "each finished by hand by its founder Manal in El Gouna on the Red Sea — never machine, " +
+    "never duplicated. Western-boho statement pieces (turquoise cabochons, cowrie shells, " +
+    "antique-silver conchos, macramé fringe, wine bands on natural straw). Made once, never again. " +
+    "One size with an inner drawstring. Orders ship cash on delivery across Egypt (typically 24–72h). " +
+    "See SHOP PRODUCTS for the current range and prices.",
+  // PLACEHOLDER contact channels — add the real WhatsApp/phone when available.
   whatsappNumber: "",
   whatsappLink: "",
   contactEmail: "hello@justmanalized.com",

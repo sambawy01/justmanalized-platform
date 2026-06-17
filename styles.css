@@ -1,24 +1,27 @@
-/* ===== Earthen Calm design system =====
-   Off-white / sand / warm-grey palette, harmonized with the booking app
-   (bg #FAF7F2 · text #3A332C · clay accent). All flat text/bg pairs ≥ 4.5:1. */
+/* ===== Just Manalized design system =====
+   Brand foundation palette: Wine + Turquoise on Sand + Espresso — pulled from
+   the product, not generic boho. Editorial serif (Fraunces) + humanist sans
+   (Inter). All flat text/bg pairs ≥ 4.5:1. */
 :root {
-  --bg: #FAF7F2;          /* off-white base */
-  --bg-2: #F3EDE3;        /* sand band — voice, chat header */
-  --bg-3: #EDE5D8;        /* deeper sand — reserve, footer */
-  --card: #FFFDF9;        /* warm off-white card surfaces */
-  --ink: #3A332C;         /* primary text — deep warm grey-brown */
-  --ink-soft: #675D50;    /* secondary text */
-  --clay: #A9745A;        /* decorative accent — borders, washes */
-  --clay-deep: #8A5238;   /* accent text: labels, prices, links, CTA fill */
-  --clay-pale: #E9CDAF;   /* large accent over photo scrims only */
-  --photo-ink: #F4EFE7;   /* text over photo scrims */
-  --line: rgba(58, 51, 44, 0.16);
-  --scrim: 33, 27, 22;    /* warm near-black for photo washes */
+  --bg: #F4ECDC;          /* Sand — base / paper */
+  --bg-2: #F1E7D3;        /* Cream — voice band, chat header */
+  --bg-3: #E7DBC2;        /* deeper sand — reserve, footer */
+  --card: #FBF6EC;        /* warm paper card surfaces */
+  --ink: #2B1D14;         /* Espresso — primary text */
+  --ink-soft: #6E5C4A;    /* muted espresso — secondary text */
+  --clay: #6E2B33;        /* Wine — decorative accent: borders, washes */
+  --clay-deep: #6E2B33;   /* Wine — labels, prices, links, CTA fill */
+  --clay-pale: #E3C9A6;   /* brass-pale accent over photo scrims only */
+  --turquoise: #2F9C95;   /* pop accent */
+  --brass: #B08D57;       /* metallic detail */
+  --photo-ink: #F4ECDC;   /* Sand — text over photo scrims */
+  --line: rgba(43, 29, 20, 0.16);
+  --scrim: 43, 29, 20;    /* Espresso for photo washes */
   --serif: Georgia, serif; /* legacy fallback — unused */
-  --sans: "Manrope", "Jost", system-ui, sans-serif;
-  --display: "Tenor Sans", "Manrope", system-ui, sans-serif; /* fashion display — ALL CAPS, tracked */
+  --sans: "Inter", system-ui, sans-serif;
+  --display: "Fraunces", Georgia, "Times New Roman", serif; /* editorial high-contrast serif */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --logo-ink: invert(0.82) sepia(0.5) saturate(2) brightness(0.85); /* white logo → deep warm brown */
+  --logo-ink: invert(0.82) sepia(0.5) saturate(2) brightness(0.85); /* legacy (no logo img now) */
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -172,7 +175,7 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
 .cta:hover { border-color: var(--clay-deep); }
 .hero .cta:hover { border-color: var(--clay-pale); }
 .cta-solid { background: var(--clay-deep); border-color: var(--clay-deep); color: var(--bg); }
-.cta-solid:hover { background: #6F4029; border-color: #6F4029; }
+.cta-solid:hover { background: #5A2129; border-color: #5A2129; }
 .scroll-cue { position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%); z-index: 2; }
 .scroll-cue span {
   display: block; width: 1px; height: 64px; background: rgba(244, 239, 231, 0.8);
@@ -267,7 +270,7 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
 .t-price small { color: var(--ink-soft); font-size: 12px; }
 /* Always-visible clickability cue (no hover needed on touch) */
 .t-arrow {
-  flex: none; align-self: center; color: var(--clay-deep); font-size: 17px; line-height: 1;
+  flex: none; align-self: center; color: var(--turquoise); font-size: 17px; line-height: 1;
   transition: transform 0.3s var(--ease);
 }
 @media (hover: hover) {
