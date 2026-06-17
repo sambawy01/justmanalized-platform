@@ -121,7 +121,7 @@ h2 {
 
 
 /* ===== Logo recolor: white script → deep warm brown on light backgrounds ===== */
-.nav-logo, .reserve-logo { filter: var(--logo-ink); }
+/* (legacy white-PNG recolor removed — the brand mark is now a full-colour SVG emblem) */
 
 /* ===== Hero — bright B&W portrait, warm veil, soft center scrim ===== */
 .hero { position: relative; min-height: 100vh; min-height: 100svh; display: grid; place-items: center; overflow: hidden; color: var(--photo-ink); }
@@ -146,8 +146,12 @@ h2 {
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .nav-logo { height: 46px; width: auto; display: block; object-fit: contain; object-position: left center; }
 .nav-brand { min-width: 0; }
-/* Text wordmark (stands in for the logo image until a logo file is supplied). */
+/* Concho-medallion emblem + serif wordmark lockup. */
+.nav-brand { display: inline-flex; align-items: center; gap: 9px; }
+.nav-emblem { width: 28px; height: 28px; flex: none; display: block; }
 .nav-wordmark { white-space: nowrap; font-family: var(--display); letter-spacing: 0.18em; text-transform: uppercase; }
+.hero-emblem { display: block; width: clamp(64px, 11vw, 92px); height: auto; margin: 0 auto 22px; filter: drop-shadow(0 2px 12px rgba(26, 21, 17, 0.55)); }
+.reserve-emblem { display: block; width: clamp(52px, 9vw, 68px); height: auto; margin: 0 auto 18px; }
 .hero-wordmark {
   display: block; font-family: var(--display); text-transform: uppercase;
   letter-spacing: 0.12em; font-size: clamp(34px, 8.5vw, 88px); line-height: 0.98;
@@ -378,7 +382,7 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
 
 /* ===== Reserve — deep sand band, light ===== */
 .reserve { background: var(--bg-3); padding: clamp(100px, 16vh, 180px) 0 0; text-align: center; }
-.reserve-logo { width: min(340px, 70vw); margin: 0 auto; }
+.reserve-logo { margin: 0 auto; }
 /* Amendment 2: h2.reserve-line must not be constrained by h2's max-width: 16em */
 .reserve-line { margin-top: 30px; font-family: var(--display); font-size: clamp(14px, 1.8vw, 19px); line-height: 1.6; letter-spacing: 0.2em; text-indent: 0.2em; text-transform: uppercase; color: var(--clay-deep); max-width: none; margin-left: auto; margin-right: auto; }
 .reserve-meta { margin-top: 34px; font-style: normal; font-size: 14px; color: var(--ink-soft); }

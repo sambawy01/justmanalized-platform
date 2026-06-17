@@ -6,8 +6,8 @@ import PDFDocument from "pdfkit";
  * Company-letterhead PDF for Mana's `document_create` tool.
  *
  * Design mirrors the branded email shell (@/lib/branded-email):
- * - Dark band (#100D0B) across the top with the white logo PNG
- *   (fetched from the live site, falling back to public/logo-white.png,
+ * - Dark band (#100D0B) across the top with the concho-medallion logo PNG
+ *   (fetched from the live site, falling back to public/logo.png,
  *   falling back to a typeset wordmark).
  * - "Earthen Calm" palette: #3A332C ink, #847866 muted, #E5DCCB hairlines.
  * - EMBEDDED fonts (src/assets/fonts, OFL-licensed ParaType faces, full
@@ -27,7 +27,7 @@ import PDFDocument from "pdfkit";
  * fonts' repertoire (emoji, CJK, …) had to be removed so the tool can warn.
  */
 
-const LOGO_URL = "https://justmanalized.com/assets/logo-white.png";
+const LOGO_URL = "https://justmanalized.com/assets/logo.png";
 const BRAND_NAME = "JUST MANALIZED";
 const FOOTER_TEXT =
   "justmanalized.com  ·  hello@justmanalized.com";
@@ -139,7 +139,7 @@ async function loadLogo(): Promise<Buffer | null> {
     // fall through to the local copy
   }
   try {
-    return await readFile(join(process.cwd(), "public", "logo-white.png"));
+    return await readFile(join(process.cwd(), "public", "logo.png"));
   } catch {
     return null;
   }
@@ -198,8 +198,8 @@ export async function renderLetterheadPdf(
     const savedBottomMargin = doc.page.margins.bottom;
     doc.page.margins.bottom = 0;
 
-    // Dark band with the white logo (760×387 PNG — fit by HEIGHT so it can
-    // never overflow the band).
+    // Dark band with the concho-medallion logo (square PNG — fit inside the
+    // box so it can never overflow the band).
     doc.save();
     doc.rect(0, 0, pageWidth, BAND_HEIGHT).fill(BAND);
     if (logo) {
