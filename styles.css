@@ -127,7 +127,7 @@ h2 {
 .hero { position: relative; min-height: 100vh; min-height: 100svh; display: grid; place-items: center; overflow: hidden; color: var(--photo-ink); }
 .hero-media { position: absolute; inset: 0; }
 .hero-media img {
-  width: 100%; height: 100%; object-fit: cover; object-position: 65% center;
+  width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%;
   filter: sepia(0.28) contrast(1.02) brightness(0.97); /* warms the B&W studio shot into the earthy family */
   animation: kenburns 30s var(--ease) infinite alternate;
 }
@@ -190,7 +190,7 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
 /* ===== Philosophy ===== */
 .split-2 { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(40px, 6vw, 90px); align-items: center; }
 .photo-portrait { aspect-ratio: 3 / 4; overflow: hidden; border-radius: 2px; }
-.photo-portrait img { width: 100%; height: 100%; object-fit: cover; filter: sepia(0.22) saturate(0.95) brightness(0.98) contrast(1.03); }
+.photo-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; filter: sepia(0.22) saturate(0.95) brightness(0.98) contrast(1.03); }
 @media (max-width: 820px) { .split-2 { grid-template-columns: 1fr; } .photo-portrait { order: -1; max-width: 420px; } }
 
 /* ===== Credentials — education & experience as a gilt timeline =====
@@ -293,6 +293,7 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
 .setting-media { position: absolute; inset: -12% 0; will-change: transform; }
 .setting-slide {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  object-position: 50% 20%; /* keep the hat (worn high on the head) in frame */
   filter: brightness(0.8) contrast(1.02) sepia(0.12);
   opacity: 0; transition: opacity 1.2s var(--ease);
 }
@@ -917,6 +918,7 @@ html.tmodal-open { overflow: hidden; }
 }
 .shop-art img {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  object-position: 50% 22%; /* bias up so the hat stays in the square thumbnail */
   /* uniform warm grade, same family as .photo-portrait — unifies mixed sources */
   filter: sepia(0.16) saturate(0.92) contrast(1.02) brightness(1.01);
   transition: transform 0.6s var(--ease);
@@ -1074,18 +1076,17 @@ html.pmodal-open .chat-card { display: none; }
 /* Large product photo — edge-to-edge at the top of the sheet, same warm
    grade and clay veil as the cards so the two read as one system. */
 .pmodal-art {
-  position: relative; height: clamp(220px, 36vh, 320px); overflow: hidden;
+  position: relative; height: clamp(340px, 58vh, 520px); overflow: hidden;
   background: linear-gradient(165deg, var(--tint-a, var(--bg-2)), var(--tint-b, var(--bg-3)));
   display: grid; place-items: center;
 }
+/* Show the WHOLE product photo, hat centered (not cropped) — true colours. */
 .pmodal-art img {
-  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-  filter: sepia(0.16) saturate(0.92) contrast(1.02) brightness(1.01);
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain; object-position: center; filter: none;
 }
 .pmodal-art::after {
   content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg, rgba(233, 205, 175, 0.1), rgba(138, 82, 56, 0.07));
-  mix-blend-mode: multiply;
   box-shadow: inset 0 -1px 0 rgba(58, 51, 44, 0.1);
 }
 .pmodal-body { padding: 26px 34px 34px; }
@@ -1119,7 +1120,7 @@ html.pmodal-open .chat-card { display: none; }
     border-radius: 18px 18px 0 0; border-left: 0; border-right: 0; border-bottom: 0;
     animation: tmodal-up 0.45s var(--ease);
   }
-  .pmodal-art { height: clamp(200px, 32vh, 280px); }
+  .pmodal-art { height: clamp(300px, 46vh, 420px); }
   .pmodal-body { padding: 24px 22px calc(28px + env(safe-area-inset-bottom)); }
 }
 
