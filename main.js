@@ -29,7 +29,7 @@
   // ---- Hero load sequence ----
   gsap.set("#heroName", { opacity: 1 });
   gsap.timeline()
-    .from(".hero-logo", { y: 28, opacity: 0, scale: 0.985, duration: 1.5, ease: "power3.out" }, 0.2)
+    .from(".hero-wordmark", { y: 28, opacity: 0, scale: 0.985, duration: 1.5, ease: "power3.out" }, 0.2)
     .to(".hero .reveal-soft", { opacity: 1, y: 0, duration: 0.8, stagger: 0.12, ease: "power2.out" }, "-=0.7");
 
   // ---- Hero parallax scroll-out ----

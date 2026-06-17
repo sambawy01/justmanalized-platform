@@ -134,7 +134,7 @@ export const TOOLS: OllamaTool[] = [
   ),
   tool(
     "order_set_status",
-    "Advance a shop order's status (ordered→confirmed→shipped→delivered; cancel from ordered/confirmed, reason required when cancelling). Sends the client a status email. MUTATING — requires Victoria's button confirmation.",
+    "Advance a shop order's status (ordered→confirmed→shipped→delivered; cancel from ordered/confirmed, reason required when cancelling). Sends the client a status email. MUTATING — requires the owner's button confirmation.",
     {
       orderNumber: { type: "string", description: "e.g. VV-AB12CD" },
       status: {
@@ -154,7 +154,7 @@ export const TOOLS: OllamaTool[] = [
   ),
   tool(
     "product_update",
-    "Update a shop product's price, stock quantity or sold-out flag. MUTATING — requires Victoria's button confirmation. Get the slug via catalog_list first.",
+    "Update a shop product's price, stock quantity or sold-out flag. MUTATING — requires the owner's button confirmation. Get the slug via catalog_list first.",
     {
       slug: { type: "string", description: "Product slug from catalog_list" },
       priceEgp: { type: "number", description: "New price in EGP" },
@@ -183,7 +183,7 @@ export const TOOLS: OllamaTool[] = [
   ),
   tool(
     "document_create",
-    "Create a PDF document on the company letterhead and send it to Victoria in this chat. Body supports light markdown: '# Heading' lines and '- bullet' lines. English and Russian both render (embedded Cyrillic-capable fonts).",
+    "Create a PDF document on the company letterhead and send it to the owner in this chat. Body supports light markdown: '# Heading' lines and '- bullet' lines. English and Russian both render (embedded Cyrillic-capable fonts).",
     {
       title: { type: "string", description: "Document title" },
       body: { type: "string", description: "Document body (markdownish)" },
@@ -196,7 +196,7 @@ export const TOOLS: OllamaTool[] = [
   ),
   tool(
     "product_add",
-    "Add a NEW product to the shop catalog. It goes live on the public site immediately after Victoria confirms. MUTATING — requires Victoria's button confirmation.",
+    "Add a NEW product to the shop catalog. It goes live on the public site immediately after the owner confirms. MUTATING — requires the owner's button confirmation.",
     {
       nameEn: { type: "string", description: "Product name in English" },
       nameRu: { type: "string", description: "Product name in Russian" },
@@ -222,7 +222,7 @@ export const TOOLS: OllamaTool[] = [
   ),
   tool(
     "product_remove",
-    "Remove a product from the shop: it is HIDDEN from the public site (soft remove, reversible) — never hard-deleted. MUTATING — requires Victoria's button confirmation. Get the slug via catalog_list first.",
+    "Remove a product from the shop: it is HIDDEN from the public site (soft remove, reversible) — never hard-deleted. MUTATING — requires the owner's button confirmation. Get the slug via catalog_list first.",
     { slug: { type: "string", description: "Product slug from catalog_list" } },
     ["slug"]
   ),
@@ -251,7 +251,7 @@ export const TOOLS: OllamaTool[] = [
   ),
   tool(
     "log_expense",
-    "Record a business EXPENSE in Victoria's private finance ledger (rent, supplies, product stock, marketing, salaries, utilities, bank fees, other). MUTATING — requires Victoria's button confirmation. The ledger is private (clients never see it).",
+    "Record a business EXPENSE in the owner's private finance ledger (rent, supplies, product stock, marketing, salaries, utilities, bank fees, other). MUTATING — requires the owner's button confirmation. The ledger is private (clients never see it).",
     {
       category: {
         type: "string",
@@ -312,7 +312,7 @@ export const TOOLS: OllamaTool[] = [
   ),
   tool(
     "finance_pnl_document",
-    "Generate a Profit & Loss statement on the company letterhead (PDF) for a period and send it to Victoria in this chat. Read-only (goes only to Victoria).",
+    "Generate a Profit & Loss statement on the company letterhead (PDF) for a period and send it to the owner in this chat. Read-only (goes only to the owner).",
     {
       period: {
         type: "string",
@@ -339,7 +339,7 @@ export const TOOLS: OllamaTool[] = [
   ),
   tool(
     "client_note_add",
-    "Add a PRIVATE note to a client's CRM profile (not visible to the client). MUTATING — requires Victoria's button confirmation. Identify the client by clientId (from client_profile) or by a name/email that matches exactly one client.",
+    "Add a PRIVATE note to a client's CRM profile (not visible to the client). MUTATING — requires the owner's button confirmation. Identify the client by clientId (from client_profile) or by a name/email that matches exactly one client.",
     {
       clientId: { type: "string", description: "Client id from client_profile (preferred)" },
       identifier: {
@@ -352,7 +352,7 @@ export const TOOLS: OllamaTool[] = [
   ),
   tool(
     "client_tag",
-    "Add or remove a private label (tag) on a client's CRM profile (e.g. 'vip', 'sensitive-skin'). MUTATING — requires Victoria's button confirmation. Identify the client by clientId or a name/email matching exactly one client.",
+    "Add or remove a private label (tag) on a client's CRM profile (e.g. 'vip', 'sensitive-skin'). MUTATING — requires the owner's button confirmation. Identify the client by clientId or a name/email matching exactly one client.",
     {
       clientId: { type: "string", description: "Client id from client_profile (preferred)" },
       identifier: {
@@ -366,7 +366,7 @@ export const TOOLS: OllamaTool[] = [
   ),
   tool(
     "draft_client_email",
-    "Compose a branded client email DRAFT (check-in, thank-you, or a custom reply) for a given client. Returns the draft text to Victoria in chat — it does NOT send. To actually send it, use email_send (which asks for confirmation). Read-only.",
+    "Compose a branded client email DRAFT (check-in, thank-you, or a custom reply) for a given client. Returns the draft text to the owner in chat — it does NOT send. To actually send it, use email_send (which asks for confirmation). Read-only.",
     {
       query: {
         type: "string",
@@ -431,7 +431,7 @@ function ownerEmailAllowlist(): Set<string> {
   return set;
 }
 
-/** Does this tool call need Victoria's [Confirm] tap before executing? */
+/** Does this tool call need the owner's [Confirm] tap before executing? */
 export function requiresConfirmation(
   name: string,
   args: Record<string, unknown>
@@ -459,7 +459,7 @@ export type ValidatedArgs =
  * Normalize and validate a MUTATING tool call's arguments against its
  * declared schema — ONCE, before the pending action is created. Both the
  * confirmation summary (describeMutation) and the executor must consume the
- * returned object, so what Victoria confirms is exactly what executes.
+ * returned object, so what the owner confirms is exactly what executes.
  *
  * This closes the disclosure/executor divergence: e.g. `to: ["a@evil.com"]`
  * used to render as a BLANK recipient on the confirmation card while the
@@ -522,7 +522,7 @@ export function validateMutationArgs(
       // LLMs routinely emit numbers as strings ('"priceEgp": "250"').
       // Coerce ONLY when the round-trip is lossless (Number() then back to
       // the exact same string) — the summary then renders the coerced
-      // number, so what Victoria confirms is exactly what executes. Anything
+      // number, so what the owner confirms is exactly what executes. Anything
       // lossy ("015", "1e3", "250.0") or non-numeric is still refused.
       if (typeof num === "string") {
         const trimmed = num.trim();

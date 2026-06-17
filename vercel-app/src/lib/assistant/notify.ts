@@ -32,12 +32,12 @@ import type { StoredOrder } from "../orders";
  * → createPendingAction) and its callback_data is `confirm:<id>` — exactly
  * what the Telegram webhook's callback handler executes, with the same
  * atomic exactly-once claims, owner-only checks and audit trail. The pushed
- * button itself IS the confirmation step (Victoria's tap = approval),
+ * button itself IS the confirmation step (the owner's tap = approval),
  * consistent with the chat flow where the inline keyboard is the gate.
- * Pushed pendings use NOTIFY_PENDING_TTL_MS (7 days) — Victoria may tap a
+ * Pushed pendings use NOTIFY_PENDING_TTL_MS (7 days) — the owner may tap a
  * notification button hours later; the 15-minute chat default would kill it.
  *
- * Language: notifications are EN (Victoria's admin/notification surfaces are
+ * Language: notifications are EN (the owner's admin/notification surfaces are
  * EN throughout); client names, treatments and product names interpolate
  * with control characters stripped (see pushSafe) but otherwise as-is, so
  * Russian content renders naturally.
@@ -105,7 +105,7 @@ interface PushButton {
  * text interpolated into owner pushes — names, item titles, phones:
  * - C0 controls + DEL (U+0000-U+001F, U+007F): \r, \n, \t and friends —
  *   newlines could forge extra lines or fields inside a notification
- *   Victoria trusts.
+ *   the owner trusts.
  * - C1 controls (U+0080-U+009F): includes NEL (U+0085), another line break.
  * - Line/paragraph separators (U+2028, U+2029): Unicode line breaks.
  * - Bidi controls (U+202A-U+202E embeds/overrides, U+2066-U+2069 isolates):
@@ -123,7 +123,7 @@ function pushSafe(value: unknown): string {
 /**
  * Park a mutation as a long-TTL pending action and return its inline button.
  * Validates args through the same gate as chat-initiated mutations so what
- * Victoria's tap executes is exactly what was disclosed; the summary keeps
+ * the owner's tap executes is exactly what was disclosed; the summary keeps
  * the human context AND the structural disclosure line from describeMutation
  * (the tap edits the message to `summary + result`).
  *
@@ -161,10 +161,81 @@ function keyboard(buttons: PushButton[]): InlineKeyboard | undefined {
 
 // --- order pushes ----------------------------------------------------------------
 
+/** The next status an order advances to, or null when it is terminal. */
+function nextOrderStatus(
+  status: string
+): { label: string; status: string } | null {
+  switch (status) {
+    case "ordered":
+      return { label: "✅ Mark confirmed", status: "confirmed" };
+    case "confirmed":
+      return { label: "📦 Mark shipped", status: "shipped" };
+    case "shipped":
+      return { label: "🚚 Mark delivered", status: "delivered" };
+    default:
+      return null; // delivered / cancelled — terminal
+  }
+}
+
 /**
- * "🛍 New order" push with one-tap [✅ Mark confirmed | ❌ Cancel order].
- * Both run order_set_status through the existing executor (which also sends
- * the client's status email and restores stock on cancel).
+ * Inline keyboard for the NEXT step(s) in an order's lifecycle, so the owner
+ * can drive ordered → confirmed → shipped → delivered (and cancel while still
+ * allowed) entirely from Telegram. Each button is a fresh long-TTL pending
+ * action (the same confirm machinery as every other mutation), so the
+ * confirm-what-executes guarantee and audit trail are preserved. Returns
+ * undefined for terminal states (delivered / cancelled) — nothing left to tap.
+ *
+ * Advance and Cancel are cross-linked siblings (see PendingAction.siblingId):
+ * the first winning tap retires the other, so a stale Cancel can never fire
+ * after the order has already moved on.
+ */
+export async function orderLifecycleKeyboard(
+  owner: number,
+  orderNumber: string,
+  status: string,
+  context: string
+): Promise<InlineKeyboard | undefined> {
+  const advance = nextOrderStatus(status);
+  if (!advance) return undefined;
+
+  // Cancel stays available only while the order can still be cancelled
+  // (ordered / confirmed) — mirrors the order store's allowed transitions.
+  const cancellable = status === "ordered" || status === "confirmed";
+
+  const advanceId = crypto.randomUUID();
+  const cancelId = crypto.randomUUID();
+  const buttons: PushButton[] = [];
+
+  const advanceBtn = await pushActionButton(
+    owner,
+    advance.label,
+    "order_set_status",
+    { orderNumber, status: advance.status },
+    context,
+    cancellable ? { id: advanceId, siblingId: cancelId } : undefined
+  );
+  if (advanceBtn) buttons.push(advanceBtn);
+
+  if (cancellable) {
+    const cancelBtn = await pushActionButton(
+      owner,
+      "❌ Cancel order",
+      "order_set_status",
+      { orderNumber, status: "cancelled", reason: ORDER_CANCEL_REASON },
+      context,
+      { id: cancelId, siblingId: advanceId }
+    );
+    if (cancelBtn) buttons.push(cancelBtn);
+  }
+
+  return keyboard(buttons);
+}
+
+/**
+ * "🛍 New order" push that starts the lifecycle keyboard (Mark confirmed /
+ * Cancel). Each subsequent tap advances the status AND re-renders the message
+ * with the next step's button (handled in the Telegram callback), so the whole
+ * ordered → confirmed → shipped → delivered flow is drivable from the chat.
  */
 export async function notifyNewOrder(order: StoredOrder): Promise<void> {
   try {
@@ -182,37 +253,13 @@ export async function notifyNewOrder(order: StoredOrder): Promise<void> {
       `${order.totals.egp} EGP, ${itemCount} item(s): ${itemList}, ${phone}`;
     const context = `Order ${order.orderNumber}: ${buyer}, ${order.totals.egp} EGP`;
 
-    // Mark-confirmed and Cancel are cross-linked siblings (see
-    // PendingAction.siblingId): the first winning tap retires the other, so
-    // a day-3 Cancel tap can't cancel an order confirmed (and possibly
-    // shipped) on day 1 just because an editMessageText failed.
-    const confirmId = crypto.randomUUID();
-    const cancelId = crypto.randomUUID();
-    const buttons: PushButton[] = [];
-    const confirmBtn = await pushActionButton(
+    const kb = await orderLifecycleKeyboard(
       owner,
-      "✅ Mark confirmed",
-      "order_set_status",
-      { orderNumber: order.orderNumber, status: "confirmed" },
-      context,
-      { id: confirmId, siblingId: cancelId }
+      order.orderNumber,
+      order.status,
+      context
     );
-    if (confirmBtn) buttons.push(confirmBtn);
-    const cancelBtn = await pushActionButton(
-      owner,
-      "❌ Cancel order",
-      "order_set_status",
-      {
-        orderNumber: order.orderNumber,
-        status: "cancelled",
-        reason: ORDER_CANCEL_REASON,
-      },
-      context,
-      { id: cancelId, siblingId: confirmId }
-    );
-    if (cancelBtn) buttons.push(cancelBtn);
-
-    await sendMessage(owner, headline, { replyMarkup: keyboard(buttons) });
+    await sendMessage(owner, headline, kb ? { replyMarkup: kb } : {});
   } catch (error) {
     console.error("[notify] New-order push failed:", error);
   }

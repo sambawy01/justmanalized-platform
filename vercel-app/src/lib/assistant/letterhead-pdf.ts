@@ -3,7 +3,7 @@ import { join } from "node:path";
 import PDFDocument from "pdfkit";
 
 /**
- * Company-letterhead PDF for Vassili's `document_create` tool.
+ * Company-letterhead PDF for Mana's `document_create` tool.
  *
  * Design mirrors the branded email shell (@/lib/branded-email):
  * - Dark band (#100D0B) across the top with the white logo PNG
@@ -27,10 +27,10 @@ import PDFDocument from "pdfkit";
  * fonts' repertoire (emoji, CJK, …) had to be removed so the tool can warn.
  */
 
-const LOGO_URL = "https://victoriaholisticbeauty.com/assets/logo-white.png";
-const BRAND_NAME = "VICTORIA VASILYEVA — HOLISTIC BEAUTY";
+const LOGO_URL = "https://justmanalized.com/assets/logo-white.png";
+const BRAND_NAME = "JUST MANALIZED";
 const FOOTER_TEXT =
-  "victoriaholisticbeauty.com  ·  victoria@victoriaholisticbeauty.com";
+  "justmanalized.com  ·  hello@justmanalized.com";
 
 const INK = "#3A332C";
 const MUTED = "#847866";
@@ -174,7 +174,7 @@ export async function renderLetterheadPdf(
     // use the embedded TTFs registered below. (Types say string; runtime
     // accepts null by design: initFonts(defaultFont) no-ops on falsy.)
     font: null as unknown as string,
-    info: { Title: input.title, Author: "Victoria Vasilyeva Holistic Beauty" },
+    info: { Title: input.title, Author: "Just Manalized" },
   });
   doc.registerFont("Sans", fonts.Sans);
   doc.registerFont("Sans-Bold", fonts["Sans-Bold"]);

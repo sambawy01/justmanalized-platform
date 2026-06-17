@@ -10,7 +10,7 @@ import { getOwnerChatId } from "@/lib/assistant/state";
 import { sendMessage, telegramConfigured } from "@/lib/telegram";
 
 /**
- * Daily 8am-Cairo brief to Victoria — GET, triggered by Vercel Cron.
+ * Daily 8am-Cairo brief to the owner — GET, triggered by Vercel Cron.
  *
  * Auth: Vercel invokes cron routes with `Authorization: Bearer ${CRON_SECRET}`
  * whenever the CRON_SECRET env var exists on the project. We require it and
@@ -25,7 +25,7 @@ import { sendMessage, telegramConfigured } from "@/lib/telegram";
  * production (NODE_ENV check) — the schedule can never be forced in prod.
  *
  * Data failures are soft: if Cal or Blob is down the brief still goes out
- * with a "couldn't load X" note, so Victoria always gets her morning email.
+ * with a "couldn't load X" note, so the owner always gets her morning email.
  */
 
 export const dynamic = "force-dynamic";
@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
   const result = await sendDailyBriefEmail(brief);
 
   // --- Telegram push (best effort, never fatal) --------------------------------
-  // When the bot is configured AND Victoria has bound her chat, the same
+  // When the bot is configured AND the owner has bound her chat, the same
   // brief text lands in Telegram. Any failure here must not affect the email
   // path that has already completed.
   let telegram: { sent: boolean; reason?: string } = { sent: false };

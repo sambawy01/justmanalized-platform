@@ -5,7 +5,7 @@ import type { PnL } from "@/lib/finance-report";
 import type { LedgerEntry, LedgerDirection } from "@/lib/finance";
 
 /**
- * Finance manager — Victoria's private ledger + live P&L inside /admin.
+ * Finance manager — the owner's private ledger + live P&L inside /admin.
  *
  * - Month selector drives a GET /api/admin/finance?month=YYYY-MM that returns
  *   the P&L (summary numbers AND the in-range manual entries) in one fetch.
@@ -32,10 +32,10 @@ const EXPENSE_CATEGORIES = [
   "bank-fees",
   "other",
 ] as const;
-const INCOME_CATEGORIES = ["treatment-cash", "gift-card", "other"] as const;
+const INCOME_CATEGORIES = ["cash-sale", "gift-card", "other"] as const;
 const PAYMENT_METHODS = ["cash", "bank-transfer", "card", "other"] as const;
 
-const SITE_BASE = "https://victoriaholisticbeauty.com/";
+const SITE_BASE = "https://justmanalized.com/";
 
 /* ---------- helpers ---------- */
 

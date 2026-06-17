@@ -1,18 +1,18 @@
 /**
- * SEED-ONLY shop catalog.
+ * SEED-ONLY shop catalog for Just Manalized — hand-embellished straw cowboy
+ * hats (El Gouna / Abu Tig Marina).
  *
- * Orders are now validated against the DYNAMIC catalog in @/lib/catalog
- * (Vercel Blob `catalog/products.json`, editable from /admin). This file
- * remains solely as the seed source: when the catalog blob does not exist
- * yet, @/lib/catalog builds its SEED from these six products.
+ * Orders are validated against the DYNAMIC catalog in @/lib/catalog (Vercel
+ * Blob `catalog/products.json`, editable from /admin). This file is the seed
+ * source: when the catalog blob does not exist yet, @/lib/catalog builds its
+ * SEED from these products.
  *
  * Do NOT import this module from the order path — use @/lib/catalog.
  *
- * Prices are in EGP and RUB (integer units, no cents). Two products carry
- * prices converted from onmacabim-prof.com USD list prices (rates of
- * 2026-06-11, EGP rounded to nearest 50, RUB to nearest 100); the other
- * four had no listed price and keep placeholder values pending the
- * owner's confirmation.
+ * Prices are in EGP (integer units, no cents). PRICES ARE PLACEHOLDERS pending
+ * the owner's confirmation. The site is English-only and EGP-only, so the RU
+ * name mirrors the EN name and priceRub stays 0 (the dual-language/currency
+ * schema is retained but unused).
  *
  * Slugs and prices MUST stay identical to the PRODUCTS array in /shop.js
  * (static site) — drift breaks order submission.
@@ -28,46 +28,67 @@ export interface ShopProduct {
 
 export const SHOP_PRODUCTS: readonly ShopProduct[] = [
   {
-    slug: "tohar-hamidbar-concentrate",
-    nameEn: "Tohar Hamidbar No.2 Herbal Concentrate — DM line 150ml",
-    nameRu: "Травяной концентрат Tohar Hamidbar №2 (линия DM, 150 мл)",
-    priceEgp: 1450,
-    priceRub: 2000,
+    slug: "golden-hour-rhinestone",
+    nameEn: "Golden Hour",
+    nameRu: "Golden Hour",
+    priceEgp: 3500,
+    priceRub: 0,
   },
   {
-    slug: "nd-neck-decollete-cream",
-    nameEn: "N.D Cream for Neck & Décolleté — Vivant line 50ml",
-    nameRu: "Крем для шеи и декольте N.D (линия Vivant, 50 мл)",
-    priceEgp: 1250,
-    priceRub: 1750,
+    slug: "magenta-sunset",
+    nameEn: "Magenta Sunset",
+    nameRu: "Magenta Sunset",
+    priceEgp: 2800,
+    priceRub: 0,
   },
   {
-    slug: "vitamin-c-mask",
-    nameEn: "Nourishing Skin Mask Vitamin C — VC line 50ml",
-    nameRu: "Питательная маска с витамином C (линия VC, 50 мл)",
-    priceEgp: 2300,
-    priceRub: 3200,
+    slug: "turquoise-oasis",
+    nameEn: "Turquoise Oasis",
+    nameRu: "Turquoise Oasis",
+    priceEgp: 2800,
+    priceRub: 0,
   },
   {
-    slug: "vitality-spf15-moisturizer",
-    nameEn: "Vitality Moisturizer SPF 15 — Oxygen line 50ml",
-    nameRu: "Увлажняющий крем Vitality SPF 15 (линия Oxygen, 50 мл)",
-    priceEgp: 1150,
-    priceRub: 1600,
+    slug: "crimson-marina",
+    nameEn: "Crimson Marina",
+    nameRu: "Crimson Marina",
+    priceEgp: 2600,
+    priceRub: 0,
   },
   {
-    slug: "nomela-serum",
-    nameEn: "NoMela Facial Serum — Luna whitening series 50ml",
-    nameRu: "Сыворотка для лица NoMela (серия Luna, 50 мл)",
-    priceEgp: 1350,
-    priceRub: 1900,
+    slug: "coral-crush",
+    nameEn: "Coral Crush",
+    nameRu: "Coral Crush",
+    priceEgp: 2400,
+    priceRub: 0,
   },
   {
-    slug: "moisturizer-normal-dry",
-    nameEn: "Moisturizer for Normal to Dry Skin — ST Cells line 50ml",
-    nameRu: "Увлажняющий крем для нормальной и сухой кожи (линия ST Cells, 50 мл)",
-    priceEgp: 4850,
-    priceRub: 6700,
+    slug: "wanderlust-red",
+    nameEn: "Wanderlust",
+    nameRu: "Wanderlust",
+    priceEgp: 2600,
+    priceRub: 0,
+  },
+  {
+    slug: "midnight-marina",
+    nameEn: "Midnight Marina",
+    nameRu: "Midnight Marina",
+    priceEgp: 2800,
+    priceRub: 0,
+  },
+  {
+    slug: "aqua-concho",
+    nameEn: "Aqua Concho",
+    nameRu: "Aqua Concho",
+    priceEgp: 3000,
+    priceRub: 0,
+  },
+  {
+    slug: "coastal-natural",
+    nameEn: "Coastal Natural",
+    nameRu: "Coastal Natural",
+    priceEgp: 2200,
+    priceRub: 0,
   },
 ] as const;
 
@@ -75,12 +96,12 @@ export const PRODUCTS_BY_SLUG: ReadonlyMap<string, ShopProduct> = new Map(
   SHOP_PRODUCTS.map((p) => [p.slug, p])
 );
 
-/** "3540" -> "3,540" (EGP style). */
+/** "3540" -> "E£3,540" (EGP style). */
 export function formatEgp(amount: number): string {
   return `E£${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 }
 
-/** "4900" -> "4 900 ₽" (RUB style, space-grouped). */
+/** "4900" -> "4 900 ₽" (RUB style, space-grouped). Unused (EGP-only) but kept for the schema. */
 export function formatRub(amount: number): string {
   return `${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} ₽`;
 }

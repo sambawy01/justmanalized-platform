@@ -1,5 +1,5 @@
 /**
- * Minimal Telegram Bot API client for Vassili (Victoria's assistant).
+ * Minimal Telegram Bot API client for Mana (the owner's assistant).
  *
  * - Token from env TELEGRAM_BOT_TOKEN. When unset, `telegramConfigured()`
  *   is false and callers must no-op (the webhook route answers 501).
@@ -161,16 +161,22 @@ export async function sendMessage(
   return last;
 }
 
-/** Edit a message's text (used to replace a confirm prompt with the result). */
+/**
+ * Edit a message's text (used to replace a confirm prompt with the result).
+ * When `replyMarkup` is given it is attached (e.g. the next order-status
+ * button); pass an empty inline_keyboard to clear existing buttons.
+ */
 export async function editMessageText(
   chatId: number,
   messageId: number,
-  text: string
+  text: string,
+  options: { replyMarkup?: InlineKeyboard } = {}
 ): Promise<TelegramResult> {
   return callTelegram("editMessageText", {
     chat_id: chatId,
     message_id: messageId,
     text: text.slice(0, MAX_MESSAGE_CHARS),
+    ...(options.replyMarkup ? { reply_markup: options.replyMarkup } : {}),
   });
 }
 

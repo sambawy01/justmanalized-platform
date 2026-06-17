@@ -21,99 +21,147 @@
      ===================================================================== */
   var EMBEDDED_PRODUCTS = [
     {
-      slug: "tohar-hamidbar-concentrate",
-      name: { en: "Tohar Hamidbar No.2 Herbal Concentrate", ru: "Травяной концентрат Tohar Hamidbar №2" },
-      sub: { en: "DM line · 150 ml", ru: "линия DM · 150 мл" },
-      egp: 1450, rub: 2000,
-      initial: { en: "T", ru: "Т" }, tintA: "#F0DAD4", tintB: "#DBB0A4",
-      photo: "assets/img/shop/tohar-hamidbar-concentrate.jpg",
+      slug: "golden-hour-rhinestone",
+      name: { en: "Golden Hour", ru: "Golden Hour" },
+      sub: { en: "Gold metallic straw · rhinestone trim", ru: "Gold metallic straw · rhinestone trim" },
+      egp: 3500, rub: 0,
+      initial: { en: "G", ru: "G" }, tintA: "#E8D9A8", tintB: "#C9A24B",
+      photo: "assets/img/shop/golden-hour-rhinestone.jpg",
       alt: {
-        en: "Onmacabim DM Tohar Hamidbar No.2 — white pump bottle with a green leaf motif",
-        ru: "Onmacabim DM Tohar Hamidbar №2 — белый флакон с помпой и зелёным листом"
+        en: "Gold metallic straw cowboy hat with rhinestone trim and a jewelled black band",
+        ru: "Gold metallic straw cowboy hat with rhinestone trim and a jewelled black band"
       },
       desc: {
-        en: "Highly concentrated herbal formula for oily, porous and blemish-prone skin. Plant extracts and acids cleanse and tighten pores, mattify, and calm the skin with a strong antioxidant effect.",
-        ru: "Высококонцентрированное растительное средство для жирной, пористой и проблемной кожи. Экстракты растений и кислоты очищают и сужают поры, матируют и успокаивают кожу, обладая мощным антиоксидантным действием."
+        en: "Our most dazzling piece — a gold-toned straw cowboy hat hand-set with crystal rhinestones along the brim and a jewelled band. Made to catch the last light of the day.",
+        ru: "Our most dazzling piece — a gold-toned straw cowboy hat hand-set with crystal rhinestones along the brim and a jewelled band. Made to catch the last light of the day."
       }
     },
     {
-      slug: "nd-neck-decollete-cream",
-      name: { en: "N.D Cream for Neck & Décolleté", ru: "Крем для шеи и декольте N.D" },
-      sub: { en: "Vivant line · 50 ml", ru: "линия Vivant · 50 мл" },
-      egp: 1250, rub: 1750,
-      initial: { en: "N", ru: "Н" }, tintA: "#E3E4D4", tintB: "#C9CCB0",
-      photo: "assets/img/shop/nd-neck-decollete-cream.jpg",
+      slug: "magenta-sunset",
+      name: { en: "Magenta Sunset", ru: "Magenta Sunset" },
+      sub: { en: "Dark straw · magenta band · silver concho", ru: "Dark straw · magenta band · silver concho" },
+      egp: 2800, rub: 0,
+      initial: { en: "M", ru: "M" }, tintA: "#E7C0C9", tintB: "#B23A6B",
+      photo: "assets/img/shop/magenta-sunset.jpg",
       alt: {
-        en: "Onmacabim Vivant N.D Cream — white jar beside its olive-green box",
-        ru: "Onmacabim Vivant N.D Cream — белая банка рядом с оливковой коробкой"
+        en: "Dark woven straw cowboy hat with a magenta band and silver concho",
+        ru: "Dark woven straw cowboy hat with a magenta band and silver concho"
       },
       desc: {
-        en: "A complex care cream for the delicate neck and décolleté zone combining natural and biotechnological components. Enzymes and lipopeptides support cell renewal and collagen synthesis for a natural firming effect.",
-        ru: "Комплексный крем для деликатной зоны шеи и декольте, сочетающий природные и биотехнологичные компоненты. Энзимы и липопептиды поддерживают обновление клеток и синтез коллагена, создавая естественный эффект лифтинга."
+        en: "Deep woven straw wrapped in a magenta band and finished with a hand-set silver concho. Sunset, in a hat.",
+        ru: "Deep woven straw wrapped in a magenta band and finished with a hand-set silver concho. Sunset, in a hat."
       }
     },
     {
-      slug: "vitamin-c-mask",
-      name: { en: "Nourishing Skin Mask Vitamin C", ru: "Питательная маска с витамином C" },
-      sub: { en: "VC line · 50 ml", ru: "линия VC · 50 мл" },
-      egp: 2300, rub: 3200,
-      initial: { en: "C", ru: "С" }, tintA: "#F4E6C4", tintB: "#E2CC98",
-      photo: "assets/img/shop/vitamin-c-mask.jpg",
+      slug: "turquoise-oasis",
+      name: { en: "Turquoise Oasis", ru: "Turquoise Oasis" },
+      sub: { en: "Natural straw · turquoise concho", ru: "Natural straw · turquoise concho" },
+      egp: 2800, rub: 0,
+      initial: { en: "T", ru: "T" }, tintA: "#CDE3DD", tintB: "#3FA7A0",
+      photo: "assets/img/shop/turquoise-oasis.jpg",
       alt: {
-        en: "Onmacabim Nourishing Skin Mask Vitamin C — white tube beside its box",
-        ru: "Onmacabim питательная маска с витамином C — белая туба рядом с коробкой"
+        en: "Natural tan straw cowboy hat with a turquoise-stone concho",
+        ru: "Natural tan straw cowboy hat with a turquoise-stone concho"
       },
       desc: {
-        en: "Rich, antioxidant-packed nourishing mask with a brightening effect. Helps reduce hyperpigmentation and supports collagen production — well suited to dehydrated skin with signs of photoaging.",
-        ru: "Насыщенная питательная маска с антиоксидантами и осветляющим эффектом. Помогает уменьшить гиперпигментацию и поддерживает выработку коллагена — подходит обезвоженной коже с признаками фотостарения."
+        en: "Warm natural straw crowned with a turquoise-stone concho — easy, golden and made for long days by the water.",
+        ru: "Warm natural straw crowned with a turquoise-stone concho — easy, golden and made for long days by the water."
       }
     },
     {
-      slug: "vitality-spf15-moisturizer",
-      name: { en: "Vitality Moisturizer SPF 15", ru: "Увлажняющий крем Vitality SPF 15" },
-      sub: { en: "Oxygen line · 50 ml", ru: "линия Oxygen · 50 мл" },
-      egp: 1150, rub: 1600,
-      initial: { en: "V", ru: "В" }, tintA: "#DCE4EC", tintB: "#B7C6D6",
-      photo: "assets/img/shop/vitality-spf15-moisturizer.jpg",
+      slug: "crimson-marina",
+      name: { en: "Crimson Marina", ru: "Crimson Marina" },
+      sub: { en: "Red straw · gold concho", ru: "Red straw · gold concho" },
+      egp: 2600, rub: 0,
+      initial: { en: "C", ru: "C" }, tintA: "#E6B7AE", tintB: "#9E2B25",
+      photo: "assets/img/shop/crimson-marina.jpg",
       alt: {
-        en: "Onmacabim Oxygen Vitality Moisturizing Lotion SPF 15 — white pump bottle beside its box",
-        ru: "Onmacabim Oxygen Vitality увлажняющий лосьон SPF 15 — белый флакон с помпой рядом с коробкой"
+        en: "Crimson red straw cowboy hat with a dark band and gold concho",
+        ru: "Crimson red straw cowboy hat with a dark band and gold concho"
       },
       desc: {
-        en: "A light, quickly absorbed cream-fluid with a delicate fresh scent. Restores the skin's natural moisture balance, improves elasticity and complexion, and protects against UV with SPF 15.",
-        ru: "Лёгкий, быстро впитывающийся крем-флюид с нежным свежим ароматом. Восстанавливает естественный баланс влаги, повышает упругость, улучшает цвет лица и защищает от ультрафиолета с SPF 15."
+        en: "Rich crimson straw with a darkened band and a gold medallion concho. Bold enough for the marina, light enough for the beach.",
+        ru: "Rich crimson straw with a darkened band and a gold medallion concho. Bold enough for the marina, light enough for the beach."
       }
     },
     {
-      slug: "nomela-serum",
-      name: { en: "NoMela Facial Serum", ru: "Сыворотка для лица NoMela" },
-      sub: { en: "Luna whitening series · 50 ml", ru: "осветляющая серия Luna · 50 мл" },
-      egp: 1350, rub: 1900,
-      initial: { en: "L", ru: "Л" }, tintA: "#EFE0C8", tintB: "#DCC29B",
-      photo: "assets/img/shop/nomela-serum.jpg",
+      slug: "coral-crush",
+      name: { en: "Coral Crush", ru: "Coral Crush" },
+      sub: { en: "Coral straw · beaded band", ru: "Coral straw · beaded band" },
+      egp: 2400, rub: 0,
+      initial: { en: "C", ru: "C" }, tintA: "#F6CDBE", tintB: "#E5765A",
+      photo: "assets/img/shop/coral-crush.jpg",
       alt: {
-        en: "Onmacabim Luna NoMela facial serum — white dropper bottle with a gold collar beside its box",
-        ru: "Onmacabim Luna NoMela сыворотка для лица — белый флакон с пипеткой и золотым ободком рядом с коробкой"
+        en: "Coral-pink straw cowboy hat with a beaded band",
+        ru: "Coral-pink straw cowboy hat with a beaded band"
       },
       desc: {
-        en: "A delicate brightening serum that balances skin tone and helps prevent new pigmentation. Moisturizing polysaccharides and lightening extracts reduce melanin synthesis. For all skin types, year-round.",
-        ru: "Деликатная осветляющая сыворотка выравнивает тон кожи и помогает предотвратить появление новой пигментации. Увлажняющие полисахариды и осветляющие экстракты снижают синтез меланина. Для всех типов кожи, круглый год."
+        en: "Soft coral-pink straw with a beaded band — playful, sun-bleached and impossible to miss.",
+        ru: "Soft coral-pink straw with a beaded band — playful, sun-bleached and impossible to miss."
       }
     },
     {
-      slug: "moisturizer-normal-dry",
-      name: { en: "Moisturizer for Normal to Dry Skin", ru: "Увлажняющий крем для нормальной и сухой кожи" },
-      sub: { en: "ST Cells line · 50 ml", ru: "линия ST Cells · 50 мл" },
-      egp: 4850, rub: 6700,
-      initial: { en: "M", ru: "М" }, tintA: "#E0D8CE", tintB: "#BFB1A2",
-      photo: "assets/img/shop/moisturizer-normal-dry.jpg",
+      slug: "wanderlust-red",
+      name: { en: "Wanderlust", ru: "Wanderlust" },
+      sub: { en: "Patterned straw · statement concho", ru: "Patterned straw · statement concho" },
+      egp: 2600, rub: 0,
+      initial: { en: "W", ru: "W" }, tintA: "#E4B6A2", tintB: "#B5482F",
+      photo: "assets/img/shop/wanderlust-red.jpg",
       alt: {
-        en: "Onmacabim ST Cells moisturizer for normal to dry skin — white pump bottle beside its box",
-        ru: "Onmacabim ST Cells увлажняющий крем для нормальной и сухой кожи — белый флакон с помпой рядом с коробкой"
+        en: "Patterned red straw cowboy hat with a statement concho",
+        ru: "Patterned red straw cowboy hat with a statement concho"
       },
       desc: {
-        en: "A stem-cell moisturizer that supports collagen production and hyaluronic acid renewal. Skin looks smoother, firmer and more rested, with better resistance to outside stressors.",
-        ru: "Увлажняющий крем с фитостволовыми клетками поддерживает выработку коллагена и обновление гиалуроновой кислоты. Кожа выглядит более гладкой, упругой и отдохнувшей, лучше противостоит внешним воздействиям."
+        en: "A patterned red weave with a bold statement concho. For the ones who never stay in one place for long.",
+        ru: "A patterned red weave with a bold statement concho. For the ones who never stay in one place for long."
+      }
+    },
+    {
+      slug: "midnight-marina",
+      name: { en: "Midnight Marina", ru: "Midnight Marina" },
+      sub: { en: "Dark woven straw · embellished band", ru: "Dark woven straw · embellished band" },
+      egp: 2800, rub: 0,
+      initial: { en: "M", ru: "M" }, tintA: "#C9BFB2", tintB: "#5C4A38",
+      photo: "assets/img/shop/midnight-marina.jpg",
+      alt: {
+        en: "Dark woven straw cowboy hat with an embellished band",
+        ru: "Dark woven straw cowboy hat with an embellished band"
+      },
+      desc: {
+        en: "Smoky dark straw with an embellished band — the after-dark answer to the beach-day hat.",
+        ru: "Smoky dark straw with an embellished band — the after-dark answer to the beach-day hat."
+      }
+    },
+    {
+      slug: "aqua-concho",
+      name: { en: "Aqua Concho", ru: "Aqua Concho" },
+      sub: { en: "Natural straw · turquoise & silver concho", ru: "Natural straw · turquoise & silver concho" },
+      egp: 3000, rub: 0,
+      initial: { en: "A", ru: "A" }, tintA: "#D7E7E4", tintB: "#5BB0AE",
+      photo: "assets/img/shop/aqua-concho.jpg",
+      alt: {
+        en: "Natural straw cowboy hat with a turquoise-and-silver concho",
+        ru: "Natural straw cowboy hat with a turquoise-and-silver concho"
+      },
+      desc: {
+        en: "Pale natural straw set with a turquoise-and-silver concho and a jewelled trim. Cool, coastal and quietly luxe.",
+        ru: "Pale natural straw set with a turquoise-and-silver concho and a jewelled trim. Cool, coastal and quietly luxe."
+      }
+    },
+    {
+      slug: "coastal-natural",
+      name: { en: "Coastal Natural", ru: "Coastal Natural" },
+      sub: { en: "Natural straw · beaded band", ru: "Natural straw · beaded band" },
+      egp: 2200, rub: 0,
+      initial: { en: "C", ru: "C" }, tintA: "#EADfca", tintB: "#C2A878",
+      photo: "assets/img/shop/coastal-natural.jpg",
+      alt: {
+        en: "Natural straw cowboy hat with a beaded band",
+        ru: "Natural straw cowboy hat with a beaded band"
+      },
+      desc: {
+        en: "The everyday straw cowboy — natural weave, a softly beaded band, and a shape that suits everyone.",
+        ru: "The everyday straw cowboy — natural weave, a softly beaded band, and a shape that suits everyone."
       }
     }
   ];
@@ -124,16 +172,16 @@
   var PRODUCTS = EMBEDDED_PRODUCTS;
 
   var LANG = (document.documentElement.lang || "en").toLowerCase().indexOf("ru") === 0 ? "ru" : "en";
-  var STORAGE_KEY = "vv-cart";
+  var STORAGE_KEY = "jm-cart";
   var PHONE_RE = /^\+?[0-9\s\-()]{8,17}$/;
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   var IS_LOCAL = location.hostname === "localhost" || location.hostname === "127.0.0.1";
   var API_BASE = IS_LOCAL
     ? "http://localhost:3000"
-    : "https://book.victoriaholisticbeauty.com";
+    : "https://shop.justmanalized.com";
   var API_URL = API_BASE + "/api/order";
   var PRODUCTS_URL = API_BASE + "/api/products";
-  var MAIL_TO = "victoria@victoriaholisticbeauty.com";
+  var MAIL_TO = "hello@justmanalized.com";
 
   var T = {
     en: {
@@ -149,7 +197,7 @@
       panelTitle: "Your order",
       close: "Close",
       total: "Total",
-      cod: "Payment: cash on delivery. Victoria will contact you to confirm your order, delivery time and address.",
+      cod: "Payment: cash on delivery. We'll contact you to confirm your order, delivery time and address.",
       delivery: "Delivery within 24–72 hours across Egypt.",
       name: "Your name",
       namePh: "Anna",
@@ -164,7 +212,7 @@
       addressPh: "City, street, building…",
       addressErr: "Please tell us where to deliver.",
       note: "Note (optional)",
-      notePh: "Anything Victoria should know",
+      notePh: "Anything we should know",
       submit: "Place order",
       sending: "Sending…",
       successTitle: "Thank you — order placed!",
@@ -172,7 +220,7 @@
       successLine: "Our team will get in touch via WhatsApp to confirm your delivery time. Payment on delivery.",
       done: "Done",
       failLead: "We couldn't send your order right now.",
-      failLink: "Email it to Victoria instead",
+      failLink: "Email it to us instead",
       failTail: "— your cart is kept safe on this device.",
       mailSubject: "Order request — Studio Shop",
       mailOrder: "Order:",
@@ -487,10 +535,7 @@
       sub.textContent = p.sub[LANG];
       var price = document.createElement("p");
       price.className = "shop-price";
-      price.appendChild(document.createTextNode(fmtEgp(p.egp) + " "));
-      var small = document.createElement("small");
-      small.textContent = "· " + fmtRub(p.rub);
-      price.appendChild(small);
+      price.appendChild(document.createTextNode(fmtEgp(p.egp)));
       var action = document.createElement("div");
       action.className = "shop-action";
       /* Cart controls must not bubble up into the card's open-modal click. */
@@ -563,8 +608,7 @@
     name.id = "pmodal-title";
     var sub = el("p", "pmodal-sub", p.sub[LANG]);
     var desc = el("p", "pmodal-desc", (p.desc && p.desc[LANG]) || "");
-    var price = el("p", "pmodal-price", fmtEgp(p.egp) + " ");
-    price.appendChild(el("small", null, "· " + fmtRub(p.rub)));
+    var price = el("p", "pmodal-price", fmtEgp(p.egp));
     pActionHolder = el("div", "pmodal-action");
     fillAction(pActionHolder, slug);
 
@@ -658,7 +702,7 @@
       var p = bySlug(s);
       lines.push("· " + p.name[LANG] + " (" + p.sub[LANG] + ") × " + cart[s] + " — " + fmtEgp(p.egp * cart[s]));
     }
-    lines.push(T.mailTotal + " " + fmtEgp(totals.egp) + " · " + fmtRub(totals.rub));
+    lines.push(T.mailTotal + " " + fmtEgp(totals.egp));
     var f = panel ? panel.querySelector("form") : null;
     if (f) {
       lines.push("");
@@ -853,8 +897,7 @@
     var totals = cartTotals();
     total.textContent = "";
     total.appendChild(el("span", null, T.total));
-    var sum = el("span", "order-total-sum", fmtEgp(totals.egp) + " ");
-    sum.appendChild(el("small", null, "· " + fmtRub(totals.rub)));
+    var sum = el("span", "order-total-sum", fmtEgp(totals.egp));
     total.appendChild(sum);
   }
 

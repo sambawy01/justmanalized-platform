@@ -24,9 +24,9 @@ import { sendMessage, telegramConfigured } from "../telegram";
  */
 
 const CAIRO_TZ = "Africa/Cairo";
-const NOTIFY_EMAIL_DEFAULT = "victoria@victoriaholisticbeauty.com";
+const NOTIFY_EMAIL_DEFAULT = "hello@justmanalized.com";
 const EMAIL_FROM =
-  "Victoria Holistic Beauty <bookings@victoriaholisticbeauty.com>";
+  "Just Manalized <orders@justmanalized.com>";
 
 // --- cron route guards ---------------------------------------------------------
 

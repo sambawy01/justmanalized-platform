@@ -69,7 +69,7 @@ export const EXPENSE_CATEGORIES = [
 ] as const;
 export type ExpenseCategory = (typeof EXPENSE_CATEGORIES)[number];
 
-export const INCOME_CATEGORIES = ["treatment-cash", "gift-card", "other"] as const;
+export const INCOME_CATEGORIES = ["cash-sale", "gift-card", "other"] as const;
 export type IncomeCategory = (typeof INCOME_CATEGORIES)[number];
 
 export const PAYMENT_METHODS = [

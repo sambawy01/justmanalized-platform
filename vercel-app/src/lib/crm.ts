@@ -7,7 +7,7 @@ import { orderRevenueEgp } from "./reports/weekly-report";
 import { listAllBlobPathnames, type BlobListPage } from "./finance";
 
 /**
- * CRM for Victoria Vasilyeva Holistic Beauty — client profiles DERIVED from
+ * CRM for Just Manalized — client profiles DERIVED from
  * existing data (Cal bookings + shop orders) plus a small STORED overlay for
  * notes and tags. There are NO duplicate client records: a profile is computed
  * on demand by merging every booking and order that resolves to the same
@@ -44,7 +44,7 @@ import { listAllBlobPathnames, type BlobListPage } from "./finance";
  *   five) concurrent addNote calls — even on different serverless instances —
  *   can never clobber each other. A profile's notes are ASSEMBLED on read by
  *   listing the per-client notes prefix. This is the fix for the "silently
- *   loses Victoria's notes" race the single-document overlay had.
+ *   loses Just Manalized's notes" race the single-document overlay had.
  * - Read-error semantics match the ledger EXACTLY: a missing blob (fresh
  *   client) yields an EMPTY overlay; any transient read/list failure THROWS
  *   (never read as "no notes" by a writer); a corrupt blob THROWS (loud
@@ -55,7 +55,7 @@ import { listAllBlobPathnames, type BlobListPage } from "./finance";
  *   private reads — same constraint the finance harness works around).
  *
  * PRIVACY: this is PII (names, emails, phones, visit history, private notes).
- * Admin-only + Vassili owner-only. It is NEVER exposed on a public route and
+ * Admin-only + Mana owner-only. It is NEVER exposed on a public route and
  * NEVER passed to the website concierge (/api/chat). Notes are owner-private.
  */
 
@@ -244,7 +244,7 @@ export function toClientSummary(p: ClientProfile): ClientSummary {
 /**
  * An overlay (notes/tags) whose clientId resolves to NO current profile — e.g.
  * a phone-only client whose records aged out before they returned with an
- * email. Surfaced (never silently dropped) so Victoria can re-link or erase it.
+ * email. Surfaced (never silently dropped) so Just Manalized can re-link or erase it.
  */
 export interface UnlinkedOverlay {
   clientId: string;
@@ -711,7 +711,7 @@ export async function deleteClientRecords(
 
 // --- Profile derivation -------------------------------------------------------
 
-/** "Facial Massage between Victoria Vasilyeva and X" → "Facial Massage". */
+/** "Facial Massage between Just Manalized and X" → "Facial Massage". */
 function serviceTitle(booking: CalBooking): string {
   const title = booking.title || "Booking";
   const idx = title.indexOf(" between ");
@@ -1122,7 +1122,7 @@ export async function getClientProfile(
 
 /**
  * Resolve a free-text identifier (clientId, email or name/phone substring) to
- * matching profiles — the seam Vassili's tools use to act by name. Returns all
+ * matching profiles — the seam Mana's tools use to act by name. Returns all
  * matches so the caller can refuse an ambiguous mutation.
  */
 export async function resolveClients(
@@ -1158,7 +1158,7 @@ const WEEK_MS = 7 * 86_400_000;
 /**
  * Clients due for a check-in: a past confirmed visit older than `weeks` weeks,
  * AND no upcoming confirmed booking. Most-overdue first. Each carries a
- * suggested branded check-in draft (Victoria sends it via the email tool).
+ * suggested branded check-in draft (Just Manalized sends it via the email tool).
  */
 export function computeRebookingRadar(
   profiles: ClientProfile[],
@@ -1215,8 +1215,8 @@ function firstName(displayName: string): string {
 /**
  * A warm re-booking check-in DRAFT (subject + plain-text body). Reflects the
  * persona's rules: women-only studio, no medical claims, consultations point
- * to Victoria. EN/RU by the client's language hint. This is a DRAFT for
- * Victoria to review — nothing is sent here.
+ * to Just Manalized. EN/RU by the client's language hint. This is a DRAFT for
+ * Just Manalized to review — nothing is sent here.
  */
 export function composeCheckInDraft(
   profile: Pick<ClientProfile, "displayName" | "lang">,
@@ -1232,17 +1232,17 @@ export function composeCheckInDraft(
       ? `С нашей последней встречи («${treatment}») прошло некоторое время, и я подумала о вас.`
       : "С нашей последней встречи прошло некоторое время, и я подумала о вас.";
     return {
-      subject: "Пора побаловать себя — Victoria Vasilyeva Holistic Beauty",
+      subject: "Пора побаловать себя — Just Manalized",
       body: [
         hi,
         "",
         ref,
         "Будет чудесно снова видеть вас в студии. Если захотите подобрать удобное время или обсудить уход индивидуально, я всегда рада помочь.",
         "",
-        "Записаться можно онлайн: https://book.victoriaholisticbeauty.com/book",
+        "Записаться можно онлайн: https://shop.justmanalized.com/book",
         "",
         "С теплом,",
-        "Виктория",
+        "Just Manalized",
       ].join("\n"),
     };
   }
@@ -1252,24 +1252,24 @@ export function composeCheckInDraft(
     ? `It has been a little while since your last visit (${treatment}), and you came to mind.`
     : "It has been a little while since your last visit, and you came to mind.";
   return {
-    subject: "Time to treat yourself — Victoria Vasilyeva Holistic Beauty",
+    subject: "Time to treat yourself — Just Manalized",
     body: [
       hi,
       "",
       ref,
       "I would love to welcome you back to the studio. If you would like to find a time that suits you, or talk through what your skin needs right now, I am always happy to help.",
       "",
-      "You can book online any time: https://book.victoriaholisticbeauty.com/book",
+      "You can book online any time: https://shop.justmanalized.com/book",
       "",
       "Warmly,",
-      "Victoria",
+      "Just Manalized",
     ].join("\n"),
   };
 }
 
 /**
  * A general client email DRAFT for a given intent (check-in / reply / custom).
- * Returns subject + plain-text body for Victoria to review; it does NOT send
+ * Returns subject + plain-text body for Just Manalized to review; it does NOT send
  * (she sends via the existing email_send tool, which keeps the third-party
  * confirm gate). Keeps the women-only + consultation persona rules.
  */
@@ -1294,7 +1294,7 @@ export function composeClientDraft(
   if (intent === "thanks") {
     if (ru) {
       return {
-        subject: "Спасибо, что были у нас — Victoria Vasilyeva Holistic Beauty",
+        subject: "Спасибо, что были у нас — Just Manalized",
         body: [
           name ? `Здравствуйте, ${name}!` : "Здравствуйте!",
           "",
@@ -1302,14 +1302,14 @@ export function composeClientDraft(
           extra ? `\n${extra}` : "",
           "",
           "С теплом,",
-          "Виктория",
+          "Just Manalized",
         ]
           .filter((l) => l !== "")
           .join("\n"),
       };
     }
     return {
-      subject: "Thank you for visiting — Victoria Vasilyeva Holistic Beauty",
+      subject: "Thank you for visiting — Just Manalized",
       body: [
         name ? `Hi ${name},` : "Hello,",
         "",
@@ -1317,7 +1317,7 @@ export function composeClientDraft(
         extra ? `\n${extra}` : "",
         "",
         "Warmly,",
-        "Victoria",
+        "Just Manalized",
       ]
         .filter((l) => l !== "")
         .join("\n"),
@@ -1327,26 +1327,26 @@ export function composeClientDraft(
   // reply / custom — frame the owner's message in the branded voice.
   if (ru) {
     return {
-      subject: "Сообщение от Victoria Vasilyeva Holistic Beauty",
+      subject: "Сообщение от Just Manalized",
       body: [
         name ? `Здравствуйте, ${name}!` : "Здравствуйте!",
         "",
         extra || "(добавьте текст сообщения)",
         "",
         "С теплом,",
-        "Виктория",
+        "Just Manalized",
       ].join("\n"),
     };
   }
   return {
-    subject: "A message from Victoria Vasilyeva Holistic Beauty",
+    subject: "A message from Just Manalized",
     body: [
       name ? `Hi ${name},` : "Hello,",
       "",
       extra || "(add your message here)",
       "",
       "Warmly,",
-      "Victoria",
+      "Just Manalized",
     ].join("\n"),
   };
 }

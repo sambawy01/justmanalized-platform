@@ -1,9 +1,11 @@
 /**
- * Shared branded HTML email shell — Victoria's brand on EVERY email.
+ * Shared branded HTML email shell — the owner's brand on EVERY email.
  *
  * Layout (matches the buyer-confirmation email that defined the pattern):
- * - Dark band header (#100D0B) with the white logo, table-based so it renders
- *   in Outlook/Gmail (bgcolor attribute + inline styles, no external CSS).
+ * - Dark band header (#100D0B) with the brand wordmark, table-based so it
+ *   renders in Outlook/Gmail (bgcolor attribute + inline styles, no external
+ *   CSS). NOTE (Track B): once a logo file exists, swap the wordmark <td> for
+ *   an <img src="https://justmanalized.com/assets/logo.png" …>.
  * - "Earthen Calm" palette: #F4EFE7 canvas, #FFFDF9 card, #E5DCCB hairlines,
  *   #3A332C ink, #847866 muted, Georgia serif.
  * - Card with the brand kicker line + heading, then template-specific content.
@@ -12,8 +14,7 @@
  * Text parts stay plain — this module only owns the HTML shell.
  */
 
-const LOGO_URL = "https://victoriaholisticbeauty.com/assets/logo-white.png";
-const BRAND_NAME = "Victoria Vasilyeva Holistic Beauty";
+const BRAND_NAME = "Just Manalized";
 
 export function escapeHtml(value: string): string {
   return value
@@ -41,8 +42,8 @@ export function brandedEmailHtml(options: BrandedEmailOptions): string {
   <div style="max-width:560px;margin:0 auto;padding:32px 16px;">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:separate;width:100%;">
       <tr>
-        <td align="center" bgcolor="#100D0B" style="background-color:#100D0B;padding:24px;border-radius:16px 16px 0 0;">
-          <img src="${LOGO_URL}" width="220" alt="Victoria Vasilyeva — Holistic Beauty" style="display:block;width:220px;max-width:100%;height:auto;border:0;margin:0 auto;" />
+        <td align="center" bgcolor="#100D0B" style="background-color:#100D0B;padding:28px 24px;border-radius:16px 16px 0 0;">
+          <span style="display:inline-block;color:#F4EFE7;font-family:'Tenor Sans',Georgia,serif;font-size:22px;letter-spacing:0.22em;text-transform:uppercase;">${BRAND_NAME}</span>
         </td>
       </tr>
     </table>

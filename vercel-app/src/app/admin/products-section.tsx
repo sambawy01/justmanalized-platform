@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import type { Product } from "@/lib/catalog";
 
 /**
- * Products manager — Victoria's catalog CRUD inside /admin.
+ * Products manager — the owner's catalog CRUD inside /admin.
  *
  * - List: photo thumb, EN name, prices, inline-editable quantity, status
  *   chips, Edit / Sold-out toggle / Delete, plus "Add product".
@@ -12,12 +12,12 @@ import type { Product } from "@/lib/catalog";
  *   photo as pasted URL OR file upload via /api/admin/media, alt texts.
  *   Slug auto-generates server-side on create and is immutable on edit.
  *
- * Auth: when Victoria came through the legacy ?key= link the key is passed
+ * Auth: when the owner came through the legacy ?key= link the key is passed
  * down and sent as x-admin-key; with Basic auth the browser re-attaches the
  * Authorization header to these same-origin fetches automatically.
  */
 
-const SITE_BASE = "https://victoriaholisticbeauty.com/";
+const SITE_BASE = "https://justmanalized.com/";
 
 /* ---------- helpers ---------- */
 

@@ -1,7 +1,6 @@
 import {
   effectiveSoldOut,
   formatEgp,
-  formatRub,
   type Product,
 } from "@/lib/catalog";
 
@@ -36,19 +35,13 @@ export const BRAND = {
 
 /** One prompt line per shop product: names, price, availability, copy, care. */
 function formatShopProduct(p: Product): string {
-  const sub = p.en.sub ? ` (${p.en.sub} / ${p.ru.sub})` : "";
+  const sub = p.en.sub ? ` (${p.en.sub})` : "";
   const availability = effectiveSoldOut(p)
     ? "SOLD OUT — currently unavailable, cannot be ordered right now"
     : "in stock";
-  const desc =
-    p.en.desc || p.ru.desc
-      ? ` Description: ${[p.en.desc, p.ru.desc].filter(Boolean).join(" / RU: ")}`
-      : "";
-  const care =
-    p.usage && (p.usage.en || p.usage.ru)
-      ? ` CARE / FIT: ${[p.usage.en, p.usage.ru].filter(Boolean).join(" / RU: ")}`
-      : "";
-  return `- ${p.en.name} / ${p.ru.name}${sub} — ${formatEgp(p.priceEgp)} / ${formatRub(p.priceRub)} — ${availability}.${desc}${care}`;
+  const desc = p.en.desc ? ` Description: ${p.en.desc}` : "";
+  const care = p.usage?.en ? ` CARE / FIT: ${p.usage.en}` : "";
+  return `- ${p.en.name}${sub} — ${formatEgp(p.priceEgp)} — ${availability}.${desc}${care}`;
 }
 
 /**
@@ -65,7 +58,7 @@ export function buildSystemPrompt(
     products.length > 0
       ? `
 
-SHOP PRODUCTS (hats — cash on delivery, 24–72h delivery across Egypt; EN / RU names, Egyptian Pounds / Russian Rubles):
+SHOP PRODUCTS (hats — cash on delivery, 24–72h delivery across Egypt; prices in Egyptian Pounds):
 ${products.map(formatShopProduct).join("\n")}`
       : "";
 

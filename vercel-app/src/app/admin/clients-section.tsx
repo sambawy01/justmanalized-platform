@@ -9,7 +9,7 @@ import type {
 } from "@/lib/crm";
 
 /**
- * Clients manager — Victoria's private CRM inside /admin (the 6th tab).
+ * Clients manager — the owner's private CRM inside /admin (the 6th tab).
  *
  * Profiles are DERIVED from bookings + orders (no duplicate records); this
  * view adds the stored overlay (private notes + tags) on top. Two views:
@@ -18,7 +18,7 @@ import type {
  *   notes (add / delete) and tags (add / remove).
  * - "Re-booking radar": clients overdue for a check-in, each with a suggested
  *   branded DRAFT and a copy affordance (sending stays manual — paste into an
- *   email, or ask Vassili to send via the confirmed email tool).
+ *   email, or ask Mana to send via the confirmed email tool).
  *
  * PRIVATE PII: this tab is admin-only and never exposed publicly. Notes are
  * owner-private. Auth mirrors finance-section: legacy ?key= flows down as

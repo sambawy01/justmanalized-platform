@@ -9,8 +9,10 @@ import {
   IoDeadlineError,
   sendMessage,
   telegramConfigured,
+  type InlineKeyboard,
 } from "@/lib/telegram";
 import { runAgent } from "@/lib/assistant/agent";
+import { orderLifecycleKeyboard } from "@/lib/assistant/notify";
 import {
   MAX_VOICE_BYTES,
   MAX_VOICE_SECONDS,
@@ -32,7 +34,7 @@ import {
 } from "@/lib/assistant/state";
 
 /**
- * POST /api/telegram/webhook — Vassili, Victoria's Telegram assistant.
+ * POST /api/telegram/webhook — Mana, the owner's Telegram assistant.
  *
  * Security model (three layers):
  * 1. Webhook authenticity: Telegram echoes the `secret_token` we register
@@ -58,7 +60,7 @@ import {
  *    (callback_query), with a 15-minute expiry and exactly-once semantics.
  *
  * Response discipline: once authenticated, ALWAYS answer 200 — Telegram
- * redelivers non-2xx updates and a crash loop would spam Victoria. All real
+ * redelivers non-2xx updates and a crash loop would spam the owner. All real
  * replies go out-of-band via sendMessage/editMessageText.
  *
  * When TELEGRAM_BOT_TOKEN is not configured the route answers 501 and does
@@ -184,22 +186,22 @@ function safeEqual(a: string, b: string): boolean {
 }
 
 const REFUSAL =
-  "Hi! I'm Vassili — Victoria's private assistant, so this chat is members-only. " +
-  "For bookings and skincare advice, visit victoriaholisticbeauty.com — I'll happily help you there.";
+  "Hi! I'm Mana — the owner's private assistant, so this chat is members-only. " +
+  "For bookings and skincare advice, visit justmanalized.com — I'll happily help you there.";
 
 // Shown ONLY in the pre-binding window (no owner bound yet) for a BARE `/start`
-// with no access-phrase token — a legitimate Victoria who simply doesn't know
+// with no access-phrase token — a legitimate the owner who simply doesn't know
 // the `/start <phrase>` form. A present-but-wrong phrase gets the generic
 // REFUSAL instead (a guesser must learn nothing). Safe here because there is no
 // owner to protect: it reveals no password and confirms no closeness. The
 // instant an owner IS bound, this branch is unreachable and every chat gets
 // REFUSAL.
 const UNBOUND_START_NUDGE =
-  "Hi — I'm Vassili, Victoria's assistant. If you're Victoria, start me with your access phrase like this:\n" +
+  "Hi — I'm Mana, the owner's assistant. If you're the owner, start me with your access phrase like this:\n" +
   "/start <your access phrase>";
 
 const BOUND_GREETING =
-  "Bound and ready! 🤝 I'm Vassili, your ops assistant.\n\n" +
+  "Bound and ready! 🤝 I'm Mana, your ops assistant.\n\n" +
   "Ask me things like:\n" +
   "— what's my day?\n" +
   "— any pending bookings?\n" +
@@ -251,7 +253,7 @@ async function alertOwnerOfIntrusion(
     if (!(await shouldAlertOwner(strangerChatId, kind))) return;
     await sendMessage(
       owner,
-      `⚠️ Someone tried to access Vassili — ${describeSender(strangerChatId, from)}, attempted: ${attempted}`
+      `⚠️ Someone tried to access Mana — ${describeSender(strangerChatId, from)}, attempted: ${attempted}`
     );
   } catch (error) {
     console.error("[telegram] Intrusion alert failed:", error);
@@ -362,7 +364,7 @@ async function handleVoice(
     return;
   }
 
-  // Echo what was understood BEFORE acting, so Victoria can catch a misread.
+  // Echo what was understood BEFORE acting, so the owner can catch a misread.
   await sendMessage(chatId, `🎙 Heard: ${transcript.text}`);
   await runAgentAndReply(chatId, transcript.text, deadlineAt);
 }
@@ -453,7 +455,7 @@ async function handlePhoto(
     return;
   }
   // Two-stage: show what was understood, then run the instruction through the
-  // agent so the mutation parks behind Victoria's confirm tap.
+  // agent so the mutation parks behind the owner's confirm tap.
   await sendMessage(chatId, outcome.echo);
   await runAgentAndReply(chatId, outcome.instruction, deadlineAt);
 }
@@ -524,7 +526,7 @@ async function handleMessage(
     } else if (pass.length === 0 && adminPass.length > 0) {
       // No owner bound yet AND a BARE `/start` (no access-phrase token) while
       // binding is actually possible (ADMIN_PASS configured): almost certainly
-      // Victoria not knowing the `/start <phrase>` form, so nudge her toward
+      // the owner not knowing the `/start <phrase>` form, so nudge her toward
       // it. The nudge never echoes input and never confirms closeness.
       // Unreachable once bound (the REFUSAL branch above takes over).
       await sendMessage(chatId, UNBOUND_START_NUDGE);
@@ -604,7 +606,7 @@ async function handleCallback(cb: TgCallbackQuery): Promise<void> {
 
   // The OWNER tapping a button on a stale/inaccessible message (Telegram
   // omits cb.message after ~48h or when the message is unreachable): there
-  // is no intruder here — answer quietly, never alert Victoria about
+  // is no intruder here — answer quietly, never alert the owner about
   // herself. The pending action behind it expired long ago anyway.
   if (owner !== null && presser === owner && chatId === undefined) {
     await answerCallbackQuery(
@@ -651,7 +653,7 @@ async function handleCallback(cb: TgCallbackQuery): Promise<void> {
   if (verb === "cancel") {
     // discardPendingAction goes through the same atomic claim as Confirm:
     // false means another tap (Confirm or Cancel) already won — never tell
-    // Victoria "nothing was changed" when a racing Confirm executed.
+    // the owner "nothing was changed" when a racing Confirm executed.
     const discarded = await discardPendingAction(pendingId);
     if (!discarded) {
       await answerCallbackQuery(cb.id);
@@ -713,15 +715,40 @@ async function handleCallback(cb: TgCallbackQuery): Promise<void> {
       result: result.slice(0, 500),
     },
   });
+  // After an order's status advances, re-render the message with the NEXT
+  // lifecycle button (Mark shipped → Mark delivered, + Cancel while allowed)
+  // so the owner can drive the whole flow from Telegram. Only on a real
+  // success: the executor returns "Order … → <status>." (with an arrow) on
+  // success, and "Invalid …/… not found/… FAILED" on failure.
+  let nextKeyboard: InlineKeyboard | undefined;
+  if (
+    taken.action.tool === "order_set_status" &&
+    result.includes("→") &&
+    !/invalid|not found|failed/i.test(result)
+  ) {
+    const orderNumber = String(taken.action.args.orderNumber ?? "");
+    const newStatus = String(taken.action.args.status ?? "");
+    try {
+      nextKeyboard = await orderLifecycleKeyboard(
+        chatId,
+        orderNumber,
+        newStatus,
+        `Order ${orderNumber}`
+      );
+    } catch (error) {
+      console.error("[webhook] Failed to build next order keyboard:", error);
+    }
+  }
   if (messageId !== undefined) {
     await editMessageText(
       chatId,
       messageId,
-      `${taken.action.summary}\n\n${result}`
+      `${taken.action.summary}\n\n${result}`,
+      nextKeyboard ? { replyMarkup: nextKeyboard } : {}
     );
   }
   // Keep conversation memory coherent: the model should know the outcome
-  // when Victoria follows up with "did that work?".
+  // when the owner follows up with "did that work?".
   await appendHistory({
     role: "assistant",
     content: `Confirmed and executed: ${taken.action.summary}\nResult: ${result}`,

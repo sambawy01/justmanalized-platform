@@ -15,9 +15,9 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Victoria Vasilyeva Holistic Beauty",
+  title: "Just Manalized",
   description:
-    "Holistic beauty studio — booking and concierge. Egypt & Russia, 10+ years of experience.",
+    "Just Manalized — hand-embellished straw hats from El Gouna. Shop and concierge.",
 };
 
 export default function RootLayout({

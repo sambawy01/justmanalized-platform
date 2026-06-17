@@ -17,7 +17,7 @@ import {
 export const runtime = "nodejs";
 
 /**
- * /api/admin/catalog — Victoria's product manager.
+ * /api/admin/catalog — the owner's product manager.
  *
  * GET  → the FULL catalog (internal fields included: quantity, manual
  *        soldOut flag, active, timestamps).

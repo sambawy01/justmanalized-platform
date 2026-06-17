@@ -77,7 +77,7 @@ const NEXT_ACTION: Partial<
   },
 };
 
-/** Statuses from which Victoria may cancel (mirrors @/lib/orders). */
+/** Statuses from which the owner may cancel (mirrors @/lib/orders). */
 const CANCELLABLE = new Set<OrderStatus>(["ordered", "confirmed"]);
 
 const CANCEL_REASON_OPTIONS: { code: CancelReasonCode; label: string }[] = [
@@ -179,7 +179,7 @@ function OrderCard({
   adminKey: string;
 }) {
   // Optimistic local status — the blob is the source of truth, but we
-  // advance the chip/buttons immediately on a 200 so Victoria isn't left
+  // advance the chip/buttons immediately on a 200 so the owner isn't left
   // waiting for a server roundtrip on her phone.
   const [status, setStatus] = useState<OrderStatus>(order.status);
   const [busy, setBusy] = useState(false);

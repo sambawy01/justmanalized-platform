@@ -13,8 +13,8 @@ import type {
  *
  * Mirrors the buyer-confirmation email in /api/order: same dark logo band
  * header, same earthy palette, same Resend REST pattern. Lang-aware (en/ru)
- * from the order's stored `lang`. Sent from bookings@ with reply-to
- * victoria@ so replies land in Victoria's inbox.
+ * from the order's stored `lang`. Sent from orders@ with reply-to
+ * hello@ so replies land in the owner's inbox.
  *
  * Cancellation emails include the reason: known reason codes get a localized
  * label; free text ("other" or an extra note) is passed through verbatim.
@@ -24,9 +24,9 @@ import type {
  */
 
 const EMAIL_FROM =
-  "Victoria Vasilyeva Holistic Beauty <bookings@victoriaholisticbeauty.com>";
-const REPLY_TO = "victoria@victoriaholisticbeauty.com";
-const CONTACT_EMAIL = "victoria@victoriaholisticbeauty.com";
+  "Just Manalized <orders@justmanalized.com>";
+const REPLY_TO = "hello@justmanalized.com";
+const CONTACT_EMAIL = "hello@justmanalized.com";
 
 export type EmailStatus = "confirmed" | "shipped" | "delivered" | "cancelled";
 
@@ -144,7 +144,7 @@ function copyFor(
           paragraphs: [
             `We're sorry — your order ${n} has been cancelled.`,
             `Reason: ${reasonText}.`,
-            `If this is unexpected, write to ${CONTACT_EMAIL} or ask Vassili on our site.`,
+            `If this is unexpected, write to ${CONTACT_EMAIL} or ask Mana on our site.`,
           ],
           recapTitle: "Order recap",
           product: "Product",
@@ -196,7 +196,7 @@ function copyFor(
         heading: "Заказ доставлен",
         greeting: `Здравствуйте, ${order.name}!`,
         paragraphs: [
-          `Спасибо за ваш заказ ${n} в Victoria Vasilyeva Holistic Beauty!`,
+          `Спасибо за ваш заказ ${n} в Just Manalized!`,
           "Надеемся, вам понравятся ваши средства. За советами по их использованию обращайтесь к Василию на нашем сайте или напишите нам.",
         ],
         recapTitle: "Состав заказа",
@@ -212,8 +212,8 @@ function copyFor(
         heading: "Your order has been delivered",
         greeting: `Hello ${order.name},`,
         paragraphs: [
-          `Thank you for your order ${n} with Victoria Vasilyeva Holistic Beauty!`,
-          "We hope you love your products. For advice on using them, ask Vassili on our website or write to us.",
+          `Thank you for your order ${n} with Just Manalized!`,
+          "We hope you love your products. For advice on using them, ask Mana on our website or write to us.",
         ],
         recapTitle: "Order recap",
         product: "Product",
@@ -251,7 +251,7 @@ export function buildOrderStatusEmail(
     ...(t.footnote ? ["", t.footnote] : []),
     "",
     t.signoff,
-    "Victoria Vasilyeva Holistic Beauty",
+    "Just Manalized",
   ].join("\n");
 
   const itemRows = order.items
@@ -291,7 +291,7 @@ export function buildOrderStatusEmail(
           ? `<div style="margin-top:28px;padding:14px 16px;border:1px solid #E5DCCB;border-radius:10px;background-color:#F4EFE7;"><p style="margin:0;color:#3A332C;font-size:14px;line-height:1.65;">${escapeHtml(t.footnote)}</p></div>`
           : ""
       }
-      <p style="margin:28px 0 0;color:#847866;font-size:14px;">${escapeHtml(t.signoff)}<br>Victoria Vasilyeva Holistic Beauty</p>`;
+      <p style="margin:28px 0 0;color:#847866;font-size:14px;">${escapeHtml(t.signoff)}<br>Just Manalized</p>`;
 
   const html = brandedEmailHtml({ heading: t.heading, contentHtml });
 

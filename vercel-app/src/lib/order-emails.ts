@@ -2,12 +2,12 @@ import { formatEgp, formatRub } from "./shop-products";
 import { brandedEmailHtml, escapeHtml } from "./branded-email";
 
 /**
- * Email builders for /api/order — the owner notification to Victoria and the
+ * Email builders for /api/order — the owner notification to the owner and the
  * buyer confirmation. Pure functions (no env, no fetch) so they can be
  * rendered and inspected outside the route; the route owns sending.
  *
  * Both HTML bodies use the shared branded shell (dark logo band header) —
- * Victoria wants the brand on every email, her own notifications included.
+ * the owner wants the brand on every email, her own notifications included.
  * Text parts stay plain.
  */
 
@@ -131,15 +131,15 @@ export function buildBuyerOrderEmail(order: OrderEmailInput): {
 } {
   const ru = order.lang === "ru";
   const subject = ru
-    ? `Ваш заказ ${order.orderNumber} — Victoria Vasilyeva Holistic Beauty`
-    : `Your order ${order.orderNumber} — Victoria Vasilyeva Holistic Beauty`;
+    ? `Ваш заказ ${order.orderNumber} — Just Manalized`
+    : `Your order ${order.orderNumber} — Just Manalized`;
 
   const t = ru
     ? {
         greeting: `Здравствуйте, ${order.name}!`,
         orderNumber: `Номер заказа: ${order.orderNumber}`,
         thanks:
-          "Спасибо за ваш заказ в Victoria Vasilyeva Holistic Beauty. Вот его детали:",
+          "Спасибо за ваш заказ в Just Manalized. Вот его детали:",
         heading: "Ваш заказ",
         product: "Товар",
         qty: "Кол-во",
@@ -154,7 +154,7 @@ export function buildBuyerOrderEmail(order: OrderEmailInput): {
         greeting: `Hello ${order.name},`,
         orderNumber: `Order number: ${order.orderNumber}`,
         thanks:
-          "Thank you for your order with Victoria Vasilyeva Holistic Beauty. Here are the details:",
+          "Thank you for your order with Just Manalized. Here are the details:",
         heading: "Your order",
         product: "Product",
         qty: "Qty",
@@ -188,7 +188,7 @@ export function buildBuyerOrderEmail(order: OrderEmailInput): {
     t.delivery,
     "",
     t.signoff,
-    "Victoria Vasilyeva Holistic Beauty",
+    "Just Manalized",
   ].join("\n");
 
   const contentHtml = `<p style="margin:0 0 8px;color:#3A332C;font-size:15px;">${escapeHtml(t.greeting)}</p>
@@ -202,7 +202,7 @@ export function buildBuyerOrderEmail(order: OrderEmailInput): {
       <div style="margin-top:28px;padding:14px 16px;border:1px solid #E5DCCB;border-radius:10px;background-color:#F4EFE7;">
         <p style="margin:0;color:#3A332C;font-size:14px;line-height:1.65;">${escapeHtml(t.cod)}<br>${escapeHtml(t.call)}<br>${escapeHtml(t.delivery)}</p>
       </div>
-      <p style="margin:28px 0 0;color:#847866;font-size:14px;">${escapeHtml(t.signoff)}<br>Victoria Vasilyeva Holistic Beauty</p>`;
+      <p style="margin:28px 0 0;color:#847866;font-size:14px;">${escapeHtml(t.signoff)}<br>Just Manalized</p>`;
 
   const html = brandedEmailHtml({ heading: t.heading, contentHtml });
 
