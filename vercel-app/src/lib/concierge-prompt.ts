@@ -32,6 +32,7 @@ export const BRAND = {
   whatsappNumber: "",
   whatsappLink: "",
   contactEmail: "hello@justmanalized.com",
+  instagram: "https://www.instagram.com/justmanalized/",
   shopLink: "https://justmanalized.com/shop.html",
 };
 
@@ -75,7 +76,7 @@ ${BRAND.facts}
 
 CONTACT:
 ${contactLine}
-Browse and order at ${BRAND.shopLink}.
+Browse and order at ${BRAND.shopLink}. Follow us on Instagram: ${BRAND.instagram}.
 
 STRICT RULES:
 1. Answer ONLY about ${BRAND.name}'s hats, the shop products, their materials, sizing and fit, care, prices, availability, shipping and orders. For anything off-topic, politely decline and steer back to the shop.
