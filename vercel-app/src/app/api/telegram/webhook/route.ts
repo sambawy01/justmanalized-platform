@@ -187,7 +187,7 @@ function safeEqual(a: string, b: string): boolean {
 
 const REFUSAL =
   "Hi! I'm Mana — the owner's private assistant, so this chat is members-only. " +
-  "For bookings and skincare advice, visit justmanalized.com — I'll happily help you there.";
+  "To shop our hats, visit justmanalized.com — see you there!";
 
 // Shown ONLY in the pre-binding window (no owner bound yet) for a BARE `/start`
 // with no access-phrase token — a legitimate the owner who simply doesn't know
@@ -203,15 +203,15 @@ const UNBOUND_START_NUDGE =
 const BOUND_GREETING =
   "Bound and ready! 🤝 I'm Mana, your ops assistant.\n\n" +
   "Ask me things like:\n" +
-  "— what's my day?\n" +
-  "— any pending bookings?\n" +
-  "— set tohar quantity to 15\n" +
+  "— any orders to confirm?\n" +
+  "— this month's P&L\n" +
+  "— set golden hour quantity to 15\n" +
   "— make me an offer document for…\n\n" +
   "Anything that changes data will ask for your confirmation first.";
 
 const ALREADY_CONNECTED =
   "You're already connected — I'm right here. 🤝\n" +
-  "Ask me anything: \"what's my day?\", \"any pending bookings?\"…";
+  "Ask me anything: \"any orders to confirm?\", \"this month's P&L\"…";
 
 function ok(extra: Record<string, unknown> = {}): NextResponse {
   return NextResponse.json({ ok: true, ...extra });
@@ -729,12 +729,16 @@ async function handleCallback(cb: TgCallbackQuery): Promise<void> {
     const orderNumber = String(taken.action.args.orderNumber ?? "");
     const newStatus = String(taken.action.args.status ?? "");
     try {
-      nextKeyboard = await orderLifecycleKeyboard(
-        chatId,
-        orderNumber,
-        newStatus,
-        `Order ${orderNumber}`
-      );
+      // On a terminal status (delivered / cancelled) the helper returns
+      // undefined — fall back to an EMPTY keyboard so the edit CLEARS the
+      // spent button rather than leaving it lingering on the final message.
+      nextKeyboard =
+        (await orderLifecycleKeyboard(
+          chatId,
+          orderNumber,
+          newStatus,
+          `Order ${orderNumber}`
+        )) ?? { inline_keyboard: [] };
     } catch (error) {
       console.error("[webhook] Failed to build next order keyboard:", error);
     }

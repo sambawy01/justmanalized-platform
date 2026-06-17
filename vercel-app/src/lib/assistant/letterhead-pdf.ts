@@ -349,7 +349,7 @@ export async function renderLetterheadPdf(
     .font("Sans")
     .fontSize(10)
     .fillColor(MUTED)
-    .text("VICTORIA VASILYEVA", {
+    .text("JUST MANALIZED", {
       width: contentWidth,
       characterSpacing: 1.8,
       features: NO_LIGATURES,

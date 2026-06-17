@@ -1213,10 +1213,10 @@ function firstName(displayName: string): string {
 }
 
 /**
- * A warm re-booking check-in DRAFT (subject + plain-text body). Reflects the
- * persona's rules: women-only studio, no medical claims, consultations point
- * to Just Manalized. EN/RU by the client's language hint. This is a DRAFT for
- * Just Manalized to review — nothing is sent here.
+ * A warm win-back / check-in DRAFT (subject + plain-text body) for a customer
+ * who hasn't ordered in a while — points them back to the shop. EN/RU by the
+ * client's language hint. This is a DRAFT for the owner to review — nothing is
+ * sent here.
  */
 export function composeCheckInDraft(
   profile: Pick<ClientProfile, "displayName" | "lang">,
@@ -1248,18 +1248,16 @@ export function composeCheckInDraft(
   }
 
   const hi = name ? `Hi ${name},` : "Hello,";
-  const ref = treatment
-    ? `It has been a little while since your last visit (${treatment}), and you came to mind.`
-    : "It has been a little while since your last visit, and you came to mind.";
   return {
-    subject: "Time to treat yourself — Just Manalized",
+    subject: "A little something new — Just Manalized",
     body: [
       hi,
       "",
-      ref,
-      "I would love to welcome you back to the studio. If you would like to find a time that suits you, or talk through what your skin needs right now, I am always happy to help.",
+      "It has been a little while, and you came to mind — we have new hand-embellished hats in, just in time for the season.",
       "",
-      "You can book online any time: https://shop.justmanalized.com/book",
+      "Have a browse whenever you like, and reply here if you'd like a hand choosing.",
+      "",
+      "Shop the collection: https://justmanalized.com/shop.html",
       "",
       "Warmly,",
       "Just Manalized",
@@ -1309,11 +1307,11 @@ export function composeClientDraft(
       };
     }
     return {
-      subject: "Thank you for visiting — Just Manalized",
+      subject: "Thank you from Just Manalized",
       body: [
         name ? `Hi ${name},` : "Hello,",
         "",
-        "Thank you for trusting me and choosing the studio — it was a pleasure to look after you.",
+        "Thank you for choosing Just Manalized — we hope you love your new hat.",
         extra ? `\n${extra}` : "",
         "",
         "Warmly,",

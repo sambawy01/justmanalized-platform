@@ -33,7 +33,7 @@ import { sendDocument, telegramConfigured } from "@/lib/telegram";
  * bypasses the guard outside production only.
  *
  * Content: the PREVIOUS calendar month's P&L (revenue = shop orders +
- * treatments + cash/other income; expenses by category; net), rendered on the
+ * cash/other income; expenses by category; net), rendered on the
  * company letterhead and (a) emailed to NOTIFY_EMAIL as an attachment and
  * (b) pushed to the owner's Telegram as a short summary + the PDF document.
  */
@@ -49,7 +49,7 @@ function summaryText(label: string, net: number, revenue: number, expenses: numb
     `Net ${net >= 0 ? "profit" : "loss"}: ${Math.abs(net)} EGP`,
     "",
     "The full statement is attached as a PDF.",
-    "— your booking assistant",
+    "— your shop assistant",
   ].join("\n");
 }
 
@@ -124,7 +124,7 @@ export async function GET(request: NextRequest) {
       )
       .join(""),
     belowCardHtml:
-      "Revenue counts confirmed/shipped/delivered shop orders and confirmed treatment bookings, plus any cash/other income you logged.",
+      "Revenue counts confirmed/shipped/delivered shop orders, plus any cash/other income you logged.",
   });
 
   const filename = `${pnlFilename(pnl)}.pdf`;

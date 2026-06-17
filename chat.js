@@ -103,7 +103,7 @@
 
   // ---- Intro teaser: greets on every new visit; once dismissed or the chat is
   // opened it stays away for the rest of the browsing session (sessionStorage,
-  // not localStorage — the owner wants Vassili hard to miss for returning visitors). ----
+  // not localStorage — keep the concierge hard to miss for returning visitors). ----
   const INTRO_KEY = "jm-concierge-intro-seen";
   const introSeen = () => {
     try { return sessionStorage.getItem(INTRO_KEY) === "1"; }

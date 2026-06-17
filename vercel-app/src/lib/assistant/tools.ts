@@ -136,7 +136,7 @@ export const TOOLS: OllamaTool[] = [
     "order_set_status",
     "Advance a shop order's status (ordered→confirmed→shipped→delivered; cancel from ordered/confirmed, reason required when cancelling). Sends the client a status email. MUTATING — requires the owner's button confirmation.",
     {
-      orderNumber: { type: "string", description: "e.g. VV-AB12CD" },
+      orderNumber: { type: "string", description: "e.g. JM-AB12CD" },
       status: {
         type: "string",
         enum: ["confirmed", "shipped", "delivered", "cancelled"],
@@ -243,9 +243,9 @@ export const TOOLS: OllamaTool[] = [
   ),
   tool(
     "order_lookup",
-    "Full detail of ONE shop order by its VV-number: items, totals, address, contact, and complete status history with reasons.",
+    "Full detail of ONE shop order by its JM-number: items, totals, address, contact, and complete status history with reasons.",
     {
-      orderNumber: { type: "string", description: "e.g. VV-AB12CD" },
+      orderNumber: { type: "string", description: "e.g. JM-AB12CD" },
     },
     ["orderNumber"]
   ),
@@ -730,7 +730,7 @@ async function execOrderSetStatus(
   const orderNumber = String(args.orderNumber ?? "").trim().toUpperCase();
   const status = String(args.status ?? "");
   if (!isValidOrderNumber(orderNumber)) {
-    return `Invalid order number "${orderNumber}" (expected VV-XXXXXX).`;
+    return `Invalid order number "${orderNumber}" (expected JM-XXXXXX).`;
   }
   if (!["confirmed", "shipped", "delivered", "cancelled"].includes(status)) {
     return `Invalid status "${status}".`;
@@ -966,7 +966,7 @@ async function execOrderLookup(
 ): Promise<string> {
   const orderNumber = String(args.orderNumber ?? "").trim().toUpperCase();
   if (!isValidOrderNumber(orderNumber)) {
-    return `Invalid order number "${orderNumber}" (expected VV-XXXXXX).`;
+    return `Invalid order number "${orderNumber}" (expected JM-XXXXXX).`;
   }
   const order = await getOrder(orderNumber);
   if (!order) return `Order ${orderNumber} not found.`;

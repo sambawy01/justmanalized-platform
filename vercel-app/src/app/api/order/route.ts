@@ -41,7 +41,7 @@ export const runtime = "nodejs";
  *   to the buyer. Buyer-email failures never affect the response success or
  *   the owner's notification — both outcomes are reported separately in
  *   { received, orderNumber, emailed, ownerEmails, buyerEmailed }.
- * - Every order gets a server-generated order number (VV-XXXXXX) included in
+ * - Every order gets a server-generated order number (JM-XXXXXX) included in
  *   the response and in both emails so it can be quoted over the phone.
  * - Owner notifications go out as one Resend call PER recipient so a single
  *   bounced inbox can't take down the other; `emailed` stays true when at
@@ -262,7 +262,7 @@ function validateOrder(
 // --- Order number ----------------------------------------------------------------
 
 /**
- * Human-readable order number: `VV-` + 6 uppercase base36 chars.
+ * Human-readable order number: `JM-` + 6 uppercase base36 chars.
  * Last 4 base36 digits of the ms timestamp (cycles ~28 min) + 2 random
  * base36 chars — collisions are vanishingly unlikely at this shop's volume,
  * and the result is short enough to read over the phone.
@@ -272,7 +272,7 @@ function generateOrderNumber(): string {
   const rand = Math.floor(Math.random() * 36 * 36)
     .toString(36)
     .padStart(2, "0");
-  return `VV-${(ts + rand).toUpperCase()}`;
+  return `JM-${(ts + rand).toUpperCase()}`;
 }
 
 // --- Notification email --------------------------------------------------------

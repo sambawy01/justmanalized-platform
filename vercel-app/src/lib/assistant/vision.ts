@@ -65,13 +65,11 @@ export function visionEnabled(): boolean {
   return Boolean((process.env.OLLAMA_API_KEY || "").trim());
 }
 
-/** The polite refusal for any skin/face-assessment intent (+ booking nudge). */
+/** The polite refusal for any skin/face/health-assessment intent. */
 export const SKIN_REFUSAL =
-  "I can't assess skin or faces from a photo — reading skin is the owner's " +
-  "professional craft, not something I'd ever guess at (and it wouldn't be " +
-  "fair to you). If this is for a client, the right next step is a proper " +
-  "consultation — I can help you set one up. Happy to help with receipts, " +
-  "product photos, or documents anytime. 🙏";
+  "I can't assess skin, faces or health from a photo — that's not something " +
+  "I'd ever guess at, and it wouldn't be fair to you. I'm happy to help with " +
+  "receipts, product photos, or documents anytime. 🙏";
 
 /** Reply when vision is disabled (no cloud key). */
 export const VISION_DISABLED =

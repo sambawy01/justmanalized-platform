@@ -93,8 +93,8 @@ export type UpdateStatusResult =
       requested: OrderStatus;
     };
 
-// Matches generateOrderNumber() in /api/order: "VV-" + 6 base36 uppercase.
-const ORDER_NUMBER_RE = /^VV-[A-Z0-9]{6}$/;
+// Matches generateOrderNumber() in /api/order: "JM-" + 6 base36 uppercase.
+const ORDER_NUMBER_RE = /^JM-[A-Z0-9]{6}$/;
 
 export function isValidOrderNumber(orderNumber: string): boolean {
   return ORDER_NUMBER_RE.test(orderNumber);
