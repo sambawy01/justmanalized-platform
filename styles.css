@@ -1,22 +1,22 @@
 /* ===== Just Manalized design system =====
-   Brand foundation palette: Wine + Turquoise on Sand + Espresso — pulled from
-   the product, not generic boho. Editorial serif (Fraunces) + humanist sans
+   Earthy hippy-boho palette: terracotta + sage + dusty teal on warm oat and
+   cocoa — no gold, no glamour. Editorial serif (Fraunces) + humanist sans
    (Inter). All flat text/bg pairs ≥ 4.5:1. */
 :root {
-  --bg: #F4ECDC;          /* Sand — base / paper */
-  --bg-2: #F1E7D3;        /* Cream — voice band, chat header */
-  --bg-3: #E7DBC2;        /* deeper sand — reserve, footer */
-  --card: #FBF6EC;        /* warm paper card surfaces */
-  --ink: #2B1D14;         /* Espresso — primary text */
-  --ink-soft: #6E5C4A;    /* muted espresso — secondary text */
-  --clay: #6E2B33;        /* Wine — decorative accent: borders, washes */
-  --clay-deep: #6E2B33;   /* Wine — labels, prices, links, CTA fill */
-  --clay-pale: #E3C9A6;   /* brass-pale accent over photo scrims only */
-  --turquoise: #2F9C95;   /* pop accent */
-  --brass: #B08D57;       /* metallic detail */
-  --photo-ink: #F4ECDC;   /* Sand — text over photo scrims */
-  --line: rgba(43, 29, 20, 0.16);
-  --scrim: 43, 29, 20;    /* Espresso for photo washes */
+  --bg: #F2E7D2;          /* warm oat sand — base / paper */
+  --bg-2: #EBDFC8;        /* oat — voice band, chat header */
+  --bg-3: #E0D1B6;        /* deeper oat — reserve, footer */
+  --card: #FBF4E6;        /* soft paper card surfaces */
+  --ink: #3A2C20;         /* warm cocoa — primary text (softer than espresso) */
+  --ink-soft: #6E5C49;    /* muted brown — secondary text */
+  --clay: #B5562F;        /* terracotta — decorative accent: borders, washes */
+  --clay-deep: #8E4222;   /* deep terracotta — labels, prices, links, CTA fill */
+  --clay-pale: #D8A98C;   /* dusty clay — hairlines / accents over photo scrims */
+  --turquoise: #3E9488;   /* dusty teal — boho pop accent */
+  --sage: #7E8B66;        /* olive sage — earthy secondary accent */
+  --photo-ink: #F6EEDD;   /* warm cream — text over photo scrims */
+  --line: rgba(58, 42, 30, 0.16);
+  --scrim: 48, 36, 26;    /* warm brown for photo washes */
   --serif: Georgia, serif; /* legacy fallback — unused */
   --sans: "Inter", system-ui, sans-serif;
   --display: "Fraunces", Georgia, "Times New Roman", serif; /* editorial high-contrast serif */
@@ -128,7 +128,7 @@ h2 {
 .hero-media { position: absolute; inset: 0; }
 .hero-media img {
   width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%;
-  filter: sepia(0.28) contrast(1.02) brightness(0.97); /* warms the B&W studio shot into the earthy family */
+  filter: sepia(0.06) contrast(1.0) brightness(0.98); /* natural, lightly warmed — no heavy filter */
   animation: kenburns 30s var(--ease) infinite alternate;
 }
 @keyframes kenburns { from { transform: scale(1) translateY(0); } to { transform: scale(1.08) translateY(-1.5%); } }
@@ -179,7 +179,7 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
 .cta:hover { border-color: var(--clay-deep); }
 .hero .cta:hover { border-color: var(--clay-pale); }
 .cta-solid { background: var(--clay-deep); border-color: var(--clay-deep); color: var(--bg); }
-.cta-solid:hover { background: #5A2129; border-color: #5A2129; }
+.cta-solid:hover { background: #74371C; border-color: #74371C; }
 .scroll-cue { position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%); z-index: 2; }
 .scroll-cue span {
   display: block; width: 1px; height: 64px; background: rgba(244, 239, 231, 0.8);
@@ -190,7 +190,7 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
 /* ===== Philosophy ===== */
 .split-2 { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(40px, 6vw, 90px); align-items: center; }
 .photo-portrait { aspect-ratio: 3 / 4; overflow: hidden; border-radius: 2px; }
-.photo-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; filter: sepia(0.22) saturate(0.95) brightness(0.98) contrast(1.03); }
+.photo-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; filter: sepia(0.05) saturate(0.99) brightness(0.99) contrast(1.01); }
 @media (max-width: 820px) { .split-2 { grid-template-columns: 1fr; } .photo-portrait { order: -1; max-width: 420px; } }
 
 /* ===== Credentials — education & experience as a gilt timeline =====
@@ -294,7 +294,7 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
 .setting-slide {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
   object-position: 50% 20%; /* keep the hat (worn high on the head) in frame */
-  filter: brightness(0.8) contrast(1.02) sepia(0.12);
+  filter: brightness(0.82) contrast(1.01) sepia(0.05);
   opacity: 0; transition: opacity 1.2s var(--ease);
 }
 .setting-slide.is-active { opacity: 1; }
@@ -417,7 +417,7 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
   position: fixed; right: 24px; bottom: 24px; z-index: 80;
   width: 64px; height: 64px; border-radius: 50%;
   border: none; cursor: pointer;
-  background: radial-gradient(circle at 50% 50%, rgba(169,116,90,0) 0%, rgba(169,116,90,0.18) 34%, rgba(138,82,56,0.82) 66%, #54311E 100%);
+  background: radial-gradient(circle at 50% 50%, rgba(181,86,47,0) 0%, rgba(181,86,47,0.16) 34%, rgba(142,66,34,0.86) 66%, #5A2A14 100%);
   backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px);
   display: grid; place-items: center;
   box-shadow: 0 10px 30px rgba(58, 51, 44, 0.35), inset 0 1px 0 rgba(255, 253, 249, 0.28);
@@ -452,7 +452,7 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
 .chat-launcher.calm::before { animation: none; opacity: 0; }
 
 
-/* Golden frame with a traveling flare — launcher + teaser share the animation */
+/* Terracotta frame with a soft traveling glow — launcher + teaser share it */
 @property --vg-angle {
   syntax: "<angle>"; initial-value: 0deg; inherits: false;
 }
@@ -462,8 +462,8 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
   content: ""; position: absolute; inset: -6px; border-radius: 50%;
   padding: 2px; pointer-events: none;
   background: conic-gradient(from var(--vg-angle),
-    #C9A45C 0deg, #E8CB8F 38deg, #FFF3D6 58deg, #E8CB8F 78deg,
-    #C9A45C 120deg, #B8924C 240deg, #C9A45C 360deg);
+    #B5562F 0deg, #CF8155 38deg, #E9C3AC 58deg, #CF8155 78deg,
+    #B5562F 120deg, #8E4222 240deg, #B5562F 360deg);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor; mask-composite: exclude;
   animation: vg-sweep 4.5s linear infinite;
@@ -473,8 +473,8 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
   content: ""; position: absolute; inset: -3px; border-radius: 17px;
   padding: 2px; pointer-events: none;
   background: conic-gradient(from var(--vg-angle),
-    #C9A45C 0deg, #E8CB8F 38deg, #FFF3D6 58deg, #E8CB8F 78deg,
-    #C9A45C 120deg, #B8924C 240deg, #C9A45C 360deg);
+    #B5562F 0deg, #CF8155 38deg, #E9C3AC 58deg, #CF8155 78deg,
+    #B5562F 120deg, #8E4222 240deg, #B5562F 360deg);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor; mask-composite: exclude;
   animation: vg-sweep 4.5s linear infinite;
@@ -482,7 +482,7 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
 
 @media (prefers-reduced-motion: reduce) {
   .chat-launcher::after, .chat-teaser::before {
-    animation: none;  /* static golden frame, no moving flare */
+    animation: none;  /* static terracotta frame, no moving glow */
   }
 }
 
@@ -920,7 +920,7 @@ html.tmodal-open { overflow: hidden; }
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
   object-position: 50% 22%; /* bias up so the hat stays in the square thumbnail */
   /* uniform warm grade, same family as .photo-portrait — unifies mixed sources */
-  filter: sepia(0.16) saturate(0.92) contrast(1.02) brightness(1.01);
+  filter: sepia(0.04) saturate(0.99) contrast(1.01) brightness(1.0);
   transition: transform 0.6s var(--ease);
 }
 .shop-art::after { /* faint clay veil + hairline keeps photos seated in the card */

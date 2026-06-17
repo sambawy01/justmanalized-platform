@@ -49,35 +49,28 @@
     return n;
   };
 
-  // Launcher: 3D gold serif-italic "M" with a flare glint — the concierge's mark.
-  // Depth = stacked offset copies (deep bronze base → gold gradient face →
-  // specular highlight stroke); the flare is a bright gold star on the M's tip.
+  // Launcher: flat-ish terracotta serif-italic "M" — the concierge's mark
+  // (earthy boho, no gold, no flare). Depth = a deep base behind the face.
   const launcher = el("button", "chat-launcher", { type: "button", "aria-label": T.open, "aria-expanded": "false" });
   launcher.innerHTML =
     '<svg viewBox="0 0 64 64" width="50" height="50" aria-hidden="true" focusable="false">' +
       '<defs>' +
-        '<linearGradient id="vvGoldFace" x1="0" y1="0" x2="0" y2="1">' +
-          '<stop offset="0" stop-color="#FFF0C8"/>' +
-          '<stop offset="0.38" stop-color="#E8C474"/>' +
-          '<stop offset="0.62" stop-color="#C99C45"/>' +
-          '<stop offset="1" stop-color="#A87B2D"/>' +
+        '<linearGradient id="vvClayFace" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0" stop-color="#E9C3AC"/>' +
+          '<stop offset="0.42" stop-color="#CF8155"/>' +
+          '<stop offset="0.72" stop-color="#B5562F"/>' +
+          '<stop offset="1" stop-color="#8E4222"/>' +
         '</linearGradient>' +
-        '<linearGradient id="vvGoldEdge" x1="0" y1="0" x2="0" y2="1">' +
-          '<stop offset="0" stop-color="#8A6420"/>' +
-          '<stop offset="1" stop-color="#5E430F"/>' +
+        '<linearGradient id="vvClayEdge" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0" stop-color="#6E3417"/>' +
+          '<stop offset="1" stop-color="#48200F"/>' +
         '</linearGradient>' +
       '</defs>' +
-      // extruded depth layers (deep bronze, offset down-right)
-      '<text x="32" y="53.6" text-anchor="middle" font-family="\'Cormorant Garamond\', Georgia, serif" font-style="italic" font-weight="500" font-size="56" fill="url(#vvGoldEdge)">M</text>' +
-      '<text x="31" y="52.3" text-anchor="middle" font-family="\'Cormorant Garamond\', Georgia, serif" font-style="italic" font-weight="500" font-size="56" fill="#6F4F14">M</text>' +
-      // gold face
-      '<text x="30" y="51" text-anchor="middle" font-family="\'Cormorant Garamond\', Georgia, serif" font-style="italic" font-weight="500" font-size="56" fill="url(#vvGoldFace)">M</text>' +
-      // specular sheen on the face
-      '<text x="30" y="51" text-anchor="middle" font-family="\'Cormorant Garamond\', Georgia, serif" font-style="italic" font-weight="500" font-size="56" fill="none" stroke="#FFF8E1" stroke-width="0.6" opacity="0.55">M</text>' +
-      // flare: bright gold star at the V tip + glint dot
-      '<path class="v-flare" d="M48 3.5c1.2 4.7 3.25 6.75 8 8-4.75 1.2-6.8 3.25-8 8-1.2-4.75-3.25-6.8-8-8 4.75-1.2 6.8-3.25 8-8z" fill="#FFE9A8"/>' +
-      '<path d="M48 7.2c0.75 2.9 2 4.15 4.9 4.9-2.9 0.75-4.15 2-4.9 4.9-0.75-2.9-2-4.15-4.9-4.9 2.9-0.75 4.15-2 4.9-4.9z" fill="#FFFDF9" opacity="0.9"/>' +
-      '<circle cx="40" cy="19" r="1.5" fill="#FFE9A8" opacity="0.9"/>' +
+      // extruded depth layers (deep terracotta, offset down-right)
+      '<text x="32" y="53.6" text-anchor="middle" font-family="\'Cormorant Garamond\', Georgia, serif" font-style="italic" font-weight="500" font-size="56" fill="url(#vvClayEdge)">M</text>' +
+      '<text x="31" y="52.3" text-anchor="middle" font-family="\'Cormorant Garamond\', Georgia, serif" font-style="italic" font-weight="500" font-size="56" fill="#48200F">M</text>' +
+      // terracotta face
+      '<text x="30" y="51" text-anchor="middle" font-family="\'Cormorant Garamond\', Georgia, serif" font-style="italic" font-weight="500" font-size="56" fill="url(#vvClayFace)">M</text>' +
     '</svg>';
 
   const card = el("section", "chat-card", { role: "dialog", "aria-label": T.title, hidden: "" });
