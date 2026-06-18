@@ -95,7 +95,7 @@ export default async function AdminPage({
     <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-10 sm:px-6">
       <header className="mb-8">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo-dark.png?v=5" alt="Just Manalized" className="mb-3 h-16 w-auto" />
+        <img src="/logo-dark.png?v=6" alt="Just Manalized" className="mb-3 h-16 w-auto" />
         <h1 className="mt-2 font-serif text-4xl text-[#38492E]">Store admin</h1>
         <p className="mt-2 text-sm text-[#5E6B4F]">
           Times shown in Cairo time (Africa/Cairo).
