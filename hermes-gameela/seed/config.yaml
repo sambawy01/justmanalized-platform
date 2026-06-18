@@ -1,0 +1,16 @@
+# Hermes config for Gameela (Just Manalized — owner ops assistant on Telegram).
+# Secrets live in ~/.hermes/.env (written by entrypoint.sh from Railway env vars).
+
+model:
+  # Any Ollama Cloud model that supports tool-calling. deepseek-v4-flash:cloud
+  # is the current shop default; swap to a Hermes model here anytime.
+  default: "deepseek-v4-flash:cloud"
+  provider: "custom"
+  base_url: "${CUSTOM_BASE_URL}"   # https://ollama.com/v1
+  api_key: "${OPENAI_API_KEY}"     # Ollama Cloud API key
+
+# Telegram is enabled by TELEGRAM_BOT_TOKEN in ~/.hermes/.env. Long-polling is
+# the default (outbound only). If the gateway doesn't auto-detect it on first
+# boot, run `hermes gateway setup` once via the Railway shell (it persists here).
+platforms:
+  telegram: {}

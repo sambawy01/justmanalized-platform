@@ -1,0 +1,11 @@
+# Railway service config for the Hermes "Gameela" Telegram assistant.
+# Set the service Root Directory to `hermes-gameela` in the Railway dashboard,
+# attach a Volume mounted at /data, and add the env vars (see .env.example).
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+# Telegram gateway must stay up to receive messages — always restart, never sleep.
+restartPolicyType = "always"
+numReplicas = 1
