@@ -238,8 +238,8 @@ h2 {
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .nav-logo { height: 46px; width: auto; display: block; object-fit: contain; object-position: left center; }
 .nav-brand { min-width: 0; display: inline-flex; align-items: center; }
-.brand-logo { height: 40px; width: auto; display: block; }
-@media (max-width: 480px) { .brand-logo { height: 32px; } }
+.brand-logo { height: 54px; width: auto; display: block; }
+@media (max-width: 480px) { .brand-logo { height: 42px; } }
 .brand-logo-light { display: none; }
 .brand-logo-dark { display: block; }
 .has-js .nav:not(.visible):not(.nav-solid):not(.menu-open) .brand-logo-dark { display: none; }
