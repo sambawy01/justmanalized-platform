@@ -64,22 +64,6 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Normalise + validate items shape.
-  const requested: InItem[] = [];
-  for (const raw of b.items) {
-    const it = raw as { slug?: unknown; qty?: unknown };
-    const slug = typeof it.slug === "string" ? it.slug : "";
-    const qty =
-      typeof it.qty === "number" && Number.isInteger(it.qty) ? it.qty : 0;
-    if (!slug || qty < 1 || qty > 99) {
-      return NextResponse.json(
-        { error: "Each item needs a product and a quantity of 1–99." },
-        { status: 400 }
-      );
-    }
-    requested.push({ slug, qty });
-  }
-
   let catalog;
   try {
     catalog = await getCatalog();
@@ -90,11 +74,75 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Build line items against live catalog prices; validate stock.
+  // Build line items. Two kinds:
+  //  • catalog item  { slug, qty }        → priced from + validated against the
+  //    live catalog, and its stock is decremented.
+  //  • custom item   { custom, name, priceEgp, qty, photo? } → a store-only item
+  //    that is NOT on the website; priced from the entered price, NEVER touches
+  //    catalog stock. Still counts toward revenue.
   const items: StoredOrderItem[] = [];
+  const toDecrement: InItem[] = [];
   let totalEgp = 0;
   let totalRub = 0;
-  for (const { slug, qty } of requested) {
+  for (const raw of b.items) {
+    const it = raw as {
+      slug?: unknown;
+      qty?: unknown;
+      custom?: unknown;
+      name?: unknown;
+      priceEgp?: unknown;
+      photo?: unknown;
+    };
+    const qty =
+      typeof it.qty === "number" && Number.isInteger(it.qty) ? it.qty : 0;
+    if (qty < 1 || qty > 99) {
+      return NextResponse.json(
+        { error: "Each item needs a quantity of 1–99." },
+        { status: 400 }
+      );
+    }
+
+    const isCustom =
+      it.custom === true || (!it.slug && typeof it.name === "string");
+    if (isCustom) {
+      const name =
+        typeof it.name === "string" ? it.name.trim().slice(0, 100) : "";
+      const priceEgp =
+        typeof it.priceEgp === "number" && Number.isFinite(it.priceEgp)
+          ? Math.round(it.priceEgp)
+          : NaN;
+      if (!name) {
+        return NextResponse.json(
+          { error: "Custom items need a name." },
+          { status: 400 }
+        );
+      }
+      if (!(priceEgp > 0)) {
+        return NextResponse.json(
+          { error: `Custom item “${name}” needs a positive price.` },
+          { status: 400 }
+        );
+      }
+      const photo = typeof it.photo === "string" ? it.photo.slice(0, 600) : "";
+      const lineEgp = priceEgp * qty;
+      totalEgp += lineEgp;
+      items.push({
+        slug: "",
+        qty,
+        names: { en: name, ru: name },
+        lineTotals: { egp: lineEgp, rub: 0 },
+        ...(photo ? { photo } : {}),
+      });
+      continue;
+    }
+
+    const slug = typeof it.slug === "string" ? it.slug : "";
+    if (!slug) {
+      return NextResponse.json(
+        { error: "Each item needs a product (or a custom name + price)." },
+        { status: 400 }
+      );
+    }
     const product = catalog.find((p) => p.slug === slug);
     if (!product) {
       return NextResponse.json(
@@ -110,9 +158,7 @@ export async function POST(request: NextRequest) {
     }
     if (typeof product.quantity === "number" && qty > product.quantity) {
       return NextResponse.json(
-        {
-          error: `Only ${product.quantity} left of “${product.en.name}”.`,
-        },
+        { error: `Only ${product.quantity} left of “${product.en.name}”.` },
         { status: 400 }
       );
     }
@@ -126,6 +172,14 @@ export async function POST(request: NextRequest) {
       names: { en: product.en.name, ru: product.ru.name },
       lineTotals: { egp: lineEgp, rub: lineRub },
     });
+    toDecrement.push({ slug, qty });
+  }
+
+  if (items.length === 0) {
+    return NextResponse.json(
+      { error: "Add at least one product." },
+      { status: 400 }
+    );
   }
 
   const customerName =
@@ -168,7 +222,7 @@ export async function POST(request: NextRequest) {
   // Decrement tracked stock first (so an over-sell can't slip through), then
   // persist the order. Both mirror the website order flow.
   try {
-    await decrementQuantities(requested);
+    await decrementQuantities(toDecrement);
   } catch (error) {
     console.error(`[admin/orders] Stock decrement failed (${orderNumber}):`, error);
     return NextResponse.json(

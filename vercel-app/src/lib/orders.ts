@@ -62,10 +62,13 @@ export interface CancelReason {
 }
 
 export interface StoredOrderItem {
+  /** Catalog slug, or "" for a custom in-store-only item (not on the website). */
   slug: string;
   qty: number;
   names: { en: string; ru: string };
   lineTotals: { egp: number; rub: number };
+  /** Photo for a custom in-store item (uploaded at the POS). */
+  photo?: string;
 }
 
 export interface StoredOrder {
