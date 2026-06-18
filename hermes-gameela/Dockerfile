@@ -3,7 +3,7 @@
 FROM python:3.11-slim
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends curl git ca-certificates jq \
+ && apt-get install -y --no-install-recommends curl git ca-certificates jq xz-utils \
  && rm -rf /var/lib/apt/lists/*
 
 # Install Hermes Agent (NousResearch). The installer drops the `hermes` CLI;
