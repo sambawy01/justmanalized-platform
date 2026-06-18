@@ -89,9 +89,9 @@ export const PRODUCTS_BY_SLUG: ReadonlyMap<string, ShopProduct> = new Map(
   SHOP_PRODUCTS.map((p) => [p.slug, p])
 );
 
-/** "3540" -> "E£3,540" (EGP style). */
+/** "3540" -> "LE 3,540" (EGP style). */
 export function formatEgp(amount: number): string {
-  return `E£${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+  return `LE ${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 }
 
 /** "4900" -> "4 900 ₽" (RUB style, space-grouped). Unused (EGP-only) but kept for the schema. */

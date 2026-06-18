@@ -380,9 +380,9 @@ export function generateSlug(nameEn: string, existing: Set<string>): string {
 // --- Price formatting (kept in the catalog module so the order path no longer
 // imports @/lib/shop-products, which is now only the SEED source) -----------------
 
-/** "3540" -> "E£3,540". */
+/** "3540" -> "LE 3,540". */
 export function formatEgp(amount: number): string {
-  return `E£${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+  return `LE ${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 }
 
 /** "4900" -> "4 900 ₽". */

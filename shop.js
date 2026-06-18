@@ -310,7 +310,7 @@
     }
     return mapped;
   }
-  function fmtEgp(n) { return "E£" + n.toLocaleString("en-US"); }
+  function fmtEgp(n) { return "LE " + n.toLocaleString("en-US"); }
   function fmtRub(n) { return n.toLocaleString("ru-RU").replace(/ |\s/g, " ") + " ₽"; }
   function itemsWord(n) {
     if (LANG === "ru") {
