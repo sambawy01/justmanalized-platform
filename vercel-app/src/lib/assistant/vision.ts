@@ -1,5 +1,5 @@
 /**
- * Photo / vision understanding for Mana.
+ * Photo / vision understanding for Gameela.
  *
  * TWO-STAGE design (chosen empirically — see decision note below):
  *   Stage 1 (HERE): a multimodal model TRIAGES + EXTRACTS the photo into
@@ -22,7 +22,7 @@
  * matters because a second text-agent round follows under the webhook
  * deadline) with comparable extraction and correct skin-assessment refusal.
  *
- * CRITICAL GUARDRAIL — NO SKIN / FACE ASSESSMENT. Mana must REFUSE to
+ * CRITICAL GUARDRAIL — NO SKIN / FACE ASSESSMENT. Gameela must REFUSE to
  * analyze a person's face or skin for any cosmetic / medical / treatment
  * assessment ("what treatment does her skin need", "analyze my wrinkles").
  * the owner's professional eye is the product; an AI skin diagnosis is both
@@ -145,7 +145,7 @@ interface VisionExtraction {
 }
 
 function buildVisionPrompt(): string {
-  return `You are the image-triage and extraction step for Mana, the private ops assistant of a women's holistic beauty studio in Egypt. You receive ONE image plus an optional caption from the studio owner. Classify it and extract structured data. Respond with ONLY a single JSON object — no prose, no markdown fences.
+  return `You are the image-triage and extraction step for Gameela, the private ops assistant for Just Manalized — hand-embellished straw hats — in Egypt. You receive ONE image plus an optional caption from the studio owner. Classify it and extract structured data. Respond with ONLY a single JSON object — no prose, no markdown fences.
 
 Choose exactly one "kind":
 - "receipt": a receipt, invoice or proof of a business expense/purchase.

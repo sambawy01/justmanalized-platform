@@ -20,7 +20,7 @@ import {
 
 export const BRAND = {
   name: "Just Manalized",
-  assistantName: "the Just Manalized concierge",
+  assistantName: "Gameela",
   facts:
     "Just Manalized = Manal + manual. Hand-embellished, one-of-one straw cowboy hats, " +
     "each finished by hand by its founder Manal in El Gouna on the Red Sea — never machine, " +

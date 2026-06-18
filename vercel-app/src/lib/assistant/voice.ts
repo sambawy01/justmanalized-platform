@@ -1,5 +1,5 @@
 /**
- * Voice-note transcription for Mana — Groq Whisper.
+ * Voice-note transcription for Gameela — Groq Whisper.
  *
  * the owner can send a Telegram voice note (OGG/Opus) instead of typing; the
  * webhook downloads the bytes and hands them here. We transcribe with Groq's

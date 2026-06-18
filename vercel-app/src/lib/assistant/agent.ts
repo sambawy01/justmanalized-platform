@@ -19,7 +19,7 @@ import {
 } from "./ollama-search";
 
 /**
- * Mana's agent loop — Ollama chat with NATIVE tool calling.
+ * Gameela's agent loop — Ollama chat with NATIVE tool calling.
  *
  * Verified empirically against deepseek-v4-flash:cloud (Ollama 0.30):
  * the model advertises the "tools" capability, returns

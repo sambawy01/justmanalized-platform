@@ -3,7 +3,7 @@ import { join } from "node:path";
 import PDFDocument from "pdfkit";
 
 /**
- * Company-letterhead PDF for Mana's `document_create` tool.
+ * Company-letterhead PDF for Gameela's `document_create` tool.
  *
  * Design mirrors the branded email shell (@/lib/branded-email):
  * - Dark band (#100D0B) across the top with the concho-medallion logo PNG

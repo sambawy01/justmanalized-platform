@@ -2,7 +2,7 @@ import { del, list, put } from "@vercel/blob";
 import { getPrivateBlob } from "../blob-read";
 
 /**
- * Mana's state on Vercel Blob (same private store as orders/catalog,
+ * Gameela's state on Vercel Blob (same private store as orders/catalog,
  * authenticated by BLOB_READ_WRITE_TOKEN).
  *
  * Layout:
