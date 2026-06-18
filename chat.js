@@ -49,28 +49,25 @@
     return n;
   };
 
-  // Launcher: flat-ish terracotta serif-italic "M" — the concierge's mark
-  // (earthy boho, no gold, no flare). Depth = a deep base behind the face.
+  // Launcher: a flat earthy-clay boho mark — a hand-drawn celestial sun cradling
+  // a warm terracotta "M" (the concierge's mark). No gold, no gloss, no flare:
+  // a single flat clay fill + faded ochre sun rays, all hand-drawn line-art.
   const launcher = el("button", "chat-launcher", { type: "button", "aria-label": T.open, "aria-expanded": "false" });
   launcher.innerHTML =
     '<svg viewBox="0 0 64 64" width="50" height="50" aria-hidden="true" focusable="false">' +
-      '<defs>' +
-        '<linearGradient id="vvClayFace" x1="0" y1="0" x2="0" y2="1">' +
-          '<stop offset="0" stop-color="#E9C3AC"/>' +
-          '<stop offset="0.42" stop-color="#CF8155"/>' +
-          '<stop offset="0.72" stop-color="#B5562F"/>' +
-          '<stop offset="1" stop-color="#8E4222"/>' +
-        '</linearGradient>' +
-        '<linearGradient id="vvClayEdge" x1="0" y1="0" x2="0" y2="1">' +
-          '<stop offset="0" stop-color="#6E3417"/>' +
-          '<stop offset="1" stop-color="#48200F"/>' +
-        '</linearGradient>' +
-      '</defs>' +
-      // extruded depth layers (deep terracotta, offset down-right)
-      '<text x="32" y="53.6" text-anchor="middle" font-family="\'Cormorant Garamond\', Georgia, serif" font-style="italic" font-weight="500" font-size="56" fill="url(#vvClayEdge)">M</text>' +
-      '<text x="31" y="52.3" text-anchor="middle" font-family="\'Cormorant Garamond\', Georgia, serif" font-style="italic" font-weight="500" font-size="56" fill="#48200F">M</text>' +
-      // terracotta face
-      '<text x="30" y="51" text-anchor="middle" font-family="\'Cormorant Garamond\', Georgia, serif" font-style="italic" font-weight="500" font-size="56" fill="url(#vvClayFace)">M</text>' +
+      // sun rays — faded ochre hand-drawn line-art, celestial boho halo
+      '<g fill="none" stroke="#C9763F" stroke-width="2.4" stroke-linecap="round" opacity="0.55">' +
+        '<line x1="32" y1="5" x2="32" y2="12"/>' +
+        '<line x1="32" y1="52" x2="32" y2="59"/>' +
+        '<line x1="5" y1="32" x2="12" y2="32"/>' +
+        '<line x1="52" y1="32" x2="59" y2="32"/>' +
+        '<line x1="13.2" y1="13.2" x2="18.1" y2="18.1"/>' +
+        '<line x1="45.9" y1="45.9" x2="50.8" y2="50.8"/>' +
+        '<line x1="50.8" y1="13.2" x2="45.9" y2="18.1"/>' +
+        '<line x1="18.1" y1="45.9" x2="13.2" y2="50.8"/>' +
+      '</g>' +
+      // flat terracotta "M" — single earthy clay fill, characterful boho serif
+      '<text x="32" y="42" text-anchor="middle" font-family="\'Yeseva One\', Georgia, serif" font-weight="400" font-size="34" fill="#B5562F">M</text>' +
     '</svg>';
 
   const card = el("section", "chat-card", { role: "dialog", "aria-label": T.title, hidden: "" });

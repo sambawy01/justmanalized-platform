@@ -1,27 +1,77 @@
-/* ===== Just Manalized design system =====
-   Earthy hippy-boho palette: terracotta + sage + dusty teal on warm oat and
-   cocoa — no gold, no glamour. Editorial serif (Fraunces) + humanist sans
-   (Inter). All flat text/bg pairs ≥ 4.5:1. */
+/* ===== Just Manalized — BOHO-HIPPIE design system =====
+   Sun-bleached 70s desert wanderer meets coastal artisan. Warm oat & cream
+   paper, terracotta as the single hero accent, sage + dusty teal companions,
+   ONE burnt-ochre sunset note. Yeseva One (warm boho display, Title Case),
+   DM Sans (humanist body/UI), Caveat (hand-drawn flourishes). Boho ARCHES,
+   wavy/scalloped dividers, sun/moon line-art, subtle grain + woven texture.
+   NO gold, NO metallic gradients, NO flare/sweep rings. Text pairs >= 4.5:1.
+
+   Fonts load via <link> in each HTML <head> (no @import here):
+   <link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet" /> */
+
 :root {
-  --bg: #F2E7D2;          /* warm oat sand — base / paper */
-  --bg-2: #EBDFC8;        /* oat — voice band, chat header */
-  --bg-3: #E0D1B6;        /* deeper oat — reserve, footer */
-  --card: #FBF4E6;        /* soft paper card surfaces */
-  --ink: #3A2C20;         /* warm cocoa — primary text (softer than espresso) */
-  --ink-soft: #6E5C49;    /* muted brown — secondary text */
-  --clay: #B5562F;        /* terracotta — decorative accent: borders, washes */
-  --clay-deep: #8E4222;   /* deep terracotta — labels, prices, links, CTA fill */
-  --clay-pale: #D8A98C;   /* dusty clay — hairlines / accents over photo scrims */
-  --turquoise: #3E9488;   /* dusty teal — boho pop accent */
-  --sage: #7E8B66;        /* olive sage — earthy secondary accent */
-  --photo-ink: #F6EEDD;   /* warm cream — text over photo scrims */
-  --line: rgba(58, 42, 30, 0.16);
-  --scrim: 48, 36, 26;    /* warm brown for photo washes */
-  --serif: Georgia, serif; /* legacy fallback — unused */
-  --sans: "Inter", system-ui, sans-serif;
-  --display: "Fraunces", Georgia, "Times New Roman", serif; /* editorial high-contrast serif */
-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --logo-ink: invert(0.82) sepia(0.5) saturate(2) brightness(0.85); /* legacy (no logo img now) */
+  /* ===== SURFACES — oat / sand / warm cream ===== */
+  --bg:        #F2E7D2;  /* warm oat sand — base paper */
+  --bg-2:      #EBDFC8;  /* oat — voice band, chat header, nav-solid wash */
+  --bg-3:      #E0D1B6;  /* deeper oat — reserve band, footer, placeholders */
+  --bg-clay:   #ECD9C4;  /* faint terracotta-tinted sand — section alternation */
+  --card:      #FBF4E6;  /* soft cream card surface */
+  --card-2:    #F6EAD5;  /* slightly deeper cream — modal headers / insets */
+
+  /* ===== INK — warm cocoa ===== */
+  --ink:       #3A2C20;  /* primary text — ~9.7:1 on --bg */
+  --ink-soft:  #6E5C49;  /* secondary text — ~4.8:1 on --bg (AA body OK) */
+  --ink-mute:  #8A765F;  /* decorative/disabled only, NOT for body text */
+
+  /* ===== ACCENTS — terracotta hero, sage, dusty teal, one sunset ochre ===== */
+  --clay:        #B5562F;  /* terracotta — primary decorative accent, borders, washes */
+  --clay-deep:   #8E4222;  /* deep terracotta — CTA fill, prices, links (~6.0:1 on --bg) */
+  --clay-press:  #74371C;  /* pressed/hover state for clay-deep fills */
+  --clay-pale:   #D8A98C;  /* dusty clay — hairlines / accents over photo scrims */
+  --clay-tint:   rgba(181, 86, 47, 0.10);  /* clay wash for panels/notes */
+  --clay-tint-2: rgba(181, 86, 47, 0.18);  /* clay wash for borders/hovers */
+
+  --sage:       #6F7D58;  /* olive sage — earthy secondary accent (text-safe) */
+  --sage-soft:  #7E8B66;  /* lighter sage — decorative fills/icons only */
+  --teal:       #357F75;  /* dusty teal — boho pop (text-safe on cream) */
+  --teal-soft:  #3E9488;  /* lighter teal — decorative arrows/icons on dark scrims */
+  /* legacy alias — some rules referenced --turquoise */
+  --turquoise:  #357F75;
+
+  --ochre:      #C9762F;  /* THE one warm sunset accent — burnt amber */
+  --ochre-soft: #E0985A;  /* lighter ochre — gradient stops in sun emblems only */
+
+  /* ===== PHOTO / SCRIM ===== */
+  --photo-ink:  #F6EEDD;  /* warm cream — text over photo scrims */
+  --scrim:      48, 36, 26;  /* warm brown for photo washes */
+  --scrim-deep: 32, 24, 17;  /* deeper warm brown for bottom-of-photo fades */
+
+  /* ===== HAIRLINES ===== */
+  --line:      rgba(58, 42, 30, 0.16);   /* default hairline */
+  --line-soft: rgba(58, 42, 30, 0.08);   /* faint divider */
+  --line-clay: rgba(181, 86, 47, 0.38);  /* terracotta hairline — replaces gold rules */
+
+  /* ===== TYPE ===== */
+  --display: "Yeseva One", Georgia, "Times New Roman", serif;
+  --sans:    "DM Sans", system-ui, -apple-system, sans-serif;
+  --accent:  "Caveat", "Segoe Script", cursive;
+  --serif:   "Yeseva One", Georgia, serif;  /* legacy alias, repointed — never gold */
+
+  /* ===== SHAPE — generous organic radii + boho arch geometry ===== */
+  --r-sm:   10px;
+  --r-md:   16px;
+  --r-lg:   22px;
+  --r-pill: 999px;
+  --r-card: 18px;
+  --arch:   140px;   /* arch crown radius for boho horseshoe tops */
+  --r-blob: 62% 38% 44% 56% / 58% 42% 58% 42%; /* organic blob radius */
+
+  /* ===== MOTION ===== */
+  --ease:      cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.33, 0.0, 0.2, 1);
+
+  /* ===== LEGACY (kept so nothing breaks; no longer gold) ===== */
+  --logo-ink: none;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -40,52 +90,85 @@ a { color: inherit; text-decoration: none; }
 ::selection { background: var(--clay-deep); color: var(--bg); }
 
 .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-/* Amendment 1: label as h2 must not inherit serif/16em-max-width from h2 rule */
+
+/* ===== Eyebrow label — hand-drawn Caveat accent (the boho "voice") =====
+   Applied consistently everywhere a label/eyebrow appears. */
 .label {
-  font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
-  color: var(--clay-deep); margin-bottom: 18px;
-  font-family: var(--sans); font-weight: 600; max-width: none;
+  font-family: var(--accent); font-weight: 600;
+  font-size: 18px; letter-spacing: 0; text-transform: none;
+  color: var(--clay-deep); margin-bottom: 16px; max-width: none;
+  line-height: 1.2;
 }
-/* Display headings — fashion-editorial: Tenor Sans, ALL CAPS, generous tracking.
-   Caps + tracking widen lines ~30%, so sizes run smaller than the old serif scale
-   (critical for long RU headlines). */
+
+/* ===== Display headings — Yeseva One, warm Title Case (NOT caps) ===== */
 h2 {
-  font-family: var(--display); font-weight: 400; font-size: clamp(23px, 3.2vw, 38px);
-  line-height: 1.32; letter-spacing: 0.13em; text-transform: uppercase;
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(26px, 3.6vw, 44px);
+  line-height: 1.18; letter-spacing: 0.005em; text-transform: none;
   max-width: 18em; color: var(--ink);
 }
 .body-copy { font-size: 17px; line-height: 1.75; max-width: 34em; margin-top: 22px; color: var(--ink-soft); }
 
 .section-light { background: var(--bg); color: var(--ink); padding: clamp(90px, 14vh, 160px) 0; }
 .voice.section-light { background: var(--bg-2); }
-.section-dark  { color: var(--photo-ink); } /* photo bands: light text over warm scrim */
+.section-dark  { color: var(--photo-ink); }
 
-/* ===== Grain ===== */
+/* ===== Grain — neutral paper noise (dialed back so it reads as paper) ===== */
 .grain {
-  position: absolute; inset: 0; pointer-events: none; opacity: 0.4; mix-blend-mode: soft-light;
+  position: absolute; inset: 0; pointer-events: none; opacity: 0.32; mix-blend-mode: soft-light;
   background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 240px 240px;
 }
 
-/* ===== Nav — always visible. Base = solid light translucent bar, dark text.
-   On hero pages with JS, main.js toggles .visible when the hero leaves view:
-   the un-.visible state floats transparent over the hero with photo-legible
-   light text. Pages without a hero (blog) carry .nav-solid → always solid.
-   No-JS fallback: solid bar everywhere (legible on every section). ===== */
+/* ===== Woven / dotted micro-texture utilities (rattan feel) ===== */
+.weave {
+  background-image: radial-gradient(rgba(58,42,30,0.06) 1px, transparent 1.2px);
+  background-size: 14px 14px;
+}
+.weave-straw {
+  background-image:
+    repeating-linear-gradient(45deg, rgba(58,42,30,0.04) 0 2px, transparent 2px 7px),
+    repeating-linear-gradient(-45deg, rgba(58,42,30,0.03) 0 2px, transparent 2px 7px);
+}
+
+/* ===== Section dividers (inline SVG, aria-hidden) ===== */
+.divider { display: block; width: 100%; }
+.divider-wave { height: clamp(28px, 5vw, 60px); }
+.divider-scallop { height: clamp(16px, 2.6vw, 30px); }
+
+/* ===== Boho ARCH helpers (apply to FRAME elements, never the img) ===== */
+.arch-top { border-radius: var(--arch) var(--arch) var(--r-md) var(--r-md); overflow: hidden; }
+.arch-soft { border-radius: var(--r-lg) var(--r-lg) var(--r-md) var(--r-md); overflow: hidden; }
+@media (min-width: 720px) {
+  .arch-clip {
+    border-radius: 50% 50% var(--r-md) var(--r-md) / 38% 38% var(--r-md) var(--r-md);
+    overflow: hidden;
+  }
+}
+
+/* ===== Sun / moon emblems (decorative, aria-hidden) ===== */
+.emblem-sun { display: block; }
+.emblem-moon { display: inline-block; vertical-align: middle; }
+
+/* ===== Hand-drawn wavy underline (clay stroke, never gold) ===== */
+.wavy-underline {
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='6'%3E%3Cpath d='M0 3 C 10 0, 20 6, 30 3 S 50 0, 60 3 70 6, 80 3' fill='none' stroke='%23B5562F' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: repeat-x; background-position: 0 100%; background-size: 80px 6px;
+  padding-bottom: 6px;
+}
+
+/* ===== Nav ===== */
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 50;
   display: flex; justify-content: space-between; align-items: center;
   padding: 12px 28px;
   transition: background-color 0.5s var(--ease), border-color 0.5s var(--ease),
               color 0.5s var(--ease), text-shadow 0.5s var(--ease);
-  background: rgba(250, 247, 242, 0.92);
+  background: rgba(251, 244, 230, 0.92);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   color: var(--ink);
 }
-/* Floating-over-hero state: transparent, light text over the photo scrim.
-   :not(.menu-open) — while the mobile menu is open the bar snaps solid so the
-   dropdown panel always sits on an opaque card surface (see nav.js section). */
 .has-js .nav:not(.visible):not(.nav-solid):not(.menu-open) {
   background: transparent;
   border-bottom-color: transparent;
@@ -97,158 +180,162 @@ h2 {
   filter: drop-shadow(0 1px 6px rgba(26, 21, 17, 0.65)) drop-shadow(0 2px 16px rgba(26, 21, 17, 0.4));
 }
 .has-js .nav:not(.visible):not(.nav-solid):not(.menu-open) .nav-cta {
-  border-color: rgba(233, 205, 175, 0.8); color: var(--photo-ink);
+  border-color: rgba(246, 238, 221, 0.8); color: var(--photo-ink);
 }
 .has-js .nav:not(.visible):not(.nav-solid):not(.menu-open) .nav-cta:hover {
   background: rgba(244, 239, 231, 0.14);
 }
-.nav-brand { font-family: var(--display); font-size: 18px; letter-spacing: 0.18em; }
-.nav-links { display: flex; gap: 28px; align-items: center; font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; }
+.nav-brand { font-family: var(--display); font-size: 18px; letter-spacing: 0.02em; }
+.nav-links { display: flex; gap: 28px; align-items: center; font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; }
 .nav-links a { white-space: nowrap; }
 .nav-links a { opacity: 0.85; transition: opacity 0.3s; }
 .nav-links a:hover { opacity: 1; }
-.nav-cta { border: 1px solid var(--clay); border-radius: 999px; padding: 8px 18px; color: var(--clay-deep); opacity: 1 !important; }
-.nav-cta:hover { background: rgba(169, 116, 90, 0.1); }
+.nav-cta { border: 1px solid var(--clay); border-radius: var(--r-pill); padding: 8px 18px; color: var(--clay-deep); opacity: 1 !important; }
+.nav-cta:hover { background: var(--clay-tint); }
 @media (max-width: 480px) {
   .nav { padding: 9px 14px; }
-  .nav .nav-logo { height: 38px; } /* .nav prefix outranks the base .nav-logo rule below */
+  .nav .nav-logo { height: 38px; }
   .nav-links { gap: 12px; font-size: 11px; }
   .nav-cta { padding: 6px 12px; }
 }
 @media (max-width: 480px) {
-  .nav-links a:nth-child(2) { display: none; } /* hide About: keeps Journal + RU + Reserve and room for the logo */
+  .nav-links a:nth-child(2) { display: none; }
 }
 
-
-/* ===== Logo recolor: white script → deep warm brown on light backgrounds ===== */
-/* (legacy white-PNG recolor removed — the brand mark is now a full-colour SVG emblem) */
-
-/* ===== Hero — bright B&W portrait, warm veil, soft center scrim ===== */
-.hero { position: relative; min-height: 100vh; min-height: 100svh; display: grid; place-items: center; overflow: hidden; color: var(--photo-ink); }
+/* ===== Hero — bright portrait, warm veil, boho arch crown ===== */
+.hero { position: relative; min-height: 100vh; min-height: 100svh; display: grid; place-items: center; overflow: hidden; color: var(--photo-ink); background: var(--bg); }
 .hero-media { position: absolute; inset: 0; }
 .hero-media img {
   width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%;
-  filter: sepia(0.06) contrast(1.0) brightness(0.98); /* natural, lightly warmed — no heavy filter */
+  filter: sepia(0.06) contrast(1.0) brightness(0.98);
   animation: kenburns 30s var(--ease) infinite alternate;
+}
+/* Crown the hero photo in a boho horseshoe arch on larger screens; below 720px
+   keep the full-bleed mobile composition (no clip). The oat --bg behind reads
+   the arch silhouette. */
+@media (min-width: 720px) {
+  .hero-media {
+    inset: 0 clamp(0px, 3vw, 56px);
+    border-radius: 46% 46% var(--r-lg) var(--r-lg) / 30% 30% var(--r-lg) var(--r-lg);
+    overflow: hidden;
+  }
 }
 @keyframes kenburns { from { transform: scale(1) translateY(0); } to { transform: scale(1.08) translateY(-1.5%); } }
 .hero-wash {
-  position: absolute; inset: 0;
+  position: absolute; inset: 0; border-radius: inherit;
   background:
-    /* top scrim: keeps the floating nav legible over the light upper photo */
     linear-gradient(180deg, rgba(var(--scrim), 0.55) 0%, rgba(var(--scrim), 0) 26%),
     radial-gradient(ellipse 80% 70% at 50% 45%, rgba(var(--scrim), 0.6) 0%, rgba(var(--scrim), 0) 75%),
-    linear-gradient(180deg, rgba(var(--scrim), 0.38) 0%, rgba(var(--scrim), 0.34) 45%, rgba(26, 21, 17, 0.94) 100%);
+    linear-gradient(180deg, rgba(var(--scrim), 0.38) 0%, rgba(var(--scrim), 0.34) 45%, rgba(var(--scrim-deep), 0.94) 100%);
 }
 .hero-content { position: relative; z-index: 2; text-align: center; padding: 0 20px; }
 .hero-name { line-height: 1.05; }
+/* Sunburst emblem faintly behind the hero logo (decorative) */
+.hero-sun {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -64%);
+  width: clamp(220px, 40vw, 420px); height: auto; z-index: 1;
+  opacity: 0.42; pointer-events: none;
+}
 .hero-logo { width: min(540px, 80vw); height: auto; margin: 0 auto; filter: drop-shadow(0 2px 10px rgba(26, 21, 17, 0.7)) drop-shadow(0 2px 28px rgba(26, 21, 17, 0.5)); }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .nav-logo { height: 46px; width: auto; display: block; object-fit: contain; object-position: left center; }
-.nav-brand { min-width: 0; }
-/* Brand wordmark logo (the real "Just Manalized" hat logo). */
-.nav-brand { display: inline-flex; align-items: center; }
+.nav-brand { min-width: 0; display: inline-flex; align-items: center; }
 .brand-logo { height: 40px; width: auto; display: block; }
 @media (max-width: 480px) { .brand-logo { height: 32px; } }
-/* Light logo over the dark hero photo; dark logo once the nav turns solid. */
 .brand-logo-light { display: none; }
 .brand-logo-dark { display: block; }
 .has-js .nav:not(.visible):not(.nav-solid):not(.menu-open) .brand-logo-dark { display: none; }
 .has-js .nav:not(.visible):not(.nav-solid):not(.menu-open) .brand-logo-light { display: block; }
-/* Hero: the light logo, large, over the photo. */
-.hero-logo-img { display: block; width: min(560px, 84vw); height: auto; margin: 0 auto; filter: drop-shadow(0 2px 18px rgba(26, 21, 17, 0.55)); }
-/* Closing section: the dark logo on the light background. */
+.hero-logo-img { position: relative; z-index: 2; display: block; width: min(560px, 84vw); height: auto; margin: 0 auto; filter: drop-shadow(0 2px 18px rgba(26, 21, 17, 0.55)); }
 .reserve-logo-img { display: block; width: min(360px, 66vw); height: auto; margin: 0 auto; }
-.hero-sub { margin-top: 18px; font-size: 12px; font-weight: 500; letter-spacing: 0.5em; text-indent: 0.5em; color: var(--photo-ink); text-shadow: 0 1px 12px rgba(26, 21, 17, 0.6); }
-.hero-line { margin-top: 26px; font-family: var(--display); font-weight: 400; font-size: clamp(12px, 1.4vw, 15px); letter-spacing: 0.32em; text-indent: 0.32em; text-transform: uppercase; color: var(--photo-ink); text-shadow: 0 1px 12px rgba(26, 21, 17, 0.6); }
+.hero-sub { margin-top: 18px; font-size: 12px; font-weight: 500; letter-spacing: 0.4em; text-indent: 0.4em; text-transform: uppercase; color: var(--photo-ink); text-shadow: 0 1px 12px rgba(26, 21, 17, 0.6); }
+/* "Made once. Never again." — a hand-written sunset signature */
+.hero-line {
+  margin-top: 22px; font-family: var(--accent); font-weight: 600;
+  font-size: clamp(20px, 2.6vw, 30px); line-height: 1.2;
+  letter-spacing: 0; text-indent: 0; text-transform: none;
+  color: var(--photo-ink); text-shadow: 0 1px 12px rgba(26, 21, 17, 0.6);
+}
 .cta {
   display: inline-block; margin-top: 38px; padding: 16px 38px;
-  border: 1px solid var(--clay); border-radius: 999px;
-  font-size: 13px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--ink); position: relative; overflow: hidden;
+  border: 1px solid var(--clay); border-radius: var(--r-pill);
+  font-size: 13px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink); position: relative;
   transition: border-color 0.4s, color 0.4s, background-color 0.4s;
 }
 button.cta { background: none; font-family: inherit; line-height: inherit; cursor: pointer; appearance: none; -webkit-appearance: none; }
-.hero .cta { color: var(--photo-ink); border-color: rgba(233, 205, 175, 0.75); }
-.cta::after {  /* shimmer sweep */
-  content: ""; position: absolute; top: 0; bottom: 0; width: 60%; left: -80%;
-  background: linear-gradient(105deg, transparent, rgba(169, 116, 90, 0.28), transparent);
-  transform: skewX(-18deg); transition: transform 0.7s var(--ease);
+.hero .cta { color: var(--photo-ink); border-color: rgba(246, 238, 221, 0.78); }
+/* thin double hand-drawn border (craft feel) */
+.cta::before {
+  content: ""; position: absolute; inset: 3px; border-radius: var(--r-pill);
+  border: 1px dashed var(--clay-pale); opacity: 0.5; pointer-events: none;
+  transition: opacity 0.4s, border-color 0.4s;
 }
-.cta:hover::after { transform: skewX(-18deg) translateX(330%); }
-.cta:hover { border-color: var(--clay-deep); }
-.hero .cta:hover { border-color: var(--clay-pale); }
+.cta:hover { border-color: var(--clay-deep); background: var(--clay-tint); }
+.cta:hover::before { border-color: var(--clay); opacity: 0.7; }
+.hero .cta:hover { border-color: var(--clay-pale); background: rgba(244, 239, 231, 0.12); }
 .cta-solid { background: var(--clay-deep); border-color: var(--clay-deep); color: var(--bg); }
-.cta-solid:hover { background: #74371C; border-color: #74371C; }
+.cta-solid::before { border-color: rgba(246, 238, 221, 0.45); }
+.cta-solid:hover { background: var(--clay-press); border-color: var(--clay-press); }
 .scroll-cue { position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%); z-index: 2; }
 .scroll-cue span {
-  display: block; width: 1px; height: 64px; background: rgba(244, 239, 231, 0.8);
+  display: block; width: 1px; height: 64px; background: rgba(246, 238, 221, 0.8);
   transform-origin: top; animation: cue 2.4s var(--ease) infinite;
 }
 @keyframes cue { 0% { transform: scaleY(0); } 55% { transform: scaleY(1); transform-origin: top; } 56% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
 
 /* ===== Philosophy ===== */
 .split-2 { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(40px, 6vw, 90px); align-items: center; }
-.photo-portrait { aspect-ratio: 3 / 4; overflow: hidden; border-radius: 2px; }
+.photo-portrait { aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--r-lg) var(--r-lg) var(--r-md) var(--r-md); }
 .photo-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; filter: sepia(0.05) saturate(0.99) brightness(0.99) contrast(1.01); }
 @media (max-width: 820px) { .split-2 { grid-template-columns: 1fr; } .photo-portrait { order: -1; max-width: 420px; } }
 
-/* ===== Credentials — education & experience as a gilt timeline =====
-   Serif display lines (year-anchored titles) over quiet Manrope support text,
-   threaded on a thin gold rule — the same gilt family as the shop frames.
-   The closing flourish sits in a static gold-framed panel. */
+/* ===== Credentials — terracotta timeline ===== */
 .credentials { margin-top: 42px; }
 .credentials .label { margin-bottom: 22px; }
 .cred-list { list-style: none; max-width: 34em; }
 .cred-item { position: relative; padding-left: 30px; }
 .cred-item + .cred-item { margin-top: 24px; }
-.cred-item::before { /* gold node */
-  content: ""; position: absolute; left: 0; top: 3px;
+.cred-item::before { /* terracotta node */
+  content: ""; position: absolute; left: 0; top: 4px;
   width: 9px; height: 9px; border-radius: 50%;
-  background: linear-gradient(160deg, #C9A45C, #B8924C);
-  box-shadow: 0 0 0 3px rgba(201, 164, 92, 0.16);
+  background: var(--clay);
+  box-shadow: 0 0 0 3px var(--clay-tint);
 }
-.cred-item::after { /* gold thread to the next entry */
+.cred-item::after { /* terracotta thread to the next entry */
   content: ""; position: absolute; left: 4px; top: 20px; bottom: -20px;
   width: 1px;
-  background: linear-gradient(180deg, rgba(184, 146, 76, 0.55), rgba(184, 146, 76, 0.14));
+  background: linear-gradient(180deg, var(--line-clay), rgba(181, 86, 47, 0.12));
 }
 .cred-item:last-child::after { content: none; }
 .cred-year {
   display: block;
   font-size: 11px; font-weight: 600; letter-spacing: 0.22em;
-  color: var(--clay-deep);
+  text-transform: uppercase; color: var(--clay-deep);
 }
 .cred-title {
   display: block; margin-top: 7px;
   font-family: var(--display); font-weight: 400;
-  font-size: 15px; line-height: 1.5; letter-spacing: 0.15em;
-  text-transform: uppercase; color: var(--ink);
+  font-size: 17px; line-height: 1.45; letter-spacing: 0.01em;
+  text-transform: none; color: var(--ink);
 }
 .cred-detail {
-  display: block; margin-top: 4px;
+  display: block; margin-top: 5px;
   font-size: 13.5px; line-height: 1.6; color: var(--ink-soft);
 }
-/* Closing flourish — serif italic line inside a quiet static gold frame */
+/* Closing flourish — soft clay panel (no gilt frame) */
 .about-flourish {
   position: relative; margin-top: 36px; max-width: 34em;
-  padding: 18px 24px; border-radius: 12px;
-  background: rgba(201, 164, 92, 0.07);
-}
-.about-flourish::before {
-  content: ""; position: absolute; inset: 0; border-radius: inherit;
-  padding: 1.5px; pointer-events: none;
-  background: linear-gradient(180deg, rgba(201, 164, 92, 0.85), rgba(184, 146, 76, 0.55));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor; mask-composite: exclude;
+  padding: 18px 24px; border-radius: var(--r-md);
+  background: var(--clay-tint); border: 1px solid var(--line-clay);
 }
 .about-flourish span {
   display: block;
-  font-family: var(--display); text-transform: uppercase; letter-spacing: 0.16em;
-  font-size: 19px; line-height: 1.5; color: var(--clay-deep);
+  font-family: var(--display); text-transform: none; letter-spacing: 0.01em;
+  font-size: 21px; line-height: 1.45; color: var(--clay-deep);
 }
 
-/* ===== Treatments — rows link through to booking ===== */
+/* ===== Treatments (legacy — restyled, not booking) ===== */
 .treatments .wrap { position: relative; }
 .t-list { list-style: none; margin-top: 40px; }
 .t-group { margin-top: 56px; }
@@ -260,21 +347,18 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
 }
 .t-name {
   font-family: var(--display); font-weight: 400;
-  font-size: clamp(14px, 1.8vw, 17px); line-height: 1.6;
-  letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: clamp(16px, 1.9vw, 20px); line-height: 1.5;
+  letter-spacing: 0.01em; text-transform: none;
 }
-/* Stretched link: accessible name = treatment name; covers the whole row */
 .t-link { color: inherit; transition: color 0.3s; }
 .t-link::after { content: ""; position: absolute; inset: 0; }
 .t-link:focus-visible { outline: none; }
 .t-row:has(.t-link:focus-visible) { outline: 2px solid var(--clay-deep); outline-offset: 2px; }
-/* Amendment 4: targets .t-name .t-sub (HTML uses <span class="t-sub">) */
 .t-name .t-sub { font-family: var(--sans); font-weight: 400; font-size: 13px; color: var(--ink-soft); margin-left: 10px; letter-spacing: 0.04em; text-transform: none; }
 .t-price { flex: none; margin-left: auto; color: var(--clay-deep); font-size: 15px; letter-spacing: 0.05em; }
 .t-price small { color: var(--ink-soft); font-size: 12px; }
-/* Always-visible clickability cue (no hover needed on touch) */
 .t-arrow {
-  flex: none; align-self: center; color: var(--turquoise); font-size: 17px; line-height: 1;
+  flex: none; align-self: center; color: var(--teal); font-size: 17px; line-height: 1;
   transition: transform 0.3s var(--ease);
 }
 @media (hover: hover) {
@@ -293,50 +377,47 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
 .setting-media { position: absolute; inset: -12% 0; will-change: transform; }
 .setting-slide {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-  object-position: 50% 20%; /* keep the hat (worn high on the head) in frame */
+  object-position: 50% 20%;
   filter: brightness(0.82) contrast(1.01) sepia(0.05);
   opacity: 0; transition: opacity 1.2s var(--ease);
 }
 .setting-slide.is-active { opacity: 1; }
-.setting-wash { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(var(--scrim), 0.6), rgba(var(--scrim), 0.68) 42%, rgba(var(--scrim), 0.94)); }
+.setting-wash { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(var(--scrim), 0.6), rgba(var(--scrim), 0.68) 42%, rgba(var(--scrim-deep), 0.94)); }
 .setting-content { position: relative; z-index: 2; padding-top: 16vh; padding-bottom: 11vh; }
-.setting .label { color: var(--photo-ink); }
-/* Headline — the philosophy in six words; the second half glows clay-pale */
+.setting .label { color: var(--clay-pale); }
 .setting-head {
   font-family: var(--display); font-weight: 400;
-  font-size: clamp(23px, 3.1vw, 38px); line-height: 1.4;
-  letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: clamp(26px, 3.4vw, 42px); line-height: 1.25;
+  letter-spacing: 0.005em; text-transform: none;
   color: var(--photo-ink); max-width: 16em;
   text-shadow: 0 1px 14px rgba(26, 21, 17, 0.45);
 }
 .setting-head em { font-style: normal; color: var(--clay-pale); }
-/* Supporting line — the proof in one breath */
 .setting-line {
   margin-top: 22px;
   font-size: 15px; font-weight: 500; line-height: 1.75;
   letter-spacing: 0.015em; color: var(--photo-ink); max-width: 37em;
   text-shadow: 0 1px 10px rgba(26, 21, 17, 0.5);
 }
-/* Stat trio — oversized serif numerals on a gold hairline shelf */
 .setting-stats {
   list-style: none;
   margin-top: clamp(34px, 5.5vh, 52px); padding-top: clamp(24px, 3.5vh, 34px);
   position: relative;
   display: flex; align-items: flex-start;
 }
-.setting-stats::before { /* gold hairline shelf — same gilt family as the frames */
+.setting-stats::before { /* terracotta hairline shelf */
   content: ""; position: absolute; left: 0; top: 0; height: 1px;
   width: min(100%, 620px);
-  background: linear-gradient(90deg, rgba(201, 164, 92, 0.85), rgba(184, 146, 76, 0.45) 60%, rgba(184, 146, 76, 0));
+  background: linear-gradient(90deg, var(--clay-pale), rgba(216,169,140,0.2) 60%, transparent);
 }
 .setting-stats li { max-width: 13.5em; }
 .setting-stats li + li {
   position: relative;
   margin-left: clamp(26px, 4.5vw, 56px); padding-left: clamp(26px, 4.5vw, 56px);
 }
-.setting-stats li + li::before { /* vertical gold thread between stats */
+.setting-stats li + li::before { /* vertical terracotta thread between stats */
   content: ""; position: absolute; left: 0; top: 8px; bottom: 4px; width: 1px;
-  background: linear-gradient(180deg, rgba(201, 164, 92, 0.7), rgba(184, 146, 76, 0.1));
+  background: linear-gradient(180deg, rgba(216,169,140,0.55), rgba(216,169,140,0.1));
 }
 .stat-num {
   display: block;
@@ -351,52 +432,50 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
   letter-spacing: 0.14em; text-transform: uppercase; color: var(--photo-ink);
   text-shadow: 0 1px 10px rgba(26, 21, 17, 0.5);
 }
-/* Slim CTA — anchors to The Approach */
 .setting-cta {
   display: inline-flex; align-items: center; gap: 10px;
   margin-top: clamp(30px, 4.5vh, 42px); padding-bottom: 7px;
   font-size: 12px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase;
   color: var(--photo-ink);
-  border-bottom: 1px solid rgba(201, 164, 92, 0.75);
+  border-bottom: 1px solid var(--clay-pale);
   transition: color 0.4s, border-color 0.4s;
 }
 .setting-cta-arrow { transition: transform 0.4s var(--ease); }
-.setting-cta:hover { color: var(--clay-pale); border-color: #E8CB8F; }
+.setting-cta:hover { color: var(--clay-pale); border-color: var(--photo-ink); }
 .setting-cta:hover .setting-cta-arrow { transform: translateX(5px); }
 @media (max-width: 640px) {
   .setting-content { padding-top: 14vh; padding-bottom: 12vh; }
   .setting-stats { flex-direction: column; }
   .setting-stats li { max-width: none; display: flex; align-items: baseline; gap: 16px; }
   .setting-stats li + li { margin-left: 0; padding-left: 0; margin-top: 18px; padding-top: 18px; }
-  .setting-stats li + li::before { /* thread turns horizontal when stacked */
+  .setting-stats li + li::before {
     top: 0; bottom: auto; left: 0; width: 72px; height: 1px;
-    background: linear-gradient(90deg, rgba(201, 164, 92, 0.7), rgba(184, 146, 76, 0.1));
+    background: linear-gradient(90deg, rgba(216,169,140,0.7), rgba(216,169,140,0.1));
   }
   .stat-num { font-size: 46px; min-width: 2.6ch; }
   .stat-cap { margin-top: 0; }
 }
 
 /* ===== Voice ===== */
-/* Amendment 3: HTML uses figure/figcaption — selectors kept as-is */
-.voice blockquote p { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.1em; font-size: clamp(17px, 2.3vw, 27px); line-height: 1.6; max-width: 30em; color: var(--ink); }
-.voice figcaption { display: block; margin-top: 28px; font-style: normal; font-size: 13px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--clay-deep); }
+.voice blockquote p { font-family: var(--display); text-transform: none; letter-spacing: 0.01em; font-size: clamp(20px, 2.6vw, 31px); line-height: 1.4; max-width: 30em; color: var(--ink); }
+.voice figcaption { display: block; margin-top: 24px; font-family: var(--accent); font-style: normal; font-size: 19px; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--clay-deep); }
 
 /* ===== Reserve — deep sand band, light ===== */
 .reserve { background: var(--bg-3); padding: clamp(100px, 16vh, 180px) 0 0; text-align: center; }
 .reserve-logo { margin: 0 auto; }
-/* Amendment 2: h2.reserve-line must not be constrained by h2's max-width: 16em */
-.reserve-line { margin-top: 30px; font-family: var(--display); font-size: clamp(14px, 1.8vw, 19px); line-height: 1.6; letter-spacing: 0.2em; text-indent: 0.2em; text-transform: uppercase; color: var(--clay-deep); max-width: none; margin-left: auto; margin-right: auto; }
+.reserve-line { margin-top: 30px; font-family: var(--display); font-size: clamp(18px, 2vw, 24px); line-height: 1.4; letter-spacing: 0.01em; text-indent: 0; text-transform: none; color: var(--clay-deep); max-width: none; margin-left: auto; margin-right: auto; }
 .reserve-meta { margin-top: 34px; font-style: normal; font-size: 14px; color: var(--ink-soft); }
 .reserve-meta a { text-decoration: underline; text-underline-offset: 3px; }
 .reserve-meta a:hover { color: var(--clay-deep); }
 :focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 3px; }
 .footer {
   margin-top: clamp(70px, 10vh, 120px); padding: 22px 28px;
-  display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap;
-  font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+  display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: center;
+  font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: none;
   color: var(--ink-soft);
   border-top: 1px solid var(--line);
 }
+.footer-moon { color: var(--clay-pale); margin-right: 8px; }
 
 /* ===== Animation initial states (JS removes) ===== */
 .js .reveal, .js .reveal-soft { opacity: 0; transform: translateY(28px); }
@@ -405,14 +484,13 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
 
 /* ===== Reduced motion ===== */
 @media (prefers-reduced-motion: reduce) {
-  .hero-media img, .scroll-cue span, .cta::after { animation: none !important; transition: none !important; }
+  .hero-media img, .scroll-cue span { animation: none !important; transition: none !important; }
   .js .reveal, .js .reveal-soft, .js .hero-name { opacity: 1 !important; transform: none !important; }
   .js .img-reveal img { transform: none !important; }
   html { scroll-behavior: auto; }
 }
 
-/* ===== Concierge chat =====
-   Vassili floats above everything (nav z-50, tmodal scrim z-70) on every page. */
+/* ===== Concierge chat ===== */
 .chat-launcher {
   position: fixed; right: 24px; bottom: 24px; z-index: 80;
   width: 64px; height: 64px; border-radius: 50%;
@@ -429,16 +507,11 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
 }
 .chat-launcher:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 3px; }
 .chat-launcher svg { display: block; }
-
-.chat-launcher .v-flare { transform-origin: 48px 11.5px; animation: v-twinkle 3.4s ease-in-out infinite; }
-@keyframes v-twinkle {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(0.78) rotate(8deg); opacity: 0.75; }
+/* Static terracotta ring (replaces the conic flare). */
+.chat-launcher::after {
+  content: ""; position: absolute; inset: -3px; border-radius: 50%;
+  border: 2px solid var(--clay); pointer-events: none;
 }
-@media (prefers-reduced-motion: reduce) {
-  .chat-launcher .v-flare { animation: none; }
-}
-
 /* Breathing pulse ring — draws the eye until the chat is opened once */
 .chat-launcher::before {
   content: ""; position: absolute; inset: -2px; border-radius: 50%;
@@ -451,47 +524,12 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
 }
 .chat-launcher.calm::before { animation: none; opacity: 0; }
 
-
-/* Terracotta frame with a soft traveling glow — launcher + teaser share it */
-@property --vg-angle {
-  syntax: "<angle>"; initial-value: 0deg; inherits: false;
-}
-@keyframes vg-sweep { to { --vg-angle: 360deg; } }
-
-.chat-launcher::after {
-  content: ""; position: absolute; inset: -6px; border-radius: 50%;
-  padding: 2px; pointer-events: none;
-  background: conic-gradient(from var(--vg-angle),
-    #B5562F 0deg, #CF8155 38deg, #E9C3AC 58deg, #CF8155 78deg,
-    #B5562F 120deg, #8E4222 240deg, #B5562F 360deg);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor; mask-composite: exclude;
-  animation: vg-sweep 4.5s linear infinite;
-}
-
-.chat-teaser::before {
-  content: ""; position: absolute; inset: -3px; border-radius: 17px;
-  padding: 2px; pointer-events: none;
-  background: conic-gradient(from var(--vg-angle),
-    #B5562F 0deg, #CF8155 38deg, #E9C3AC 58deg, #CF8155 78deg,
-    #B5562F 120deg, #8E4222 240deg, #B5562F 360deg);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor; mask-composite: exclude;
-  animation: vg-sweep 4.5s linear infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .chat-launcher::after, .chat-teaser::before {
-    animation: none;  /* static terracotta frame, no moving glow */
-  }
-}
-
 /* Intro teaser — "Meet Vassili" card above the launcher */
 .chat-teaser {
   position: fixed; right: 24px; bottom: 102px; z-index: 80;
   width: min(300px, calc(100vw - 32px));
   background: var(--card); color: var(--ink);
-  border: 1px solid var(--line); border-radius: 14px;
+  border: 1px solid var(--line-clay); border-radius: var(--r-md);
   box-shadow: 0 14px 40px rgba(58, 51, 44, 0.2);
   opacity: 0; transform: translateY(10px);
   transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
@@ -501,20 +539,20 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
 .chat-teaser::after { /* notch pointing to the launcher */
   content: ""; position: absolute; right: 24px; bottom: -7px;
   width: 12px; height: 12px; background: var(--card);
-  border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line-clay); border-bottom: 1px solid var(--line-clay);
   transform: rotate(45deg);
 }
 .chat-teaser-body {
   display: block; width: 100%; text-align: left;
   background: none; border: none; cursor: pointer;
-  padding: 14px 38px 14px 18px; border-radius: 14px;
+  padding: 14px 38px 14px 18px; border-radius: var(--r-md);
   color: inherit;
 }
 .chat-teaser-body:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 2px; }
 .chat-teaser-name {
   display: block; font-family: var(--display); font-weight: 400;
-  font-size: 13px; line-height: 1.5; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--clay-deep);
+  font-size: 16px; line-height: 1.4; letter-spacing: 0.01em;
+  text-transform: none; color: var(--clay-deep);
   margin-bottom: 6px;
 }
 .chat-teaser-line {
@@ -535,7 +573,7 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
   width: 360px; max-width: calc(100vw - 32px); max-height: 60vh;
   display: flex; flex-direction: column;
   background: var(--card); color: var(--ink);
-  border: 1px solid var(--line); border-radius: 14px;
+  border: 1px solid var(--line-clay); border-radius: var(--r-md);
   box-shadow: 0 18px 50px rgba(58, 51, 44, 0.22);
   overflow: hidden;
   animation: chat-in 0.35s var(--ease);
@@ -548,7 +586,7 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
   padding: 14px 18px; border-bottom: 1px solid var(--line);
   background: var(--bg-2);
 }
-.chat-title { font-family: var(--display); font-weight: 400; font-size: 13.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--clay-deep); }
+.chat-title { font-family: var(--display); font-weight: 400; font-size: 16px; letter-spacing: 0.01em; text-transform: none; color: var(--clay-deep); }
 .chat-close {
   background: none; border: none; cursor: pointer; padding: 6px;
   color: var(--ink-soft); display: grid; place-items: center;
@@ -571,11 +609,11 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
 }
 .chat-user {
   align-self: flex-end; border-bottom-right-radius: 4px;
-  background: rgba(169, 116, 90, 0.13); color: var(--ink);
-  border: 1px solid rgba(169, 116, 90, 0.35);
+  background: var(--clay-tint); color: var(--ink);
+  border: 1px solid var(--clay-tint-2);
 }
 .chat-link { color: var(--clay-deep); text-decoration: underline; text-underline-offset: 3px; }
-.chat-link:hover { color: #6F4029; }
+.chat-link:hover { color: var(--clay-press); }
 
 .chat-typing { display: flex; gap: 5px; align-items: center; padding: 14px; }
 .chat-typing span {
@@ -593,7 +631,7 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
 .chat-input input {
   flex: 1; min-width: 0; padding: 10px 14px;
   background: var(--bg); color: var(--ink);
-  border: 1px solid rgba(58, 51, 44, 0.22); border-radius: 999px;
+  border: 1px solid rgba(58, 51, 44, 0.22); border-radius: var(--r-pill);
   font-family: var(--sans); font-size: 14px; font-weight: 400;
 }
 .chat-input input::placeholder { color: var(--ink-soft); }
@@ -603,7 +641,7 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
   border: none; background: var(--clay-deep); color: var(--bg);
   cursor: pointer; display: grid; place-items: center; transition: background 0.3s;
 }
-.chat-send:hover { background: #6F4029; }
+.chat-send:hover { background: var(--clay-press); }
 .chat-send:disabled { opacity: 0.5; cursor: default; }
 
 @media (max-width: 480px) {
@@ -619,7 +657,7 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
   .chat-typing span { animation: none !important; opacity: 0.8; }
 }
 
-/* Reserve dual CTAs — flex row, both pills normalized to identical boxes */
+/* Reserve dual CTAs */
 .reserve-content .cta-row {
   margin-top: 38px;
   display: flex; justify-content: center; align-items: stretch;
@@ -647,7 +685,7 @@ html.tmodal-open { overflow: hidden; }
   position: relative;
   width: min(560px, 100%); max-height: min(84vh, 720px); overflow-y: auto;
   background: var(--card); color: var(--ink);
-  border: 1px solid var(--line); border-radius: 14px;
+  border: 1px solid var(--line-clay); border-radius: var(--r-card);
   padding: 38px 38px 34px;
   box-shadow: 0 24px 70px rgba(33, 27, 22, 0.35);
   animation: tmodal-in 0.4s var(--ease);
@@ -664,8 +702,8 @@ html.tmodal-open { overflow: hidden; }
 .tmodal-close:hover { color: var(--ink); background: var(--bg-2); }
 .tmodal-title {
   font-family: var(--display); font-weight: 400;
-  font-size: clamp(17px, 2.6vw, 21px); line-height: 1.55;
-  letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: clamp(20px, 2.8vw, 26px); line-height: 1.3;
+  letter-spacing: 0.01em; text-transform: none;
   color: var(--ink); padding-right: 34px;
 }
 .tmodal-sub {
@@ -681,12 +719,12 @@ html.tmodal-open { overflow: hidden; }
   display: flex; flex-direction: column; align-items: flex-start; gap: 16px;
 }
 .tmodal-book {
-  display: inline-block; padding: 15px 34px; border-radius: 999px;
+  display: inline-block; padding: 15px 34px; border-radius: var(--r-pill);
   background: var(--clay-deep); color: var(--bg);
-  font-size: 13px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
+  font-size: 13px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
   transition: background-color 0.3s;
 }
-.tmodal-book:hover { background: #6F4029; }
+.tmodal-book:hover { background: var(--clay-press); }
 .tmodal-wa {
   font-size: 13px; color: var(--ink-soft);
   text-decoration: underline; text-underline-offset: 3px;
@@ -695,11 +733,10 @@ html.tmodal-open { overflow: hidden; }
 }
 .tmodal-wa:hover { color: var(--clay-deep); }
 @media (max-width: 560px) {
-  /* Bottom sheet on small screens */
   .tmodal-overlay { padding: 0; align-items: end; grid-template-columns: 1fr; place-items: end stretch; }
   .tmodal {
     width: 100%; max-height: 86vh; max-height: 86svh;
-    border-radius: 18px 18px 0 0; border-left: 0; border-right: 0; border-bottom: 0;
+    border-radius: var(--r-lg) var(--r-lg) 0 0; border-left: 0; border-right: 0; border-bottom: 0;
     padding: 30px 24px calc(28px + env(safe-area-inset-bottom));
     animation: tmodal-up 0.45s var(--ease);
   }
@@ -713,15 +750,12 @@ html.tmodal-open { overflow: hidden; }
 }
 
 /* ===== Journal ===== */
-/* Blog pages: no hero, no main.js — nav carries .nav-solid so the base solid
-   bar always shows. Pages are fully static; entrances are CSS-only. */
-
 .journal-main { padding-top: clamp(110px, 16vh, 170px); }
 .journal-head { margin-bottom: clamp(44px, 7vh, 76px); }
 .journal-title {
   font-family: var(--display); font-weight: 400;
-  font-size: clamp(30px, 4.6vw, 54px); line-height: 1.18;
-  letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink);
+  font-size: clamp(34px, 5vw, 60px); line-height: 1.12;
+  letter-spacing: 0.005em; text-transform: none; color: var(--ink);
 }
 .journal-desc { margin-top: 18px; font-size: 16px; line-height: 1.7; color: var(--ink-soft); max-width: 34em; }
 
@@ -734,7 +768,7 @@ html.tmodal-open { overflow: hidden; }
 
 .post-card {
   display: flex; flex-direction: column;
-  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  background: var(--card); border: 1px solid var(--line-clay); border-radius: var(--r-card);
   overflow: hidden;
   box-shadow: 0 2px 14px rgba(58, 51, 44, 0.06);
   transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
@@ -742,14 +776,12 @@ html.tmodal-open { overflow: hidden; }
 .post-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(58, 51, 44, 0.14); }
 .post-card:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 3px; }
 
-/* --- Card/banner photography: fixed-ratio frame, cover crop. Per-image
-   focal points are tuned inline via object-position on the img. --- */
+/* Card photography — boho arch crown on top */
 .post-art {
   position: relative; aspect-ratio: 16 / 10; overflow: hidden;
-  background: var(--bg-2); /* warm sand while the photo loads */
+  border-radius: var(--arch) var(--arch) 0 0;
+  background: var(--bg-2);
 }
-/* Single-column mobile: taller frame so portrait photography breathes
-   instead of being reduced to a tight eye-band crop */
 @media (max-width: 680px) {
   .post-art { aspect-ratio: 4 / 3; }
 }
@@ -772,8 +804,8 @@ html.tmodal-open { overflow: hidden; }
 .post-title {
   margin-top: 12px;
   font-family: var(--display); font-weight: 400;
-  font-size: 15px; line-height: 1.65; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--ink); max-width: none;
+  font-size: 19px; line-height: 1.35; letter-spacing: 0.01em;
+  text-transform: none; color: var(--ink); max-width: none;
 }
 .post-excerpt { margin-top: 12px; flex: 1; font-size: 14.5px; line-height: 1.65; color: var(--ink-soft); }
 .post-read {
@@ -783,7 +815,7 @@ html.tmodal-open { overflow: hidden; }
 }
 .post-card:hover .post-read { text-decoration: underline; text-underline-offset: 4px; }
 
-/* --- Article reading layout --- */
+/* Article reading layout */
 .article-wrap { max-width: 760px; margin: 0 auto; padding: 0 24px clamp(80px, 12vh, 140px); }
 .article-back {
   display: inline-block; margin-bottom: 28px;
@@ -791,7 +823,7 @@ html.tmodal-open { overflow: hidden; }
   text-transform: uppercase; color: var(--clay-deep);
 }
 .article-back:hover { text-decoration: underline; text-underline-offset: 4px; }
-.article-art { aspect-ratio: 21 / 9; border-radius: 12px; }
+.article-art { aspect-ratio: 21 / 9; border-radius: var(--r-lg) var(--r-lg) var(--r-md) var(--r-md); overflow: hidden; }
 @media (max-width: 680px) {
   .article-art { aspect-ratio: 16 / 10; }
 }
@@ -799,18 +831,18 @@ html.tmodal-open { overflow: hidden; }
 .article-title {
   margin-top: 14px;
   font-family: var(--display); font-weight: 400;
-  font-size: clamp(20px, 2.9vw, 29px); line-height: 1.45;
-  letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink);
+  font-size: clamp(26px, 3.4vw, 36px); line-height: 1.25;
+  letter-spacing: 0.01em; text-transform: none; color: var(--ink);
 }
 .article-body { margin-top: 34px; max-width: 65ch; }
 .article-body p { font-size: 17px; line-height: 1.85; color: var(--ink); }
 .article-body p + p { margin-top: 1.35em; }
-.article-body h2 { /* inherits the caps display system from the global h2 rule */
+.article-body h2 {
   margin: 2.4em 0 1em;
-  font-size: 15px; line-height: 1.65; letter-spacing: 0.2em; max-width: none;
+  font-size: 24px; line-height: 1.3; letter-spacing: 0.01em; max-width: none;
 }
 
-/* --- Quiet end-of-article CTA row --- */
+/* Quiet end-of-article CTA row */
 .article-cta {
   margin-top: clamp(56px, 9vh, 88px); padding-top: 38px;
   border-top: 1px solid var(--line);
@@ -818,15 +850,13 @@ html.tmodal-open { overflow: hidden; }
 }
 .article-cta-line {
   width: 100%;
-  font-family: var(--display); text-transform: uppercase; letter-spacing: 0.16em;
-  font-size: 14px; color: var(--ink-soft);
+  font-family: var(--display); text-transform: none; letter-spacing: 0.01em;
+  font-size: 22px; color: var(--ink);
 }
 .article-cta .cta { margin-top: 0; padding: 13px 30px; }
 
-/* Footer used standalone on blog pages (no reserve band above it) */
 .footer-flat { margin-top: 0; background: var(--bg-3); }
 
-/* CSS-only entrance for cards and article (no main.js on blog pages) */
 @media (prefers-reduced-motion: no-preference) {
   .post-card, .article-wrap > * { animation: journal-rise 0.8s var(--ease) backwards; }
   .post-card:nth-child(2) { animation-delay: 0.07s; }
@@ -844,14 +874,7 @@ html.tmodal-open { overflow: hidden; }
   to   { opacity: 1; transform: none; }
 }
 
-/* ===== Studio Shop =====
-   Shop pages reuse the journal shell (.nav-solid, .journal-main, .journal-head).
-   Product cards are rendered by shop.js from the PRODUCT data block. Art areas
-   show real 900×900 product photos (assets/img/shop/<slug>.jpg) under a soft
-   uniform warm grade so the mixed-source set reads as one collection; cards
-   with photo:null fall back to the tinted gradient + serif initial. */
-
-/* Header trust row — one quiet line of buying reassurance under the title */
+/* ===== Studio Shop ===== */
 .shop-trust {
   margin-top: 20px; display: flex; flex-wrap: wrap; align-items: baseline;
   font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
@@ -862,7 +885,7 @@ html.tmodal-open { overflow: hidden; }
 
 .shop-grid {
   display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 30px 24px; padding-bottom: clamp(130px, 18vh, 200px); /* clearance for the cart bar */
+  gap: 30px 24px; padding-bottom: clamp(130px, 18vh, 200px);
 }
 @media (max-width: 1020px) { .shop-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 780px)  { .shop-grid { grid-template-columns: repeat(2, 1fr); gap: 20px 16px; } }
@@ -871,37 +894,25 @@ html.tmodal-open { overflow: hidden; }
 .shop-card {
   position: relative; cursor: pointer;
   display: flex; flex-direction: column;
-  background: var(--card); border: none; border-radius: 14px;
+  background: var(--card); border: 1px solid var(--line-clay); border-radius: var(--r-card);
   overflow: hidden;
   box-shadow: 0 1px 2px rgba(58, 51, 44, 0.05), 0 12px 32px -20px rgba(58, 51, 44, 0.2);
-  transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
+  transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease), border-color 0.45s var(--ease);
 }
-/* Static gold frame — same gilt family as the button frame, but quiet and
-   NEVER animated. Masked padding technique keeps the 2px gradient ring crisp
-   on the rounded corners; it brightens slightly on hover/focus to signal that
-   the whole card is clickable. */
-.shop-card::before {
-  content: ""; position: absolute; inset: 0; border-radius: inherit;
-  padding: 2px; pointer-events: none; z-index: 3;
-  background: linear-gradient(180deg, #C9A45C, #B8924C);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor; mask-composite: exclude;
-  opacity: 0.6;
-  transition: opacity 0.45s var(--ease);
-}
-.shop-card:focus-visible::before { opacity: 1; }
+.shop-card:focus-visible { outline: none; border-color: var(--clay); }
+.shop-card:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 3px; }
 @media (hover: hover) {
   .shop-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px); border-color: var(--clay);
     box-shadow: 0 2px 4px rgba(58, 51, 44, 0.05), 0 26px 48px -20px rgba(58, 51, 44, 0.3);
   }
-  .shop-card:hover::before { opacity: 1; }
   .shop-card:hover .shop-art img { transform: scale(1.03); }
 }
 
-/* Art frame — photo (or placeholder gradient) edge-to-edge, square */
+/* Art frame — photo (or placeholder) edge-to-edge, square, boho arch crown */
 .shop-art {
   position: relative; aspect-ratio: 1 / 1; overflow: hidden;
+  border-radius: var(--arch) var(--arch) 0 0;
   background: linear-gradient(165deg, var(--tint-a, var(--bg-2)), var(--tint-b, var(--bg-3)));
   display: grid; place-items: center;
 }
@@ -913,28 +924,27 @@ html.tmodal-open { overflow: hidden; }
   position: relative;
   font-family: var(--display);
   font-size: clamp(72px, 8.5vw, 110px); line-height: 1;
-  color: var(--clay-deep); opacity: 0.32; /* decorative, aria-hidden */
+  color: var(--clay-deep); opacity: 0.3;
   user-select: none; -webkit-user-select: none;
 }
 .shop-art img {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-  object-position: 50% 22%; /* bias up so the hat stays in the square thumbnail */
-  /* uniform warm grade, same family as .photo-portrait — unifies mixed sources */
+  object-position: 50% 22%;
   filter: sepia(0.04) saturate(0.99) contrast(1.01) brightness(1.0);
   transition: transform 0.6s var(--ease);
 }
 .shop-art::after { /* faint clay veil + hairline keeps photos seated in the card */
   content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg, rgba(233, 205, 175, 0.1), rgba(138, 82, 56, 0.07));
+  background: linear-gradient(180deg, rgba(181, 86, 47, 0.08), rgba(142, 66, 34, 0.07));
   mix-blend-mode: multiply;
-  box-shadow: inset 0 -1px 0 rgba(58, 51, 44, 0.1);
+  box-shadow: inset 0 -1px 0 var(--line);
 }
 
 .shop-body { display: flex; flex-direction: column; flex: 1; padding: 18px 20px 20px; }
 .shop-name {
   font-family: var(--display); font-weight: 400;
-  font-size: 14.5px; line-height: 1.6; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--ink); max-width: none;
+  font-size: 18px; line-height: 1.35; letter-spacing: 0.01em;
+  text-transform: none; color: var(--ink); max-width: none;
 }
 .shop-sub {
   margin-top: 6px;
@@ -944,45 +954,34 @@ html.tmodal-open { overflow: hidden; }
 .shop-price {
   margin-top: 14px; flex: 1;
   display: flex; align-items: baseline; gap: 8px;
-  font-size: 17.5px; font-weight: 600; letter-spacing: 0.02em; color: var(--clay-deep);
+  font-family: var(--display); font-size: 19px; font-weight: 400; letter-spacing: 0.01em; color: var(--clay-deep);
 }
-.shop-price small { font-size: 12.5px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-soft); }
+.shop-price small { font-family: var(--sans); font-size: 12.5px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-soft); }
 
-/* Add-to-order — full-width solid clay pill that becomes a full-width stepper */
+/* Add-to-order — earthy solid clay pill (NO gold, NO flare) */
 .shop-action { margin-top: 16px; min-height: 46px; display: flex; }
 .shop-add {
   position: relative; isolation: isolate;
-  width: 100%; min-height: 46px; padding: 12px 16px; border-radius: 999px; cursor: pointer;
+  width: 100%; min-height: 46px; padding: 12px 16px; border-radius: var(--r-pill); cursor: pointer;
   display: inline-flex; align-items: center; justify-content: center;
-  border: none; background: var(--card); color: var(--clay-deep);
+  border: none; background: var(--clay-deep); color: var(--bg);
   font-family: var(--sans); font-size: 11.5px; font-weight: 600;
   letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap;
-  transition: background-color 0.3s, color 0.3s, transform 0.2s var(--ease);
+  box-shadow: 0 0 0 2px var(--clay-tint); /* thin double hand-drawn border feel */
+  transition: background-color 0.3s, color 0.3s, transform 0.2s var(--ease), box-shadow 0.3s;
 }
-/* Golden frame — 3px, with a flare that sweeps the frame on hover/focus */
-.shop-add::before {
-  content: ""; position: absolute; inset: 0; border-radius: 999px;
-  padding: 3px; pointer-events: none; z-index: -1;
-  background: conic-gradient(from var(--vg-angle),
-    #C9A45C 0deg, #E8CB8F 38deg, #FFF3D6 58deg, #E8CB8F 78deg,
-    #C9A45C 120deg, #B8924C 240deg, #C9A45C 360deg);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor; mask-composite: exclude;
-}
-/* Flare runs while hovering ANYWHERE on the product card (the whole card is
-   the clickable surface), on keyboard focus, and on direct hover inside the
-   product modal. */
-.shop-card:hover .shop-add::before,
-.pmodal .shop-add:hover::before,
-.shop-add:focus-visible::before {
-  animation: vg-sweep 1.6s linear infinite;
-}
-.shop-add:hover { background: #FFFAF0; color: #6F4029; }
+.shop-add:hover { background: var(--clay-press); box-shadow: 0 0 0 2px var(--clay-tint-2); }
 .shop-add:active { transform: scale(0.98); }
 .shop-add:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 4px; }
+/* Sold-out variant (shop.js also sets inline opacity/cursor) */
+.shop-add-soldout {
+  background: var(--bg-3); color: var(--ink-mute); cursor: default;
+  box-shadow: none;
+}
+.shop-add-soldout:hover { background: var(--bg-3); box-shadow: none; }
 .shop-stepper {
   display: flex; align-items: center; justify-content: space-between; width: 100%;
-  border: 1px solid var(--clay-deep); border-radius: 999px; overflow: hidden;
+  border: 1px solid var(--clay-deep); border-radius: var(--r-pill); overflow: hidden;
   background: var(--card); min-height: 46px;
 }
 .shop-step {
@@ -991,11 +990,10 @@ html.tmodal-open { overflow: hidden; }
   display: grid; place-items: center;
   transition: background-color 0.3s;
 }
-.shop-step:hover { background: rgba(169, 116, 90, 0.14); }
-.shop-step:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: -3px; border-radius: 999px; }
+.shop-step:hover { background: var(--clay-tint); }
+.shop-step:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: -3px; border-radius: var(--r-pill); }
 .shop-qty { min-width: 32px; text-align: center; font-size: 16px; font-weight: 600; color: var(--ink); }
 
-/* CSS-only entrance, mirrors the journal cards */
 @media (prefers-reduced-motion: no-preference) {
   .shop-card { animation: journal-rise 0.8s var(--ease) backwards; }
   .shop-card:nth-child(2) { animation-delay: 0.05s; }
@@ -1007,28 +1005,26 @@ html.tmodal-open { overflow: hidden; }
   .shop-card:nth-child(8) { animation-delay: 0.35s; }
 }
 
-/* --- Floating cart bar — bottom-center, below Vassili's z-80 launcher and
-   horizontally clear of it; on small screens it keeps a right gutter so the
-   two never collide. --- */
+/* Floating cart bar */
 .cart-bar {
   position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
   z-index: 60;
   display: inline-flex; align-items: center; gap: 16px;
   max-width: min(560px, calc(100vw - 200px));
-  padding: 16px 28px; border: none; border-radius: 999px; cursor: pointer;
+  padding: 16px 28px; border: none; border-radius: var(--r-pill); cursor: pointer;
   background: var(--clay-deep); color: var(--bg);
   font-family: var(--sans); font-size: 13.5px; font-weight: 600; letter-spacing: 0.06em;
   box-shadow: 0 14px 36px rgba(33, 27, 22, 0.35), inset 0 1px 0 rgba(255, 253, 249, 0.22);
   transition: background-color 0.3s, box-shadow 0.3s;
   animation: cart-in 0.4s var(--ease);
 }
-.cart-bar:hover { background: #6F4029; box-shadow: 0 18px 42px rgba(33, 27, 22, 0.42), inset 0 1px 0 rgba(255, 253, 249, 0.22); }
+.cart-bar:hover { background: var(--clay-press); box-shadow: 0 18px 42px rgba(33, 27, 22, 0.42), inset 0 1px 0 rgba(255, 253, 249, 0.22); }
 .cart-bar:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 3px; }
 .cart-bar[hidden] { display: none; }
 .cart-bar-sum { white-space: nowrap; }
 .cart-bar-cta {
   white-space: nowrap; text-transform: uppercase; letter-spacing: 0.16em; font-size: 11.5px; color: var(--bg);
-  border-left: 1px solid rgba(255, 253, 249, 0.35); padding-left: 16px;
+  border-left: 1px solid rgba(246, 238, 221, 0.35); padding-left: 16px;
 }
 @keyframes cart-in { from { opacity: 0; transform: translate(-50%, 14px); } to { opacity: 1; transform: translate(-50%, 0); } }
 @media (max-width: 640px) {
@@ -1041,10 +1037,8 @@ html.tmodal-open { overflow: hidden; }
   @keyframes cart-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 }
 
-/* --- Product detail modal — large photo, full desc, gold-framed Add --- */
+/* Product detail modal */
 html.pmodal-open { overflow: hidden; }
-/* The modal focus-traps, so Vassili (z-80) would float unreachable above it —
-   hide the chat affordances while the product dialog is open. */
 html.pmodal-open .chat-launcher,
 html.pmodal-open .chat-teaser,
 html.pmodal-open .chat-card { display: none; }
@@ -1059,7 +1053,7 @@ html.pmodal-open .chat-card { display: none; }
   position: relative;
   width: min(560px, 100%); max-height: min(88vh, 780px); overflow-y: auto;
   background: var(--card); color: var(--ink);
-  border: 1px solid var(--line); border-radius: 14px;
+  border: 1px solid var(--line-clay); border-radius: var(--r-card);
   box-shadow: 0 24px 70px rgba(33, 27, 22, 0.35);
   animation: tmodal-in 0.4s var(--ease);
 }
@@ -1072,28 +1066,27 @@ html.pmodal-open .chat-card { display: none; }
   color: var(--ink); transition: color 0.3s, background-color 0.3s;
   backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
 }
-.pmodal-close:hover { background: var(--card); color: #6F4029; }
-/* Large product photo — edge-to-edge at the top of the sheet, same warm
-   grade and clay veil as the cards so the two read as one system. */
+.pmodal-close:hover { background: var(--card); color: var(--clay-press); }
+/* Large product photo — crowned in a boho arch */
 .pmodal-art {
   position: relative; height: clamp(340px, 58vh, 520px); overflow: hidden;
+  border-radius: var(--arch) var(--arch) 0 0;
   background: linear-gradient(165deg, var(--tint-a, var(--bg-2)), var(--tint-b, var(--bg-3)));
   display: grid; place-items: center;
 }
-/* Show the WHOLE product photo, hat centered (not cropped) — true colours. */
 .pmodal-art img {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: contain; object-position: center; filter: none;
 }
 .pmodal-art::after {
   content: ""; position: absolute; inset: 0; pointer-events: none;
-  box-shadow: inset 0 -1px 0 rgba(58, 51, 44, 0.1);
+  box-shadow: inset 0 -1px 0 var(--line);
 }
 .pmodal-body { padding: 26px 34px 34px; }
 .pmodal-title {
   font-family: var(--display); font-weight: 400;
-  font-size: clamp(17px, 2.6vw, 21px); line-height: 1.55;
-  letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: clamp(22px, 3vw, 28px); line-height: 1.25;
+  letter-spacing: 0.01em; text-transform: none;
   color: var(--ink); max-width: none;
 }
 .pmodal-sub {
@@ -1106,28 +1099,25 @@ html.pmodal-open .chat-card { display: none; }
 .pmodal-price {
   margin-top: 18px;
   display: flex; align-items: baseline; gap: 8px;
-  font-size: 20px; font-weight: 600; letter-spacing: 0.02em; color: var(--clay-deep);
+  font-family: var(--display); font-size: 24px; font-weight: 400; letter-spacing: 0.01em; color: var(--clay-deep);
 }
-.pmodal-price small { font-size: 13px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-soft); }
+.pmodal-price small { font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-soft); }
 .pmodal-action { margin-top: 24px; display: flex; }
 .pmodal-action .shop-add { min-height: 52px; font-size: 12.5px; }
 .pmodal-action .shop-stepper { min-height: 52px; }
 @media (max-width: 560px) {
-  /* Bottom sheet on small screens, like the treatment modal */
   .pmodal-overlay { padding: 0; align-items: end; place-items: end stretch; }
   .pmodal {
     width: 100%; max-height: 90vh; max-height: 90svh;
-    border-radius: 18px 18px 0 0; border-left: 0; border-right: 0; border-bottom: 0;
+    border-radius: var(--r-lg) var(--r-lg) 0 0; border-left: 0; border-right: 0; border-bottom: 0;
     animation: tmodal-up 0.45s var(--ease);
   }
   .pmodal-art { height: clamp(300px, 46vh, 420px); }
   .pmodal-body { padding: 24px 22px calc(28px + env(safe-area-inset-bottom)); }
 }
 
-/* --- Order panel — same visual language as the treatment modal --- */
+/* Order panel */
 html.order-open { overflow: hidden; }
-/* The panel focus-traps, so Vassili (z-80) would float unreachable above it —
-   hide the chat affordances while the order dialog is open. */
 html.order-open .chat-launcher,
 html.order-open .chat-teaser,
 html.order-open .chat-card { display: none; }
@@ -1143,7 +1133,7 @@ html.order-open .chat-card { display: none; }
   position: relative;
   width: min(540px, 100%); max-height: min(86vh, 760px); overflow-y: auto;
   background: var(--card); color: var(--ink);
-  border: 1px solid var(--line); border-radius: 16px;
+  border: 1px solid var(--line-clay); border-radius: var(--r-md);
   padding: 38px 36px 34px;
   box-shadow: 0 24px 70px rgba(33, 27, 22, 0.35);
   animation: tmodal-in 0.4s var(--ease);
@@ -1159,8 +1149,8 @@ html.order-open .chat-card { display: none; }
 .order-close:hover { color: var(--ink); background: var(--bg-2); }
 .order-title {
   font-family: var(--display); font-weight: 400;
-  font-size: clamp(17px, 2.6vw, 21px); line-height: 1.55;
-  letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: clamp(22px, 3vw, 28px); line-height: 1.25;
+  letter-spacing: 0.01em; text-transform: none;
   color: var(--ink); padding-right: 34px; max-width: none;
 }
 .order-items { list-style: none; margin-top: 20px; border-top: 1px solid var(--line); }
@@ -1179,11 +1169,10 @@ html.order-open .chat-card { display: none; }
 .order-total-sum { color: var(--clay-deep); white-space: nowrap; }
 .order-total-sum small { font-weight: 500; font-size: 12.5px; color: var(--ink-soft); }
 
-/* COD notice — bordered clay panel, same language as the booking policy panel */
 .cod-note {
   margin-top: 20px; padding: 14px 16px;
-  border: 1px solid var(--clay); border-radius: 10px;
-  background: rgba(169, 116, 90, 0.08);
+  border: 1px solid var(--clay); border-radius: var(--r-sm);
+  background: var(--clay-tint);
   color: var(--clay-deep); font-size: 13.5px; line-height: 1.65;
 }
 
@@ -1197,7 +1186,7 @@ html.order-open .chat-card { display: none; }
 .order-field input, .order-field textarea {
   width: 100%; padding: 12px 14px;
   background: var(--bg); color: var(--ink);
-  border: 1px solid rgba(58, 51, 44, 0.22); border-radius: 10px;
+  border: 1px solid rgba(58, 51, 44, 0.22); border-radius: var(--r-sm);
   font-family: var(--sans); font-size: 15px; font-weight: 400; line-height: 1.5;
 }
 .order-field textarea { resize: vertical; min-height: 72px; }
@@ -1209,20 +1198,19 @@ html.order-open .chat-card { display: none; }
 
 .order-submit {
   display: block; width: 100%; margin-top: 24px; min-height: 50px;
-  padding: 15px 34px; border: none; border-radius: 999px; cursor: pointer;
+  padding: 15px 34px; border: none; border-radius: var(--r-pill); cursor: pointer;
   background: var(--clay-deep); color: var(--bg);
   font-family: var(--sans); font-size: 13px; font-weight: 600;
-  letter-spacing: 0.2em; text-transform: uppercase;
+  letter-spacing: 0.18em; text-transform: uppercase;
   transition: background-color 0.3s, opacity 0.3s;
 }
-.order-submit:hover { background: #6F4029; }
+.order-submit:hover { background: var(--clay-press); }
 .order-submit:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 3px; }
 .order-submit:disabled { opacity: 0.6; cursor: default; }
 
-/* Failure bubble — graceful mailto fallback when the order API is unreachable */
 .order-fail {
   margin-top: 16px; padding: 13px 15px;
-  border: 1px solid rgba(156, 47, 29, 0.45); border-radius: 10px;
+  border: 1px solid rgba(156, 47, 29, 0.45); border-radius: var(--r-sm);
   background: rgba(156, 47, 29, 0.06);
   color: #8E2B1A; font-size: 13.5px; line-height: 1.65;
 }
@@ -1233,23 +1221,22 @@ html.order-open .chat-card { display: none; }
 .order-success-mark {
   width: 56px; height: 56px; margin: 0 auto 20px; border-radius: 50%;
   display: grid; place-items: center;
-  background: rgba(169, 116, 90, 0.13); color: var(--clay-deep);
+  background: var(--clay-tint); color: var(--clay-deep);
   font-size: 24px;
 }
 .order-success-title {
   font-family: var(--display); font-weight: 400;
-  font-size: 16px; line-height: 1.6; letter-spacing: 0.15em;
-  text-transform: uppercase; color: var(--ink); max-width: none;
+  font-size: 20px; line-height: 1.3; letter-spacing: 0.01em;
+  text-transform: none; color: var(--ink); max-width: none;
 }
 .order-success-line { margin-top: 12px; font-size: 14.5px; line-height: 1.7; color: var(--ink-soft); }
 .order-success .order-submit { margin-top: 26px; }
 
 @media (max-width: 560px) {
-  /* Bottom sheet on small screens, like the treatment modal */
   .order-overlay { padding: 0; align-items: end; place-items: end stretch; }
   .order-panel {
     width: 100%; max-height: 90vh; max-height: 90svh;
-    border-radius: 18px 18px 0 0; border-left: 0; border-right: 0; border-bottom: 0;
+    border-radius: var(--r-lg) var(--r-lg) 0 0; border-left: 0; border-right: 0; border-bottom: 0;
     padding: 28px 22px calc(26px + env(safe-area-inset-bottom));
     animation: tmodal-up 0.45s var(--ease);
   }
@@ -1261,55 +1248,36 @@ html.order-open .chat-card { display: none; }
   .shop-art img { transition: none; }
   .shop-card:hover .shop-art img { transform: none; }
   .shop-add, .shop-add:active { transition: none; transform: none; }
-  .shop-card:hover .shop-add::before,
-  .pmodal .shop-add:hover::before,
-  .shop-add:focus-visible::before { animation: none; }
-  .shop-card::before { transition: none; }
   .pmodal-overlay, .pmodal { animation: none !important; }
 }
 
-/* Six links (Treatments · About · Journal · Shop · lang · CTA): progressive
-   hiding priority — Treatments is the core business link and NEVER hides.
-   Drop order: About (≤480, rule above) → Journal (≤430) → Shop (≤390). */
+/* Progressive nav-link hiding (no-JS phones) */
 @media (max-width: 430px) {
-  .nav-links a:nth-child(3) { display: none; } /* Journal */
+  .nav-links a:nth-child(3) { display: none; }
 }
 @media (max-width: 390px) {
-  .nav-links a:nth-child(4) { display: none; } /* Shop */
+  .nav-links a:nth-child(4) { display: none; }
 }
 
-/* ===== Mobile menu (nav.js) ==================================================
-   Everything below is gated behind html.has-navjs, which nav.js adds on load.
-   Without JS none of it applies and the progressive-hiding rules above keep
-   the original phone behavior. nav.js restructures the bar into:
-     .nav > .nav-brand + .nav-right > (.nav-links · .nav-cta · .nav-toggle)
-   On desktop the .nav-right wrapper reproduces the original inline layout;
-   ≤700px the links become a card dropdown behind the hamburger toggle. */
-
-/* -- Desktop: invisible restructuring. .nav-right carries the same typography
-      the CTA used to inherit from .nav-links. */
+/* ===== Mobile menu (nav.js) ===== */
 html.has-navjs .nav-right {
   display: flex; align-items: center; gap: 28px;
-  font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+  font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
 }
 html.has-navjs .nav-right a { white-space: nowrap; }
-.nav-toggle { display: none; } /* hamburger exists only ≤700px */
+.nav-toggle { display: none; }
 
 @media (max-width: 480px) {
   html.has-navjs .nav-right { gap: 12px; font-size: 11px; }
 }
 
 @media (max-width: 700px) {
-  /* -- Bar: logo + CTA + hamburger. Re-show every link inside the panel,
-        overriding the no-JS progressive-hiding rules above (display:none). */
   html.has-navjs .nav-right { gap: 10px; }
 
-  /* -- Hamburger toggle: two gold-clay lines, right-aligned and unequal —
-        they even up and morph into an ✕ when the menu opens. 44px target. */
   html.has-navjs .nav-toggle {
     display: flex; flex-direction: column; justify-content: center; align-items: flex-end;
     gap: 7px; width: 44px; height: 44px; padding: 0 9px;
-    margin: -4px -9px -4px -2px; /* visual right edge aligns with the bar padding */
+    margin: -4px -9px -4px -2px;
     background: none; border: 0; border-radius: 8px; cursor: pointer;
     -webkit-tap-highlight-color: transparent;
   }
@@ -1324,13 +1292,10 @@ html.has-navjs .nav-right a { white-space: nowrap; }
   }
   html.has-navjs .nav-toggle-line:nth-child(1) { width: 26px; }
   html.has-navjs .nav-toggle-line:nth-child(2) { width: 17px; }
-  /* Over-hero transparent bar: lines go photo-ink with a legibility shadow,
-     matching the logo and CTA treatment. */
   .has-js .nav:not(.visible):not(.nav-solid):not(.menu-open) .nav-toggle-line {
     background: var(--photo-ink);
     box-shadow: 0 1px 6px rgba(26, 21, 17, 0.65), 0 2px 14px rgba(26, 21, 17, 0.4);
   }
-  /* Open: both lines 22px, pivoting around the icon centre into an ✕ */
   html.has-navjs .nav.menu-open .nav-toggle-line:nth-child(1) {
     width: 22px; transform: translateY(4.5px) rotate(45deg);
   }
@@ -1338,7 +1303,7 @@ html.has-navjs .nav-right a { white-space: nowrap; }
     width: 22px; transform: translateY(-4.5px) rotate(-45deg);
   }
 
-  /* -- Panel: full-width card dropdown under the bar, gold hairline on top */
+  /* Panel: full-width card dropdown, terracotta hairline on top */
   html.has-navjs .nav-links {
     position: absolute; top: 100%; left: 0; right: 0;
     display: block; padding: 10px 0 18px;
@@ -1348,34 +1313,31 @@ html.has-navjs .nav-right a { white-space: nowrap; }
     visibility: hidden; opacity: 0; transform: translateY(-8px);
     transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), visibility 0s 0.3s;
   }
-  html.has-navjs .nav-links::before { /* gold hairline — same gilt family as the frames */
+  html.has-navjs .nav-links::before { /* terracotta hairline — replaces gold rule */
     content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, rgba(201, 164, 92, 0) 0%, #C9A45C 22%, #B8924C 78%, rgba(184, 146, 76, 0) 100%);
+    background: linear-gradient(90deg, rgba(181, 86, 47, 0) 0%, var(--clay) 22%, var(--clay-deep) 78%, rgba(181, 86, 47, 0) 100%);
   }
   html.has-navjs .nav.menu-open .nav-links {
     visibility: visible; opacity: 1; transform: none;
     transition: opacity 0.35s var(--ease), transform 0.35s var(--ease), visibility 0s;
   }
 
-  /* -- Links: tracked-caps display list; overrides the no-JS display:none hiding */
   html.has-navjs .nav-links a {
     display: block; padding: 16px 28px;
-    font-family: var(--display); font-weight: 400; font-size: 15px; line-height: 1.4;
-    letter-spacing: 0.24em; text-transform: uppercase; color: var(--ink);
+    font-family: var(--display); font-weight: 400; font-size: 19px; line-height: 1.4;
+    letter-spacing: 0.02em; text-transform: none; color: var(--ink);
     opacity: 0; transform: translateY(10px);
     transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
   }
-  html.has-navjs .nav-links a + a { border-top: 1px solid rgba(58, 51, 44, 0.07); }
+  html.has-navjs .nav-links a + a { border-top: 1px solid var(--line-soft); }
   html.has-navjs .nav-links a:focus-visible {
     outline: 2px solid var(--clay-deep); outline-offset: -2px;
   }
-  /* Language switcher: quiet letterspaced Manrope, clay accent */
   html.has-navjs .nav-links a[hreflang] {
     font-family: var(--sans); font-weight: 600; font-size: 12px;
     letter-spacing: 0.24em; text-transform: uppercase; color: var(--clay-deep);
     padding-top: 17px; padding-bottom: 17px;
   }
-  /* Staggered entrance */
   html.has-navjs .nav.menu-open .nav-links a { opacity: 1; transform: none; }
   html.has-navjs .nav.menu-open .nav-links a:nth-child(1) { transition-delay: 0.04s; }
   html.has-navjs .nav.menu-open .nav-links a:nth-child(2) { transition-delay: 0.08s; }
@@ -1393,23 +1355,20 @@ html.has-navjs .nav-right a { white-space: nowrap; }
   }
 }
 
-/* ===== Collection — sideways product carousel (fashion cards) ===== */
-/* ===== Collection carousel — MOBILE-FIRST (swipe by default, arrows on desktop) ===== */
+/* ===== Collection — sideways product carousel ===== */
 .collection { padding: clamp(70px, 12vh, 160px) 0; overflow: hidden; }
 .collection-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: clamp(20px, 4vw, 44px); }
 .collection-head h2 { margin-top: 0; }
 
-/* Arrows are a desktop-pointer enhancement; touch users swipe (see hint below). */
 .collection-arrows { display: none; gap: 10px; flex: none; }
 .coll-arrow {
-  width: 46px; height: 46px; border-radius: 999px; border: 1px solid var(--line);
+  width: 46px; height: 46px; border-radius: var(--r-pill); border: 1px solid var(--line);
   background: var(--card); color: var(--ink); display: grid; place-items: center; cursor: pointer;
   transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease), opacity 0.3s;
 }
 .coll-arrow:hover { background: var(--clay-deep); color: var(--bg); border-color: var(--clay-deep); }
 .coll-arrow:disabled { opacity: 0.3; cursor: default; }
 
-/* Base = phone: full-bleed track, ~80vw cards so the next one peeks, snap + momentum. */
 .collection-track {
   display: flex; gap: 14px;
   overflow-x: auto; overflow-y: hidden;
@@ -1425,12 +1384,10 @@ html.has-navjs .nav-right a { white-space: nowrap; }
   flex: 0 0 min(80vw, 320px); min-width: 0;
   scroll-snap-align: start; display: flex; flex-direction: column; color: var(--ink);
 }
-/* Bulletproof image fill: a positioned box + absolutely-filled <img>, so the photo
-   never depends on percentage-height resolving against an aspect-ratio parent
-   (which fails on older mobile WebKit and would collapse the card). */
+/* Bulletproof image fill + boho ARCH crown (does NOT touch the img positioning) */
 .coll-card-img {
   position: relative; display: block; width: 100%; aspect-ratio: 3 / 4;
-  overflow: hidden; border-radius: 6px;
+  overflow: hidden; border-radius: var(--arch) var(--arch) var(--r-md) var(--r-md);
   background: linear-gradient(165deg, var(--bg-2), var(--bg-3));
 }
 .coll-card-img img {
@@ -1439,32 +1396,30 @@ html.has-navjs .nav-right a { white-space: nowrap; }
   transition: transform 0.7s var(--ease);
 }
 .coll-card-meta { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; margin-top: 14px; align-items: baseline; }
-.coll-card-name { font-family: var(--display); font-size: 19px; letter-spacing: 0.01em; }
-.coll-card-price { font-family: var(--display); font-size: 16px; color: var(--clay-deep); text-align: right; white-space: nowrap; }
-.coll-card-sub { grid-column: 1 / -1; font-size: 12.5px; color: var(--ink-soft); letter-spacing: 0.02em; margin-top: 2px; }
+.coll-card-name { font-family: var(--display); font-size: 20px; letter-spacing: 0.01em; text-transform: none; }
+.coll-card-price { font-family: var(--display); font-size: 17px; color: var(--clay-deep); text-align: right; white-space: nowrap; }
+.coll-card-sub { grid-column: 1 / -1; font-family: var(--sans); font-size: 12.5px; color: var(--ink-soft); letter-spacing: 0.02em; margin-top: 2px; }
 
-/* trailing "shop all" tile */
+/* trailing "shop all" tile — matching arch crown */
 .coll-card-all-inner {
   display: grid; place-items: center; text-align: center; aspect-ratio: 3 / 4; width: 100%;
-  border: 1px solid var(--clay); border-radius: 6px; color: var(--clay-deep);
-  font-family: var(--display); text-transform: uppercase; letter-spacing: 0.16em; font-size: 15px; line-height: 1.5;
+  border: 1px solid var(--clay); border-radius: var(--arch) var(--arch) var(--r-md) var(--r-md); color: var(--clay-deep);
+  font-family: var(--display); text-transform: none; letter-spacing: 0.01em; font-size: 19px; line-height: 1.4;
   transition: background 0.3s var(--ease), color 0.3s var(--ease);
 }
 .coll-card-all-arrow { display: block; margin-top: 12px; font-size: 22px; }
 
-/* Touch swipe hint — only shows where there are no arrows. */
+/* Touch swipe hint — hand-drawn Caveat accent */
 .collection-foot { margin-top: clamp(18px, 3vw, 34px); display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-.collection-swipe { font-size: 12.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); display: inline-flex; align-items: center; gap: 8px; }
+.collection-swipe { font-family: var(--accent); font-size: 16px; letter-spacing: 0; text-transform: none; color: var(--ink-soft); display: inline-flex; align-items: center; gap: 8px; }
 .collection-swipe::after { content: "→"; animation: coll-swipe 1.6s var(--ease) infinite; }
 @keyframes coll-swipe { 0%,100% { transform: translateX(0); opacity: 0.5; } 50% { transform: translateX(6px); opacity: 1; } }
 
-/* ---- Tablet up: roomier cards ---- */
 @media (min-width: 640px) {
   .coll-card { flex-basis: clamp(240px, 46vw, 300px); }
   .collection-track { gap: 18px; }
 }
 
-/* ---- Desktop pointer: align to the 1100px column, show arrows, hover zoom, hide swipe hint ---- */
 @media (hover: hover) and (pointer: fine) and (min-width: 900px) {
   .collection-arrows { display: flex; }
   .collection-track {
