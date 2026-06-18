@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("[admin/media] Upload failed:", error);
     return NextResponse.json(
-      { error: "Upload failed. Please try again." },
+      { error: `Upload failed: ${error instanceof Error ? error.message : String(error)}` },
       { status: 500 }
     );
   }
