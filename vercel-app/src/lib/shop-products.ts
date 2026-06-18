@@ -83,13 +83,6 @@ export const SHOP_PRODUCTS: readonly ShopProduct[] = [
     priceEgp: 3000,
     priceRub: 0,
   },
-  {
-    slug: "coastal-natural",
-    nameEn: "Coastal Natural",
-    nameRu: "Coastal Natural",
-    priceEgp: 2200,
-    priceRub: 0,
-  },
 ] as const;
 
 export const PRODUCTS_BY_SLUG: ReadonlyMap<string, ShopProduct> = new Map(

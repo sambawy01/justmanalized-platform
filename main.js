@@ -31,6 +31,33 @@
     track.addEventListener("scroll", updateArrows, { passive: true });
     window.addEventListener("resize", updateArrows);
     updateArrows();
+
+    // ---- Auto-rotate: advance one card every few seconds, loop at the end.
+    // Pauses on hover / focus / touch / wheel and while the tab is hidden;
+    // disabled entirely under prefers-reduced-motion. ----
+    if (!reduced) {
+      const cardStep = () => {
+        const card = track.querySelector(".coll-card");
+        const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 16;
+        return card ? Math.round(card.getBoundingClientRect().width + gap) : step();
+      };
+      let paused = false, resumeTimer = null;
+      const pause = () => { paused = true; if (resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; } };
+      const resumeSoon = () => { if (resumeTimer) clearTimeout(resumeTimer); resumeTimer = setTimeout(() => { paused = false; }, 4000); };
+      track.addEventListener("pointerenter", pause);
+      track.addEventListener("pointerleave", resumeSoon);
+      track.addEventListener("focusin", pause);
+      track.addEventListener("focusout", resumeSoon);
+      track.addEventListener("pointerdown", () => { pause(); resumeSoon(); });
+      track.addEventListener("wheel", () => { pause(); resumeSoon(); }, { passive: true });
+      track.addEventListener("touchstart", () => { pause(); resumeSoon(); }, { passive: true });
+      setInterval(() => {
+        if (paused || document.visibilityState !== "visible") return;
+        const max = track.scrollWidth - track.clientWidth - 4;
+        if (track.scrollLeft >= max) track.scrollTo({ left: 0, behavior: "smooth" });
+        else track.scrollBy({ left: cardStep(), behavior: "smooth" });
+      }, 3200);
+    }
   }
 
   if (reduced || !window.gsap || !window.ScrollTrigger || !window.Lenis) return; // static experience

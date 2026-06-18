@@ -26,7 +26,7 @@
       sub: { en: "Gold metallic straw · rhinestone trim", ru: "Gold metallic straw · rhinestone trim" },
       egp: 3500, rub: 0,
       initial: { en: "G", ru: "G" }, tintA: "#E8D9A8", tintB: "#C9A24B",
-      photo: "assets/img/shop/golden-hour-rhinestone.jpg",
+      photo: "assets/img/shop/coastal-natural.jpg",
       alt: {
         en: "Gold metallic straw cowboy hat with rhinestone trim and a jewelled black band",
         ru: "Gold metallic straw cowboy hat with rhinestone trim and a jewelled black band"
@@ -146,22 +146,6 @@
       desc: {
         en: "Pale natural straw set with a turquoise-and-silver concho and a jewelled trim. Cool, coastal and quietly luxe.",
         ru: "Pale natural straw set with a turquoise-and-silver concho and a jewelled trim. Cool, coastal and quietly luxe."
-      }
-    },
-    {
-      slug: "coastal-natural",
-      name: { en: "Coastal Natural", ru: "Coastal Natural" },
-      sub: { en: "Natural straw · beaded band", ru: "Natural straw · beaded band" },
-      egp: 2200, rub: 0,
-      initial: { en: "C", ru: "C" }, tintA: "#EADfca", tintB: "#C2A878",
-      photo: "assets/img/shop/coastal-natural.jpg",
-      alt: {
-        en: "Natural straw cowboy hat with a beaded band",
-        ru: "Natural straw cowboy hat with a beaded band"
-      },
-      desc: {
-        en: "The everyday straw cowboy — natural weave, a softly beaded band, and a shape that suits everyone.",
-        ru: "The everyday straw cowboy — natural weave, a softly beaded band, and a shape that suits everyone."
       }
     }
   ];

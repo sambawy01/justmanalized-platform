@@ -89,10 +89,10 @@ const SEED_COPY: Record<
       en: "Our most dazzling piece — a gold-toned straw cowboy hat hand-set with crystal rhinestones along the brim and a jewelled band. Made to catch the last light of the day.",
       ru: "Our most dazzling piece — a gold-toned straw cowboy hat hand-set with crystal rhinestones along the brim and a jewelled band. Made to catch the last light of the day.",
     },
-    photo: "assets/img/shop/golden-hour-rhinestone.jpg",
+    photo: "assets/img/shop/coastal-natural.jpg",
     alt: {
-      en: "Gold metallic straw cowboy hat with rhinestone trim and a jewelled black band",
-      ru: "Gold metallic straw cowboy hat with rhinestone trim and a jewelled black band",
+      en: "Hand-embellished straw cowboy hat",
+      ru: "Hand-embellished straw cowboy hat",
     },
   },
   "magenta-sunset": {
@@ -179,18 +179,6 @@ const SEED_COPY: Record<
       ru: "Natural straw cowboy hat with a turquoise-and-silver concho",
     },
   },
-  "coastal-natural": {
-    sub: { en: "Natural straw · beaded band", ru: "Natural straw · beaded band" },
-    desc: {
-      en: "The everyday straw cowboy — natural weave, a softly beaded band, and a shape that suits everyone.",
-      ru: "The everyday straw cowboy — natural weave, a softly beaded band, and a shape that suits everyone.",
-    },
-    photo: "assets/img/shop/coastal-natural.jpg",
-    alt: {
-      en: "Natural straw cowboy hat with a beaded band",
-      ru: "Natural straw cowboy hat with a beaded band",
-    },
-  },
 };
 
 /**
@@ -212,7 +200,6 @@ const SEED_USAGE: Record<string, { en: string; ru: string }> = {
   "wanderlust-red": HAT_CARE,
   "midnight-marina": HAT_CARE,
   "aqua-concho": HAT_CARE,
-  "coastal-natural": HAT_CARE,
 };
 
 /** Short names for the catalog (the descriptive suffix lives in `sub`). */
@@ -225,7 +212,6 @@ const SEED_SHORT_NAMES: Record<string, { en: string; ru: string }> = {
   "wanderlust-red": { en: "Wanderlust", ru: "Wanderlust" },
   "midnight-marina": { en: "Midnight Marina", ru: "Midnight Marina" },
   "aqua-concho": { en: "Aqua Concho", ru: "Aqua Concho" },
-  "coastal-natural": { en: "Coastal Natural", ru: "Coastal Natural" },
 };
 
 export const SEED: readonly Product[] = SHOP_PRODUCTS.map((p) => {
