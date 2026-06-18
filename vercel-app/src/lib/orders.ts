@@ -81,6 +81,9 @@ export interface StoredOrder {
   address: string;
   note: string;
   lang: "en" | "ru";
+  /** Sales channel. Absent on legacy orders = treat as "online" (website COD).
+   *  "in_store" = a physical sale recorded by the owner at the El Gouna shop. */
+  channel?: "online" | "in_store";
   statusHistory: { status: OrderStatus; at: string; reason?: CancelReason }[];
 }
 

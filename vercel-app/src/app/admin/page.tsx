@@ -107,6 +107,7 @@ export default async function AdminPage({
         orders={
           <OrdersSection
             orders={orders}
+            products={products}
             adminKey={clientKey}
             loadError={ordersError}
           />

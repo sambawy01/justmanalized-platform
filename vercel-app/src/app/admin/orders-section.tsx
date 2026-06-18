@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import type {
   CancelReason,
   CancelReasonCode,
   OrderStatus,
   StoredOrder,
 } from "@/lib/orders";
+import type { Product } from "@/lib/catalog";
 
 const CAIRO_TZ = "Africa/Cairo";
 
@@ -251,7 +252,9 @@ function OrderCard({
           </h3>
           <p className="mt-1 text-sm text-[#38492E]">
             {order.name}
-            <span className="text-[#5E6B4F]"> · {order.phone}</span>
+            {order.phone ? (
+              <span className="text-[#5E6B4F]"> · {order.phone}</span>
+            ) : null}
             {order.email ? (
               <span className="text-[#5E6B4F]"> · {order.email}</span>
             ) : null}
@@ -268,7 +271,14 @@ function OrderCard({
             </p>
           ) : null}
         </div>
-        <OrderStatusChip status={status} />
+        <div className="flex flex-col items-end gap-1">
+          {order.channel === "in_store" ? (
+            <span className="rounded-full bg-[#357F75]/15 px-3 py-1 text-xs font-medium text-[#2A665E]">
+              In-store
+            </span>
+          ) : null}
+          <OrderStatusChip status={status} />
+        </div>
       </div>
 
       {(action || cancellable) && !cancelling && (
@@ -316,12 +326,162 @@ function OrderCard({
 
 /* ---------- section ---------- */
 
+/* ---------- in-store (physical) sale ---------- */
+
+function InStoreSaleForm({
+  products,
+  adminKey,
+}: {
+  products: Product[];
+  adminKey: string;
+}) {
+  const sellable = products.filter(
+    (p) => p.active && !(p.soldOut || p.quantity === 0)
+  );
+  const [open, setOpen] = useState(false);
+  const [slug, setSlug] = useState(sellable[0]?.slug ?? "");
+  const [qty, setQty] = useState(1);
+  const [customer, setCustomer] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function submit(e: FormEvent) {
+    e.preventDefault();
+    if (!slug) {
+      setError("Pick a product.");
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/admin/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-admin-key": adminKey },
+        body: JSON.stringify({ items: [{ slug, qty }], customerName: customer }),
+      });
+      const payload = await res.json().catch(() => null);
+      if (!res.ok) {
+        setError(
+          (payload && typeof payload.error === "string" && payload.error) ||
+            `Couldn't record the sale (${res.status})`
+        );
+        setBusy(false);
+        return;
+      }
+      // Success: reload so the new sale appears and stock reflects immediately.
+      window.location.reload();
+    } catch {
+      setError("Network error. Please try again.");
+      setBusy(false);
+    }
+  }
+
+  if (!open) {
+    return (
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#357F75] px-4 py-2 text-sm font-medium text-[#357F75] transition hover:bg-[#357F75]/10"
+      >
+        + Record in-store sale (El Gouna)
+      </button>
+    );
+  }
+
+  return (
+    <form
+      onSubmit={submit}
+      className="mb-5 space-y-3 rounded-2xl border border-[#357F75]/35 bg-[#FBF4E6] p-4"
+    >
+      <p className="font-serif text-lg text-[#38492E]">
+        Record in-store sale
+      </p>
+      {sellable.length === 0 ? (
+        <p className="text-sm text-[#5E6B4F]">
+          No sellable products right now — add stock in the Products tab first.
+        </p>
+      ) : (
+        <>
+          <label className="block">
+            <span className="mb-1 block text-xs font-medium uppercase tracking-[0.08em] text-[#5E6B4F]">
+              Product
+            </span>
+            <select
+              value={slug}
+              onChange={(e) => setSlug(e.target.value)}
+              className="w-full rounded-xl border border-[#3A332C]/15 bg-white px-3 py-2 text-sm text-[#38492E] outline-none focus:border-[#357F75]"
+            >
+              {sellable.map((p) => (
+                <option key={p.slug} value={p.slug}>
+                  {p.en.name} · LE {p.priceEgp.toLocaleString("en-US")} ·{" "}
+                  {p.quantity === null ? "∞" : `${p.quantity} left`}
+                </option>
+              ))}
+            </select>
+          </label>
+          <div className="flex gap-3">
+            <label className="block w-28">
+              <span className="mb-1 block text-xs font-medium uppercase tracking-[0.08em] text-[#5E6B4F]">
+                Quantity
+              </span>
+              <input
+                type="number"
+                min={1}
+                max={99}
+                value={qty}
+                onChange={(e) =>
+                  setQty(Math.max(1, Math.min(99, Number(e.target.value) || 1)))
+                }
+                className="w-full rounded-xl border border-[#3A332C]/15 bg-white px-3 py-2 text-sm text-[#38492E] outline-none focus:border-[#357F75]"
+              />
+            </label>
+            <label className="block flex-1">
+              <span className="mb-1 block text-xs font-medium uppercase tracking-[0.08em] text-[#5E6B4F]">
+                Customer (optional)
+              </span>
+              <input
+                type="text"
+                value={customer}
+                onChange={(e) => setCustomer(e.target.value)}
+                placeholder="Walk-in"
+                className="w-full rounded-xl border border-[#3A332C]/15 bg-white px-3 py-2 text-sm text-[#38492E] outline-none focus:border-[#357F75]"
+              />
+            </label>
+          </div>
+          {error && <p className="text-sm text-[#B5483A]">{error}</p>}
+          <div className="flex gap-2">
+            <button
+              type="submit"
+              disabled={busy}
+              className="rounded-full bg-[#357F75] px-5 py-2 text-sm font-medium text-[#FBF4E6] transition hover:opacity-90 disabled:opacity-60"
+            >
+              {busy ? "Recording…" : "Record sale"}
+            </button>
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              className="rounded-full border border-[#3A332C]/15 px-5 py-2 text-sm text-[#38492E] transition hover:bg-[#38492E]/5"
+            >
+              Cancel
+            </button>
+          </div>
+          <p className="text-xs text-[#5E6B4F]">
+            Records a paid sale, removes the item from inventory, and counts toward revenue.
+          </p>
+        </>
+      )}
+    </form>
+  );
+}
+
 export default function OrdersSection({
   orders,
+  products,
   adminKey,
   loadError,
 }: {
   orders: StoredOrder[];
+  products: Product[];
   adminKey: string;
   loadError: string | null;
 }) {
@@ -335,6 +495,7 @@ export default function OrdersSection({
           </span>
         )}
       </h2>
+      <InStoreSaleForm products={products} adminKey={adminKey} />
       {loadError ? (
         <div className="rounded-2xl border border-[#B5483A]/30 bg-[#FBF4E6] px-6 py-5 text-sm text-[#B5483A]">
           {loadError}
