@@ -12,12 +12,12 @@
   const SHOP_URL = "shop.html";
 
   const T = {
-    open: "Open chat with Gameela, the Just Manalized concierge",
+    open: "Open chat with Gameela, the Just Manalized shop admin",
     close: "Close chat",
-    title: "Gameela",
+    title: "Gameela · Shop Admin",
     placeholder: "Your question…",
     send: "Send",
-    greeting: "Hi! I'm Gameela, the Just Manalized concierge. Ask me anything about our hats, sizing, materials, or your order.",
+    greeting: "Hi, I'm Gameela — the Just Manalized shop admin. Ask me anything about our hats, sizing, materials, shipping or your order.",
     teaserName: "Need a hand?",
     teaserLine: "Ask about our hats, sizing & orders",
     teaserDismiss: "Dismiss",
@@ -49,12 +49,12 @@
     return n;
   };
 
-  // Launcher: a clean sage badge with a cream serif "M" (the concierge's mark).
+  // Launcher: a clean sage badge with a cream serif "G" — Gameela's mark.
   // No sunburst, no brown — a single cream glyph on the sage orb.
   const launcher = el("button", "chat-launcher", { type: "button", "aria-label": T.open, "aria-expanded": "false" });
   launcher.innerHTML =
     '<svg viewBox="0 0 64 64" width="50" height="50" aria-hidden="true" focusable="false">' +
-      '<text x="32" y="42" text-anchor="middle" font-family="\'Yeseva One\', Georgia, serif" font-weight="400" font-size="34" fill="#FBF4E6">M</text>' +
+      '<text x="32" y="42" text-anchor="middle" font-family="\'Yeseva One\', Georgia, serif" font-weight="400" font-size="33" fill="#FBF4E6">G</text>' +
     '</svg>';
 
   const card = el("section", "chat-card", { role: "dialog", "aria-label": T.title, hidden: "" });

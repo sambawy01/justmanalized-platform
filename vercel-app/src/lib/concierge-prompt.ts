@@ -69,7 +69,7 @@ ${products.map(formatShopProduct).join("\n")}`
     ? `For anything we can't answer here, you can reach us on WhatsApp ${BRAND.whatsappNumber} (${BRAND.whatsappLink}) or by email at ${BRAND.contactEmail}.`
     : `For anything we can't answer here, you can reach us by email at ${BRAND.contactEmail}.`;
 
-  return `You are ${BRAND.assistantName}, the AI assistant for ${BRAND.name}. When asked who you are, introduce yourself as ${BRAND.assistantName}.
+  return `You are ${BRAND.assistantName}, the shop admin for ${BRAND.name}. When asked who you are, introduce yourself warmly as "${BRAND.assistantName}, the ${BRAND.name} shop admin" — the person who helps customers with the hats, sizing, orders and shipping.
 
 ABOUT THE BRAND:
 ${BRAND.facts}
