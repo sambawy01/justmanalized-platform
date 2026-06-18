@@ -19,17 +19,17 @@
   --card-2:    #F6EAD5;  /* slightly deeper cream — modal headers / insets */
 
   /* ===== INK — warm cocoa ===== */
-  --ink:       #3A2C20;  /* primary text — ~9.7:1 on --bg */
-  --ink-soft:  #6E5C49;  /* secondary text — ~4.8:1 on --bg (AA body OK) */
+  --ink:       #38492E;  /* primary text — ~9.7:1 on --bg */
+  --ink-soft:  #5E6B4F;  /* secondary text — ~4.8:1 on --bg (AA body OK) */
   --ink-mute:  #8A765F;  /* decorative/disabled only, NOT for body text */
 
   /* ===== ACCENTS — terracotta hero, sage, dusty teal, one sunset ochre ===== */
-  --clay:        #B5562F;  /* terracotta — primary decorative accent, borders, washes */
-  --clay-deep:   #8E4222;  /* deep terracotta — CTA fill, prices, links (~6.0:1 on --bg) */
-  --clay-press:  #74371C;  /* pressed/hover state for clay-deep fills */
-  --clay-pale:   #D8A98C;  /* dusty clay — hairlines / accents over photo scrims */
-  --clay-tint:   rgba(181, 86, 47, 0.10);  /* clay wash for panels/notes */
-  --clay-tint-2: rgba(181, 86, 47, 0.18);  /* clay wash for borders/hovers */
+  --clay:        #6F7D58;  /* terracotta — primary decorative accent, borders, washes */
+  --clay-deep:   #41573A;  /* deep terracotta — CTA fill, prices, links (~6.0:1 on --bg) */
+  --clay-press:  #344A2F;  /* pressed/hover state for clay-deep fills */
+  --clay-pale:   #C2CFA8;  /* dusty clay — hairlines / accents over photo scrims */
+  --clay-tint:   rgba(65, 87, 58, 0.10);  /* clay wash for panels/notes */
+  --clay-tint-2: rgba(65, 87, 58, 0.18);  /* clay wash for borders/hovers */
 
   --sage:       #6F7D58;  /* olive sage — earthy secondary accent (text-safe) */
   --sage-soft:  #7E8B66;  /* lighter sage — decorative fills/icons only */
@@ -40,6 +40,7 @@
   --teal-soft:  #3E9488;  /* lighter teal — decorative arrows/icons on dark scrims */
   --teal-press: #2A665E;  /* pressed/hover state for teal outlines */
   --teal-tint:  rgba(53, 127, 117, 0.10);  /* teal wash for ghost-button hovers */
+  --line-teal:  rgba(53, 127, 117, 0.55);  /* teal hairline — shop card frame (matches the button) */
   /* legacy alias — some rules referenced --turquoise */
   --turquoise:  #357F75;
 
@@ -54,7 +55,7 @@
   /* ===== HAIRLINES ===== */
   --line:      rgba(58, 42, 30, 0.16);   /* default hairline */
   --line-soft: rgba(58, 42, 30, 0.08);   /* faint divider */
-  --line-clay: rgba(181, 86, 47, 0.38);  /* terracotta hairline — replaces gold rules */
+  --line-clay: rgba(65, 87, 58, 0.38);  /* terracotta hairline — replaces gold rules */
 
   /* ===== TYPE ===== */
   --display: "Yeseva One", Georgia, "Times New Roman", serif;
@@ -305,7 +306,7 @@ button.cta { font-family: inherit; line-height: inherit; cursor: pointer; appear
 .cred-item::after { /* terracotta thread to the next entry */
   content: ""; position: absolute; left: 4px; top: 20px; bottom: -20px;
   width: 1px;
-  background: linear-gradient(180deg, var(--line-clay), rgba(181, 86, 47, 0.12));
+  background: linear-gradient(180deg, var(--line-clay), rgba(65, 87, 58, 0.12));
 }
 .cred-item:last-child::after { content: none; }
 .cred-year {
@@ -324,16 +325,15 @@ button.cta { font-family: inherit; line-height: inherit; cursor: pointer; appear
   font-size: 13.5px; line-height: 1.6; color: var(--ink-soft);
 }
 /* Closing flourish — soft clay panel (no gilt frame) */
-.about-flourish {
-  position: relative; margin-top: 36px; max-width: 34em;
-  padding: 18px 24px; border-radius: var(--r-md);
-  background: var(--clay-tint); border: 1px solid var(--line-clay);
+.about-flourish { margin-top: 40px; }
+.ig-link {
+  display: inline-flex; align-items: center; gap: 10px;
+  color: var(--sage-deep); font-family: var(--display);
+  font-size: 20px; letter-spacing: 0.01em; line-height: 1;
+  transition: color 0.3s var(--ease);
 }
-.about-flourish span {
-  display: block;
-  font-family: var(--display); text-transform: none; letter-spacing: 0.01em;
-  font-size: 21px; line-height: 1.45; color: var(--sage-deep);
-}
+.ig-link:hover { color: var(--teal-press); }
+.ig-icon { flex: none; display: block; }
 
 /* ===== Treatments (legacy — restyled, not booking) ===== */
 .treatments .wrap { position: relative; }
@@ -495,7 +495,7 @@ button.cta { font-family: inherit; line-height: inherit; cursor: pointer; appear
   position: fixed; right: 24px; bottom: 24px; z-index: 80;
   width: 64px; height: 64px; border-radius: 50%;
   border: none; cursor: pointer;
-  background: radial-gradient(circle at 50% 50%, rgba(181,86,47,0) 0%, rgba(181,86,47,0.16) 34%, rgba(142,66,34,0.86) 66%, #5A2A14 100%);
+  background: radial-gradient(circle at 50% 50%, rgba(65, 87, 58,0) 0%, rgba(65, 87, 58,0.16) 34%, rgba(142,66,34,0.86) 66%, #5A2A14 100%);
   backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px);
   display: grid; place-items: center;
   box-shadow: 0 10px 30px rgba(58, 51, 44, 0.35), inset 0 1px 0 rgba(255, 253, 249, 0.28);
@@ -894,16 +894,16 @@ html.tmodal-open { overflow: hidden; }
 .shop-card {
   position: relative; cursor: pointer;
   display: flex; flex-direction: column;
-  background: var(--card); border: 1px solid var(--line-clay); border-radius: var(--r-card);
+  background: var(--card); border: 1px solid var(--line-teal); border-radius: var(--r-card);
   overflow: hidden;
   box-shadow: 0 1px 2px rgba(58, 51, 44, 0.05), 0 12px 32px -20px rgba(58, 51, 44, 0.2);
   transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease), border-color 0.45s var(--ease);
 }
-.shop-card:focus-visible { outline: none; border-color: var(--clay); }
-.shop-card:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 3px; }
+.shop-card:focus-visible { outline: none; border-color: var(--teal); }
+.shop-card:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
 @media (hover: hover) {
   .shop-card:hover {
-    transform: translateY(-5px); border-color: var(--clay);
+    transform: translateY(-5px); border-color: var(--teal);
     box-shadow: 0 2px 4px rgba(58, 51, 44, 0.05), 0 26px 48px -20px rgba(58, 51, 44, 0.3);
   }
   .shop-card:hover .shop-art img { transform: scale(1.03); }
@@ -935,7 +935,7 @@ html.tmodal-open { overflow: hidden; }
 }
 .shop-art::after { /* faint clay veil + hairline keeps photos seated in the card */
   content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg, rgba(181, 86, 47, 0.08), rgba(142, 66, 34, 0.07));
+  background: linear-gradient(180deg, rgba(65, 87, 58, 0.08), rgba(142, 66, 34, 0.07));
   mix-blend-mode: multiply;
   box-shadow: inset 0 -1px 0 var(--line);
 }
@@ -1315,7 +1315,7 @@ html.has-navjs .nav-right a { white-space: nowrap; }
   }
   html.has-navjs .nav-links::before { /* terracotta hairline — replaces gold rule */
     content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, rgba(181, 86, 47, 0) 0%, var(--clay) 22%, var(--clay-deep) 78%, rgba(181, 86, 47, 0) 100%);
+    background: linear-gradient(90deg, rgba(65, 87, 58, 0) 0%, var(--clay) 22%, var(--clay-deep) 78%, rgba(65, 87, 58, 0) 100%);
   }
   html.has-navjs .nav.menu-open .nav-links {
     visibility: visible; opacity: 1; transform: none;
