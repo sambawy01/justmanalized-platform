@@ -100,6 +100,12 @@ export default async function AdminPage({
         <p className="mt-2 text-sm text-[#5E6B4F]">
           Times shown in Cairo time (Africa/Cairo).
         </p>
+        <a
+          href="/admin/pos"
+          className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#357F75] px-5 py-2.5 text-sm font-medium text-[#FBF4E6] transition hover:opacity-90"
+        >
+          Open Store POS →
+        </a>
       </header>
 
       <AdminTabs
@@ -107,7 +113,6 @@ export default async function AdminPage({
         orders={
           <OrdersSection
             orders={orders}
-            products={products}
             adminKey={clientKey}
             loadError={ordersError}
           />

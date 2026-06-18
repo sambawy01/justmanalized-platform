@@ -84,6 +84,8 @@ export interface StoredOrder {
   /** Sales channel. Absent on legacy orders = treat as "online" (website COD).
    *  "in_store" = a physical sale recorded by the owner at the El Gouna shop. */
   channel?: "online" | "in_store";
+  /** How an in-store sale was paid (POS). Absent for website COD orders. */
+  payment?: "cash" | "card" | "instapay" | "other";
   statusHistory: { status: OrderStatus; at: string; reason?: CancelReason }[];
 }
 

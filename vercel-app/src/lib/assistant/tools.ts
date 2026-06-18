@@ -4,6 +4,7 @@ import {
   getCatalog,
   saveCatalog,
   restoreQuantities,
+  decrementQuantities,
   type Product,
 } from "../catalog";
 import {
@@ -11,8 +12,10 @@ import {
   listOrders,
   updateOrderStatus,
   isValidOrderNumber,
+  saveOrder,
   type CancelReason,
   type StoredOrder,
+  type StoredOrderItem,
 } from "../orders";
 import { sendOrderStatusEmail, type EmailStatus } from "../order-status-email";
 import { brandedEmailHtml, escapeHtml } from "../branded-email";
@@ -227,6 +230,25 @@ export const TOOLS: OllamaTool[] = [
     ["slug"]
   ),
   tool(
+    "record_in_store_sale",
+    "Record a PHYSICAL in-store sale at the El Gouna shop: it removes the item from inventory AND counts as paid revenue (recorded as a delivered order). Use for walk-in / in-person sales (cash, card, InstaPay). Do NOT use for website orders — those are counted automatically, and do NOT use log_income for hats sold in person (that wouldn't reduce stock). Identify the hat by its slug (from catalog_list) or its exact name. MUTATING — requires the owner's button confirmation.",
+    {
+      product: {
+        type: "string",
+        description: "Product slug (from catalog_list) or the exact product name",
+      },
+      quantity: { type: "number", description: "Quantity sold (default 1)" },
+      payment: {
+        type: "string",
+        enum: ["cash", "card", "instapay", "other"],
+        description: "How it was paid (default cash)",
+      },
+      customerEmail: { type: "string", description: "Customer email (optional)" },
+      customerPhone: { type: "string", description: "Customer phone (optional)" },
+    },
+    ["product"]
+  ),
+  tool(
     "stats_summary",
     "Shop stats for a period: order count, revenue in EGP by status, and cancellations.",
     {
@@ -413,6 +435,7 @@ const MUTATING_TOOLS = new Set([
   "product_update",
   "product_add",
   "product_remove",
+  "record_in_store_sale",
   "email_send",
   "log_expense",
   "log_income",
@@ -627,6 +650,16 @@ export function describeMutation(
         `Remove product ${s("slug")}\n` +
         `→ It disappears from the public site immediately (soft remove — kept in the catalog, reversible).`
       );
+    case "record_in_store_sale": {
+      const qty = typeof args.quantity === "number" ? args.quantity : 1;
+      const pay = s("payment") || "cash";
+      const who = s("customerEmail") || s("customerPhone");
+      return (
+        `Record in-store sale: ${qty}× "${s("product")}" · paid ${pay}` +
+        `${who ? ` · customer ${who}` : ""}\n` +
+        `→ Removes the item(s) from inventory and counts as paid revenue (a delivered in-store order).`
+      );
+    }
     case "email_send":
       return (
         `Send email to ${s("to")}\n` +
@@ -1403,9 +1436,102 @@ async function execWebFetch(
   ].join("\n");
 }
 
+function genOrderNumber(): string {
+  const ts = Date.now().toString(36).slice(-4);
+  const rand = Math.floor(Math.random() * 36 * 36)
+    .toString(36)
+    .padStart(2, "0");
+  return `JM-${(ts + rand).toUpperCase()}`;
+}
+
+async function execInStoreSale(args: Record<string, unknown>): Promise<string> {
+  const str = (k: string) =>
+    typeof args[k] === "string" ? (args[k] as string).trim() : "";
+  const query = str("product");
+  if (!query) return "Tell me which hat was sold (its name or slug).";
+  const qty =
+    typeof args.quantity === "number" && args.quantity >= 1
+      ? Math.round(args.quantity)
+      : 1;
+  const PAY = ["cash", "card", "instapay", "other"] as const;
+  const payment = (PAY as readonly string[]).includes(str("payment"))
+    ? (str("payment") as (typeof PAY)[number])
+    : "cash";
+  const paymentLabel = { cash: "Cash", card: "Card", instapay: "InstaPay", other: "Other" }[
+    payment
+  ];
+
+  const catalog = await getCatalog();
+  const q = query.toLowerCase();
+  let product = catalog.find((p) => p.slug.toLowerCase() === q);
+  if (!product) {
+    const exact = catalog.filter(
+      (p) => p.en.name.toLowerCase() === q || p.ru.name.toLowerCase() === q
+    );
+    if (exact.length === 1) product = exact[0];
+    else if (exact.length === 0) {
+      const partial = catalog.filter((p) =>
+        p.en.name.toLowerCase().includes(q)
+      );
+      if (partial.length === 1) product = partial[0];
+      else if (partial.length > 1)
+        return `Several hats match "${query}": ${partial
+          .map((p) => p.en.name)
+          .join(", ")}. Which one?`;
+    } else {
+      return `Several hats match "${query}". Use the exact name or the slug.`;
+    }
+  }
+  if (!product)
+    return `I couldn't find a hat matching "${query}". Use catalog_list to see exact names.`;
+  if (effectiveSoldOut(product))
+    return `"${product.en.name}" is sold out — can't record a sale.`;
+  if (typeof product.quantity === "number" && qty > product.quantity)
+    return `Only ${product.quantity} left of "${product.en.name}".`;
+
+  const lineEgp = product.priceEgp * qty;
+  const lineRub = product.priceRub * qty;
+  const items: StoredOrderItem[] = [
+    {
+      slug: product.slug,
+      qty,
+      names: { en: product.en.name, ru: product.ru.name },
+      lineTotals: { egp: lineEgp, rub: lineRub },
+    },
+  ];
+  const createdAt = new Date().toISOString();
+  const orderNumber = genOrderNumber();
+  const record: StoredOrder = {
+    orderNumber,
+    createdAt,
+    status: "delivered",
+    items,
+    totals: { egp: lineEgp, rub: lineRub },
+    name: "Walk-in",
+    phone: str("customerPhone").slice(0, 40),
+    email: str("customerEmail").slice(0, 120),
+    address: "El Gouna shop (in-store)",
+    note: `In-store sale — El Gouna shop · Paid: ${paymentLabel}`,
+    lang: "en",
+    channel: "in_store",
+    payment,
+    statusHistory: [{ status: "delivered", at: createdAt }],
+  };
+  await decrementQuantities([{ slug: product.slug, qty }]);
+  await saveOrder(record);
+  const left =
+    typeof product.quantity === "number"
+      ? Math.max(0, product.quantity - qty)
+      : null;
+  return `Recorded in-store sale ${orderNumber}: ${qty}× ${product.en.name} — ${lineEgp} EGP (${paymentLabel}). ${
+    left === null ? "Stock untracked." : `${left} left in stock.`
+  } Counted as revenue.`;
+}
+
 const EXECUTORS: Record<string, Executor> = {
   orders_list: (args) => execOrdersList(args),
   order_set_status: (args) => execOrderSetStatus(args),
+  record_in_store_sale: (args) => execInStoreSale(args),
   order_lookup: (args) => execOrderLookup(args),
   catalog_list: () => execCatalogList(),
   product_update: (args) => execProductUpdate(args),

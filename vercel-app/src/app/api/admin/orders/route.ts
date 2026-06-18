@@ -51,6 +51,9 @@ export async function POST(request: NextRequest) {
   const b = body as {
     items?: unknown;
     customerName?: unknown;
+    customerEmail?: unknown;
+    customerPhone?: unknown;
+    payment?: unknown;
     note?: unknown;
   };
 
@@ -129,6 +132,15 @@ export async function POST(request: NextRequest) {
     typeof b.customerName === "string" && b.customerName.trim()
       ? b.customerName.trim().slice(0, 80)
       : "Walk-in";
+  const customerEmail =
+    typeof b.customerEmail === "string" ? b.customerEmail.trim().slice(0, 120) : "";
+  const customerPhone =
+    typeof b.customerPhone === "string" ? b.customerPhone.trim().slice(0, 40) : "";
+  const PAYMENTS = ["cash", "card", "instapay", "other"] as const;
+  const payment = (PAYMENTS as readonly string[]).includes(b.payment as string)
+    ? (b.payment as (typeof PAYMENTS)[number])
+    : "cash";
+  const paymentLabel = { cash: "Cash", card: "Card", instapay: "InstaPay", other: "Other" }[payment];
   const extraNote =
     typeof b.note === "string" && b.note.trim()
       ? ` — ${b.note.trim().slice(0, 200)}`
@@ -143,12 +155,13 @@ export async function POST(request: NextRequest) {
     items,
     totals: { egp: totalEgp, rub: totalRub },
     name: customerName,
-    phone: "",
-    email: "",
+    phone: customerPhone,
+    email: customerEmail,
     address: "El Gouna shop (in-store)",
-    note: `In-store sale — El Gouna shop${extraNote}`,
+    note: `In-store sale — El Gouna shop · Paid: ${paymentLabel}${extraNote}`,
     lang: "en",
     channel: "in_store",
+    payment,
     statusHistory: [{ status: "delivered", at: createdAt }],
   };
 
