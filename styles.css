@@ -495,7 +495,7 @@ button.cta { font-family: inherit; line-height: inherit; cursor: pointer; appear
   position: fixed; right: 24px; bottom: 24px; z-index: 80;
   width: 64px; height: 64px; border-radius: 50%;
   border: none; cursor: pointer;
-  background: radial-gradient(circle at 50% 50%, rgba(65, 87, 58,0) 0%, rgba(65, 87, 58,0.16) 34%, rgba(142,66,34,0.86) 66%, #5A2A14 100%);
+  background: radial-gradient(circle at 50% 42%, #8C9A72 0%, #5A6B45 55%, #38492E 100%);
   backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px);
   display: grid; place-items: center;
   box-shadow: 0 10px 30px rgba(58, 51, 44, 0.35), inset 0 1px 0 rgba(255, 253, 249, 0.28);
@@ -935,7 +935,7 @@ html.tmodal-open { overflow: hidden; }
 }
 .shop-art::after { /* faint clay veil + hairline keeps photos seated in the card */
   content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg, rgba(65, 87, 58, 0.08), rgba(142, 66, 34, 0.07));
+  background: linear-gradient(180deg, rgba(65, 87, 58, 0.08), rgba(65, 87, 58, 0.07));
   mix-blend-mode: multiply;
   box-shadow: inset 0 -1px 0 var(--line);
 }

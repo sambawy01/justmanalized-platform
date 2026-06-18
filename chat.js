@@ -49,25 +49,12 @@
     return n;
   };
 
-  // Launcher: a flat earthy-clay boho mark — a hand-drawn celestial sun cradling
-  // a warm terracotta "M" (the concierge's mark). No gold, no gloss, no flare:
-  // a single flat clay fill + faded ochre sun rays, all hand-drawn line-art.
+  // Launcher: a clean sage badge with a cream serif "M" (the concierge's mark).
+  // No sunburst, no brown — a single cream glyph on the sage orb.
   const launcher = el("button", "chat-launcher", { type: "button", "aria-label": T.open, "aria-expanded": "false" });
   launcher.innerHTML =
     '<svg viewBox="0 0 64 64" width="50" height="50" aria-hidden="true" focusable="false">' +
-      // sun rays — faded ochre hand-drawn line-art, celestial boho halo
-      '<g fill="none" stroke="#C9763F" stroke-width="2.4" stroke-linecap="round" opacity="0.55">' +
-        '<line x1="32" y1="5" x2="32" y2="12"/>' +
-        '<line x1="32" y1="52" x2="32" y2="59"/>' +
-        '<line x1="5" y1="32" x2="12" y2="32"/>' +
-        '<line x1="52" y1="32" x2="59" y2="32"/>' +
-        '<line x1="13.2" y1="13.2" x2="18.1" y2="18.1"/>' +
-        '<line x1="45.9" y1="45.9" x2="50.8" y2="50.8"/>' +
-        '<line x1="50.8" y1="13.2" x2="45.9" y2="18.1"/>' +
-        '<line x1="18.1" y1="45.9" x2="13.2" y2="50.8"/>' +
-      '</g>' +
-      // flat terracotta "M" — single earthy clay fill, characterful boho serif
-      '<text x="32" y="42" text-anchor="middle" font-family="\'Yeseva One\', Georgia, serif" font-weight="400" font-size="34" fill="#B5562F">M</text>' +
+      '<text x="32" y="42" text-anchor="middle" font-family="\'Yeseva One\', Georgia, serif" font-weight="400" font-size="34" fill="#FBF4E6">M</text>' +
     '</svg>';
 
   const card = el("section", "chat-card", { role: "dialog", "aria-label": T.title, hidden: "" });
