@@ -35,6 +35,8 @@
   --sage-soft:  #7E8B66;  /* lighter sage — decorative fills/icons only */
   --teal:       #357F75;  /* dusty teal — boho pop (text-safe on cream) */
   --teal-soft:  #3E9488;  /* lighter teal — decorative arrows/icons on dark scrims */
+  --teal-press: #2A665E;  /* pressed/hover state for teal outlines */
+  --teal-tint:  rgba(53, 127, 117, 0.10);  /* teal wash for ghost-button hovers */
   /* legacy alias — some rules referenced --turquoise */
   --turquoise:  #357F75;
 
@@ -190,8 +192,8 @@ h2 {
 .nav-links a { white-space: nowrap; }
 .nav-links a { opacity: 0.85; transition: opacity 0.3s; }
 .nav-links a:hover { opacity: 1; }
-.nav-cta { border: 1px solid var(--clay); border-radius: var(--r-pill); padding: 8px 18px; color: var(--clay-deep); opacity: 1 !important; }
-.nav-cta:hover { background: var(--clay-tint); }
+.nav-cta { border: 1px solid var(--teal); border-radius: var(--r-pill); padding: 8px 18px; color: var(--teal); opacity: 1 !important; }
+.nav-cta:hover { background: var(--teal-tint); color: var(--teal-press); border-color: var(--teal-press); }
 @media (max-width: 480px) {
   .nav { padding: 9px 14px; }
   .nav .nav-logo { height: 38px; }
@@ -210,16 +212,8 @@ h2 {
   filter: sepia(0.06) contrast(1.0) brightness(0.98);
   animation: kenburns 30s var(--ease) infinite alternate;
 }
-/* Crown the hero photo in a boho horseshoe arch on larger screens; below 720px
-   keep the full-bleed mobile composition (no clip). The oat --bg behind reads
-   the arch silhouette. */
-@media (min-width: 720px) {
-  .hero-media {
-    inset: 0 clamp(0px, 3vw, 56px);
-    border-radius: 46% 46% var(--r-lg) var(--r-lg) / 30% 30% var(--r-lg) var(--r-lg);
-    overflow: hidden;
-  }
-}
+/* Hero photo stays full-bleed so the transparent nav (white logo + light links)
+   reads cleanly over it; the boho edge comes from the wavy divider at the bottom. */
 @keyframes kenburns { from { transform: scale(1) translateY(0); } to { transform: scale(1.08) translateY(-1.5%); } }
 .hero-wash {
   position: absolute; inset: 0; border-radius: inherit;
@@ -258,25 +252,28 @@ h2 {
 }
 .cta {
   display: inline-block; margin-top: 38px; padding: 16px 38px;
-  border: 1px solid var(--clay); border-radius: var(--r-pill);
+  border: 1.5px solid var(--teal); border-radius: var(--r-pill); background: transparent;
   font-size: 13px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--ink); position: relative;
+  color: var(--teal); position: relative;
   transition: border-color 0.4s, color 0.4s, background-color 0.4s;
 }
-button.cta { background: none; font-family: inherit; line-height: inherit; cursor: pointer; appearance: none; -webkit-appearance: none; }
-.hero .cta { color: var(--photo-ink); border-color: rgba(246, 238, 221, 0.78); }
+button.cta { font-family: inherit; line-height: inherit; cursor: pointer; appearance: none; -webkit-appearance: none; }
+.hero .cta { color: var(--photo-ink); border-color: rgba(246, 238, 221, 0.85); }
 /* thin double hand-drawn border (craft feel) */
 .cta::before {
   content: ""; position: absolute; inset: 3px; border-radius: var(--r-pill);
-  border: 1px dashed var(--clay-pale); opacity: 0.5; pointer-events: none;
+  border: 1px dashed var(--teal-soft); opacity: 0.5; pointer-events: none;
   transition: opacity 0.4s, border-color 0.4s;
 }
-.cta:hover { border-color: var(--clay-deep); background: var(--clay-tint); }
-.cta:hover::before { border-color: var(--clay); opacity: 0.7; }
-.hero .cta:hover { border-color: var(--clay-pale); background: rgba(244, 239, 231, 0.12); }
-.cta-solid { background: var(--clay-deep); border-color: var(--clay-deep); color: var(--bg); }
-.cta-solid::before { border-color: rgba(246, 238, 221, 0.45); }
-.cta-solid:hover { background: var(--clay-press); border-color: var(--clay-press); }
+.cta:hover { border-color: var(--teal-press); color: var(--teal-press); background: var(--teal-tint); }
+.cta:hover::before { border-color: var(--teal); opacity: 0.7; }
+.hero .cta { color: var(--photo-ink); }
+.hero .cta:hover { border-color: var(--photo-ink); color: var(--photo-ink); background: rgba(244, 239, 231, 0.12); }
+.hero .cta::before { border-color: rgba(246, 238, 221, 0.5); }
+/* "solid" variant now shares the ghost treatment — transparent, teal outline */
+.cta-solid { background: transparent; border-color: var(--teal); color: var(--teal); }
+.cta-solid::before { border-color: var(--teal-soft); }
+.cta-solid:hover { background: var(--teal-tint); border-color: var(--teal-press); color: var(--teal-press); }
 .scroll-cue { position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%); z-index: 2; }
 .scroll-cue span {
   display: block; width: 1px; height: 64px; background: rgba(246, 238, 221, 0.8);
@@ -638,10 +635,10 @@ button.cta { background: none; font-family: inherit; line-height: inherit; curso
 .chat-input input:focus { outline: none; border-color: var(--clay-deep); }
 .chat-send {
   flex: none; width: 40px; height: 40px; border-radius: 50%;
-  border: none; background: var(--clay-deep); color: var(--bg);
-  cursor: pointer; display: grid; place-items: center; transition: background 0.3s;
+  border: 1.5px solid var(--teal); background: transparent; color: var(--teal);
+  cursor: pointer; display: grid; place-items: center; transition: background 0.3s, color 0.3s, border-color 0.3s;
 }
-.chat-send:hover { background: var(--clay-press); }
+.chat-send:hover { background: var(--teal-tint); color: var(--teal-press); border-color: var(--teal-press); }
 .chat-send:disabled { opacity: 0.5; cursor: default; }
 
 @media (max-width: 480px) {
@@ -720,11 +717,11 @@ html.tmodal-open { overflow: hidden; }
 }
 .tmodal-book {
   display: inline-block; padding: 15px 34px; border-radius: var(--r-pill);
-  background: var(--clay-deep); color: var(--bg);
+  background: transparent; color: var(--teal); border: 1.5px solid var(--teal);
   font-size: 13px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
-.tmodal-book:hover { background: var(--clay-press); }
+.tmodal-book:hover { background: var(--teal-tint); color: var(--teal-press); border-color: var(--teal-press); }
 .tmodal-wa {
   font-size: 13px; color: var(--ink-soft);
   text-decoration: underline; text-underline-offset: 3px;
@@ -964,15 +961,14 @@ html.tmodal-open { overflow: hidden; }
   position: relative; isolation: isolate;
   width: 100%; min-height: 46px; padding: 12px 16px; border-radius: var(--r-pill); cursor: pointer;
   display: inline-flex; align-items: center; justify-content: center;
-  border: none; background: var(--clay-deep); color: var(--bg);
+  border: 1.5px solid var(--teal); background: transparent; color: var(--teal);
   font-family: var(--sans); font-size: 11.5px; font-weight: 600;
   letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap;
-  box-shadow: 0 0 0 2px var(--clay-tint); /* thin double hand-drawn border feel */
-  transition: background-color 0.3s, color 0.3s, transform 0.2s var(--ease), box-shadow 0.3s;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s var(--ease), border-color 0.3s;
 }
-.shop-add:hover { background: var(--clay-press); box-shadow: 0 0 0 2px var(--clay-tint-2); }
+.shop-add:hover { background: var(--teal-tint); border-color: var(--teal-press); color: var(--teal-press); }
 .shop-add:active { transform: scale(0.98); }
-.shop-add:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 4px; }
+.shop-add:focus-visible { outline: 2px solid var(--teal); outline-offset: 4px; }
 /* Sold-out variant (shop.js also sets inline opacity/cursor) */
 .shop-add-soldout {
   background: var(--bg-3); color: var(--ink-mute); cursor: default;
@@ -981,17 +977,17 @@ html.tmodal-open { overflow: hidden; }
 .shop-add-soldout:hover { background: var(--bg-3); box-shadow: none; }
 .shop-stepper {
   display: flex; align-items: center; justify-content: space-between; width: 100%;
-  border: 1px solid var(--clay-deep); border-radius: var(--r-pill); overflow: hidden;
-  background: var(--card); min-height: 46px;
+  border: 1.5px solid var(--teal); border-radius: var(--r-pill); overflow: hidden;
+  background: transparent; min-height: 46px;
 }
 .shop-step {
   width: 52px; min-height: 44px; align-self: stretch; border: none; background: none; cursor: pointer;
-  font-family: var(--sans); font-size: 20px; line-height: 1; color: var(--clay-deep);
+  font-family: var(--sans); font-size: 20px; line-height: 1; color: var(--teal);
   display: grid; place-items: center;
   transition: background-color 0.3s;
 }
-.shop-step:hover { background: var(--clay-tint); }
-.shop-step:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: -3px; border-radius: var(--r-pill); }
+.shop-step:hover { background: var(--teal-tint); }
+.shop-step:focus-visible { outline: 2px solid var(--teal); outline-offset: -3px; border-radius: var(--r-pill); }
 .shop-qty { min-width: 32px; text-align: center; font-size: 16px; font-weight: 600; color: var(--ink); }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -1011,15 +1007,16 @@ html.tmodal-open { overflow: hidden; }
   z-index: 60;
   display: inline-flex; align-items: center; gap: 16px;
   max-width: min(560px, calc(100vw - 200px));
-  padding: 16px 28px; border: none; border-radius: var(--r-pill); cursor: pointer;
-  background: var(--clay-deep); color: var(--bg);
+  padding: 16px 28px; border: 1.5px solid var(--teal); border-radius: var(--r-pill); cursor: pointer;
+  background: rgba(251, 244, 230, 0.86); color: var(--teal);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   font-family: var(--sans); font-size: 13.5px; font-weight: 600; letter-spacing: 0.06em;
-  box-shadow: 0 14px 36px rgba(33, 27, 22, 0.35), inset 0 1px 0 rgba(255, 253, 249, 0.22);
-  transition: background-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 14px 36px rgba(33, 27, 22, 0.18);
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
   animation: cart-in 0.4s var(--ease);
 }
-.cart-bar:hover { background: var(--clay-press); box-shadow: 0 18px 42px rgba(33, 27, 22, 0.42), inset 0 1px 0 rgba(255, 253, 249, 0.22); }
-.cart-bar:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 3px; }
+.cart-bar:hover { background: rgba(251, 244, 230, 0.96); color: var(--teal-press); border-color: var(--teal-press); box-shadow: 0 18px 42px rgba(33, 27, 22, 0.24); }
+.cart-bar:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
 .cart-bar[hidden] { display: none; }
 .cart-bar-sum { white-space: nowrap; }
 .cart-bar-cta {
@@ -1066,7 +1063,7 @@ html.pmodal-open .chat-card { display: none; }
   color: var(--ink); transition: color 0.3s, background-color 0.3s;
   backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
 }
-.pmodal-close:hover { background: var(--card); color: var(--clay-press); }
+.pmodal-close:hover { background: var(--card); color: var(--teal-press); }
 /* Large product photo — crowned in a boho arch */
 .pmodal-art {
   position: relative; height: clamp(340px, 58vh, 520px); overflow: hidden;
@@ -1198,14 +1195,14 @@ html.order-open .chat-card { display: none; }
 
 .order-submit {
   display: block; width: 100%; margin-top: 24px; min-height: 50px;
-  padding: 15px 34px; border: none; border-radius: var(--r-pill); cursor: pointer;
-  background: var(--clay-deep); color: var(--bg);
+  padding: 15px 34px; border: 1.5px solid var(--teal); border-radius: var(--r-pill); cursor: pointer;
+  background: transparent; color: var(--teal);
   font-family: var(--sans); font-size: 13px; font-weight: 600;
   letter-spacing: 0.18em; text-transform: uppercase;
-  transition: background-color 0.3s, opacity 0.3s;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s, opacity 0.3s;
 }
-.order-submit:hover { background: var(--clay-press); }
-.order-submit:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 3px; }
+.order-submit:hover { background: var(--teal-tint); color: var(--teal-press); border-color: var(--teal-press); }
+.order-submit:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
 .order-submit:disabled { opacity: 0.6; cursor: default; }
 
 .order-fail {
@@ -1366,7 +1363,7 @@ html.has-navjs .nav-right a { white-space: nowrap; }
   background: var(--card); color: var(--ink); display: grid; place-items: center; cursor: pointer;
   transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease), opacity 0.3s;
 }
-.coll-arrow:hover { background: var(--clay-deep); color: var(--bg); border-color: var(--clay-deep); }
+.coll-arrow:hover { background: var(--teal-tint); color: var(--teal-press); border-color: var(--teal); }
 .coll-arrow:disabled { opacity: 0.3; cursor: default; }
 
 .collection-track {
