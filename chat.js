@@ -12,12 +12,12 @@
   const SHOP_URL = "shop.html";
 
   const T = {
-    open: "Open chat with Gameela, the Just Manalized shop admin",
+    open: "Open chat with Gameela, the Just Manalized shop concierge",
     close: "Close chat",
-    title: "Gameela · Shop Admin",
+    title: "Gameela · Shop Concierge",
     placeholder: "Your question…",
     send: "Send",
-    greeting: "Hi, I'm Gameela — the Just Manalized shop admin. Ask me anything about our hats, sizing, materials, shipping or your order.",
+    greeting: "Hi, I'm Gameela — the Just Manalized shop concierge. Ask me anything about our hats, sizing, materials, shipping or your order.",
     teaserName: "Need a hand?",
     teaserLine: "Ask about our hats, sizing & orders",
     teaserDismiss: "Dismiss",
