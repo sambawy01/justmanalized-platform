@@ -406,17 +406,14 @@ function isStoreSaleCaption(caption: string): boolean {
 
 /** Upload a store-sale item photo to public Blob; returns the URL (or null). */
 async function uploadStorePhoto(bytes: Buffer): Promise<string | null> {
-  const token =
-    process.env.MEDIA_READ_WRITE_TOKEN || process.env.BLOB_READ_WRITE_TOKEN;
-  if (!token) return null;
   try {
+    // Private store → served to the authenticated admin via /api/admin/media/file.
     const blob = await put("store-sales/item.jpg", bytes, {
-      access: "public",
-      token,
+      access: "private",
       contentType: "image/jpeg",
       addRandomSuffix: true,
     });
-    return blob.url;
+    return `/api/admin/media/file?p=${encodeURIComponent(blob.pathname)}`;
   } catch (error) {
     console.error("[telegram] Store-sale photo upload failed:", error);
     return null;

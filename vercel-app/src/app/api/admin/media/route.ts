@@ -89,16 +89,17 @@ export async function POST(request: NextRequest) {
 
   try {
     const blob = await put(`products/${safeBaseName(file.name)}.${ext}`, file, {
-      access: "public",
+      access: "private", // store is private-only; served via /api/admin/media/file
       token,
       contentType: file.type,
       addRandomSuffix: true, // never overwrite a previous photo
     });
-    return NextResponse.json({ url: blob.url }, { status: 201 });
+    const url = `/api/admin/media/file?p=${encodeURIComponent(blob.pathname)}`;
+    return NextResponse.json({ url, pathname: blob.pathname }, { status: 201 });
   } catch (error) {
     console.error("[admin/media] Upload failed:", error);
     return NextResponse.json(
-      { error: `Upload failed: ${error instanceof Error ? error.message : String(error)}` },
+      { error: "Upload failed. Please try again." },
       { status: 500 }
     );
   }
