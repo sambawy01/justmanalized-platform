@@ -33,6 +33,9 @@
 
   --sage:       #6F7D58;  /* olive sage — earthy secondary accent (text-safe) */
   --sage-soft:  #7E8B66;  /* lighter sage — decorative fills/icons only */
+  --sage-deep:  #41573A;  /* deep sage — replaces clay for TEXT (prices, links, labels) ~5:1 on --bg */
+  --sage-press: #344A2F;  /* darker sage — text hover/press */
+  --sage-pale:  #C2CFA8;  /* pale sage — light text accents over dark photo sections */
   --teal:       #357F75;  /* dusty teal — boho pop (text-safe on cream) */
   --teal-soft:  #3E9488;  /* lighter teal — decorative arrows/icons on dark scrims */
   --teal-press: #2A665E;  /* pressed/hover state for teal outlines */
@@ -98,7 +101,7 @@ a { color: inherit; text-decoration: none; }
 .label {
   font-family: var(--accent); font-weight: 600;
   font-size: 18px; letter-spacing: 0; text-transform: none;
-  color: var(--clay-deep); margin-bottom: 16px; max-width: none;
+  color: var(--sage-deep); margin-bottom: 16px; max-width: none;
   line-height: 1.2;
 }
 
@@ -308,7 +311,7 @@ button.cta { font-family: inherit; line-height: inherit; cursor: pointer; appear
 .cred-year {
   display: block;
   font-size: 11px; font-weight: 600; letter-spacing: 0.22em;
-  text-transform: uppercase; color: var(--clay-deep);
+  text-transform: uppercase; color: var(--sage-deep);
 }
 .cred-title {
   display: block; margin-top: 7px;
@@ -329,7 +332,7 @@ button.cta { font-family: inherit; line-height: inherit; cursor: pointer; appear
 .about-flourish span {
   display: block;
   font-family: var(--display); text-transform: none; letter-spacing: 0.01em;
-  font-size: 21px; line-height: 1.45; color: var(--clay-deep);
+  font-size: 21px; line-height: 1.45; color: var(--sage-deep);
 }
 
 /* ===== Treatments (legacy — restyled, not booking) ===== */
@@ -352,7 +355,7 @@ button.cta { font-family: inherit; line-height: inherit; cursor: pointer; appear
 .t-link:focus-visible { outline: none; }
 .t-row:has(.t-link:focus-visible) { outline: 2px solid var(--clay-deep); outline-offset: 2px; }
 .t-name .t-sub { font-family: var(--sans); font-weight: 400; font-size: 13px; color: var(--ink-soft); margin-left: 10px; letter-spacing: 0.04em; text-transform: none; }
-.t-price { flex: none; margin-left: auto; color: var(--clay-deep); font-size: 15px; letter-spacing: 0.05em; }
+.t-price { flex: none; margin-left: auto; color: var(--sage-deep); font-size: 15px; letter-spacing: 0.05em; }
 .t-price small { color: var(--ink-soft); font-size: 12px; }
 .t-arrow {
   flex: none; align-self: center; color: var(--teal); font-size: 17px; line-height: 1;
@@ -360,7 +363,7 @@ button.cta { font-family: inherit; line-height: inherit; cursor: pointer; appear
 }
 @media (hover: hover) {
   .t-row:hover { background: var(--card); }
-  .t-row:hover .t-link { color: var(--clay-deep); text-decoration: underline; text-decoration-color: var(--clay); text-underline-offset: 6px; text-decoration-thickness: 1px; }
+  .t-row:hover .t-link { color: var(--sage-deep); text-decoration: underline; text-decoration-color: var(--sage-deep); text-underline-offset: 6px; text-decoration-thickness: 1px; }
   .t-row:hover .t-arrow { transform: translateX(6px); }
 }
 @media (max-width: 560px) {
@@ -381,7 +384,7 @@ button.cta { font-family: inherit; line-height: inherit; cursor: pointer; appear
 .setting-slide.is-active { opacity: 1; }
 .setting-wash { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(var(--scrim), 0.6), rgba(var(--scrim), 0.68) 42%, rgba(var(--scrim-deep), 0.94)); }
 .setting-content { position: relative; z-index: 2; padding-top: 16vh; padding-bottom: 11vh; }
-.setting .label { color: var(--clay-pale); }
+.setting .label { color: var(--sage-pale); }
 .setting-head {
   font-family: var(--display); font-weight: 400;
   font-size: clamp(26px, 3.4vw, 42px); line-height: 1.25;
@@ -389,7 +392,7 @@ button.cta { font-family: inherit; line-height: inherit; cursor: pointer; appear
   color: var(--photo-ink); max-width: 16em;
   text-shadow: 0 1px 14px rgba(26, 21, 17, 0.45);
 }
-.setting-head em { font-style: normal; color: var(--clay-pale); }
+.setting-head em { font-style: normal; color: var(--sage-pale); }
 .setting-line {
   margin-top: 22px;
   font-size: 15px; font-weight: 500; line-height: 1.75;
@@ -420,7 +423,7 @@ button.cta { font-family: inherit; line-height: inherit; cursor: pointer; appear
   display: block;
   font-family: var(--display);
   font-size: clamp(48px, 6.5vw, 84px); line-height: 1;
-  color: var(--clay-pale);
+  color: var(--sage-pale);
   text-shadow: 0 1px 14px rgba(26, 21, 17, 0.4);
 }
 .stat-cap {
@@ -438,7 +441,7 @@ button.cta { font-family: inherit; line-height: inherit; cursor: pointer; appear
   transition: color 0.4s, border-color 0.4s;
 }
 .setting-cta-arrow { transition: transform 0.4s var(--ease); }
-.setting-cta:hover { color: var(--clay-pale); border-color: var(--photo-ink); }
+.setting-cta:hover { color: var(--sage-pale); border-color: var(--photo-ink); }
 .setting-cta:hover .setting-cta-arrow { transform: translateX(5px); }
 @media (max-width: 640px) {
   .setting-content { padding-top: 14vh; padding-bottom: 12vh; }
@@ -455,15 +458,15 @@ button.cta { font-family: inherit; line-height: inherit; cursor: pointer; appear
 
 /* ===== Voice ===== */
 .voice blockquote p { font-family: var(--display); text-transform: none; letter-spacing: 0.01em; font-size: clamp(20px, 2.6vw, 31px); line-height: 1.4; max-width: 30em; color: var(--ink); }
-.voice figcaption { display: block; margin-top: 24px; font-family: var(--accent); font-style: normal; font-size: 19px; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--clay-deep); }
+.voice figcaption { display: block; margin-top: 24px; font-family: var(--accent); font-style: normal; font-size: 19px; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--sage-deep); }
 
 /* ===== Reserve — deep sand band, light ===== */
 .reserve { background: var(--bg-3); padding: clamp(100px, 16vh, 180px) 0 0; text-align: center; }
 .reserve-logo { margin: 0 auto; }
-.reserve-line { margin-top: 30px; font-family: var(--display); font-size: clamp(18px, 2vw, 24px); line-height: 1.4; letter-spacing: 0.01em; text-indent: 0; text-transform: none; color: var(--clay-deep); max-width: none; margin-left: auto; margin-right: auto; }
+.reserve-line { margin-top: 30px; font-family: var(--display); font-size: clamp(18px, 2vw, 24px); line-height: 1.4; letter-spacing: 0.01em; text-indent: 0; text-transform: none; color: var(--sage-deep); max-width: none; margin-left: auto; margin-right: auto; }
 .reserve-meta { margin-top: 34px; font-style: normal; font-size: 14px; color: var(--ink-soft); }
 .reserve-meta a { text-decoration: underline; text-underline-offset: 3px; }
-.reserve-meta a:hover { color: var(--clay-deep); }
+.reserve-meta a:hover { color: var(--sage-deep); }
 :focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 3px; }
 .footer {
   margin-top: clamp(70px, 10vh, 120px); padding: 22px 28px;
@@ -472,7 +475,7 @@ button.cta { font-family: inherit; line-height: inherit; cursor: pointer; appear
   color: var(--ink-soft);
   border-top: 1px solid var(--line);
 }
-.footer-moon { color: var(--clay-pale); margin-right: 8px; }
+.footer-moon { color: var(--sage-pale); margin-right: 8px; }
 
 /* ===== Animation initial states (JS removes) ===== */
 .js .reveal, .js .reveal-soft { opacity: 0; transform: translateY(28px); }
@@ -549,7 +552,7 @@ button.cta { font-family: inherit; line-height: inherit; cursor: pointer; appear
 .chat-teaser-name {
   display: block; font-family: var(--display); font-weight: 400;
   font-size: 16px; line-height: 1.4; letter-spacing: 0.01em;
-  text-transform: none; color: var(--clay-deep);
+  text-transform: none; color: var(--sage-deep);
   margin-bottom: 6px;
 }
 .chat-teaser-line {
@@ -583,7 +586,7 @@ button.cta { font-family: inherit; line-height: inherit; cursor: pointer; appear
   padding: 14px 18px; border-bottom: 1px solid var(--line);
   background: var(--bg-2);
 }
-.chat-title { font-family: var(--display); font-weight: 400; font-size: 16px; letter-spacing: 0.01em; text-transform: none; color: var(--clay-deep); }
+.chat-title { font-family: var(--display); font-weight: 400; font-size: 16px; letter-spacing: 0.01em; text-transform: none; color: var(--sage-deep); }
 .chat-close {
   background: none; border: none; cursor: pointer; padding: 6px;
   color: var(--ink-soft); display: grid; place-items: center;
@@ -609,8 +612,8 @@ button.cta { font-family: inherit; line-height: inherit; cursor: pointer; appear
   background: var(--clay-tint); color: var(--ink);
   border: 1px solid var(--clay-tint-2);
 }
-.chat-link { color: var(--clay-deep); text-decoration: underline; text-underline-offset: 3px; }
-.chat-link:hover { color: var(--clay-press); }
+.chat-link { color: var(--sage-deep); text-decoration: underline; text-underline-offset: 3px; }
+.chat-link:hover { color: var(--sage-press); }
 
 .chat-typing { display: flex; gap: 5px; align-items: center; padding: 14px; }
 .chat-typing span {
@@ -707,10 +710,10 @@ html.tmodal-open { overflow: hidden; }
   margin-top: 10px;
   font-size: 12px; font-weight: 600;
   letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--clay-deep);
+  color: var(--sage-deep);
 }
 .tmodal-body { margin-top: 18px; font-size: 15px; line-height: 1.8; color: var(--ink-soft); }
-.tmodal-detail { margin-top: 16px; font-size: 14px; letter-spacing: 0.04em; color: var(--clay-deep); }
+.tmodal-detail { margin-top: 16px; font-size: 14px; letter-spacing: 0.04em; color: var(--sage-deep); }
 .tmodal-actions {
   margin-top: 28px;
   display: flex; flex-direction: column; align-items: flex-start; gap: 16px;
@@ -728,7 +731,7 @@ html.tmodal-open { overflow: hidden; }
   transition: color 0.3s;
   background: none; border: 0; padding: 0; font-family: inherit; cursor: pointer;
 }
-.tmodal-wa:hover { color: var(--clay-deep); }
+.tmodal-wa:hover { color: var(--sage-deep); }
 @media (max-width: 560px) {
   .tmodal-overlay { padding: 0; align-items: end; grid-template-columns: 1fr; place-items: end stretch; }
   .tmodal {
@@ -796,7 +799,7 @@ html.tmodal-open { overflow: hidden; }
 .post-body { display: flex; flex-direction: column; flex: 1; padding: 22px 22px 24px; }
 .post-meta {
   font-size: 11.5px; font-weight: 600; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--clay-deep);
+  text-transform: uppercase; color: var(--sage-deep);
 }
 .post-title {
   margin-top: 12px;
@@ -808,7 +811,7 @@ html.tmodal-open { overflow: hidden; }
 .post-read {
   margin-top: 20px;
   font-size: 11.5px; font-weight: 600; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--clay-deep);
+  text-transform: uppercase; color: var(--sage-deep);
 }
 .post-card:hover .post-read { text-decoration: underline; text-underline-offset: 4px; }
 
@@ -817,7 +820,7 @@ html.tmodal-open { overflow: hidden; }
 .article-back {
   display: inline-block; margin-bottom: 28px;
   font-size: 11.5px; font-weight: 600; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--clay-deep);
+  text-transform: uppercase; color: var(--sage-deep);
 }
 .article-back:hover { text-decoration: underline; text-underline-offset: 4px; }
 .article-art { aspect-ratio: 21 / 9; border-radius: var(--r-lg) var(--r-lg) var(--r-md) var(--r-md); overflow: hidden; }
@@ -875,10 +878,10 @@ html.tmodal-open { overflow: hidden; }
 .shop-trust {
   margin-top: 20px; display: flex; flex-wrap: wrap; align-items: baseline;
   font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--clay-deep);
+  color: var(--sage-deep);
 }
 .shop-trust span { white-space: nowrap; padding: 2px 0; }
-.shop-trust span + span::before { content: "·"; margin: 0 12px; color: var(--clay); font-weight: 400; }
+.shop-trust span + span::before { content: "·"; margin: 0 12px; color: var(--sage-deep); font-weight: 400; }
 
 .shop-grid {
   display: grid; grid-template-columns: repeat(4, 1fr);
@@ -921,7 +924,7 @@ html.tmodal-open { overflow: hidden; }
   position: relative;
   font-family: var(--display);
   font-size: clamp(72px, 8.5vw, 110px); line-height: 1;
-  color: var(--clay-deep); opacity: 0.3;
+  color: var(--sage-deep); opacity: 0.3;
   user-select: none; -webkit-user-select: none;
 }
 .shop-art img {
@@ -951,7 +954,7 @@ html.tmodal-open { overflow: hidden; }
 .shop-price {
   margin-top: 14px; flex: 1;
   display: flex; align-items: baseline; gap: 8px;
-  font-family: var(--display); font-size: 19px; font-weight: 400; letter-spacing: 0.01em; color: var(--clay-deep);
+  font-family: var(--display); font-size: 19px; font-weight: 400; letter-spacing: 0.01em; color: var(--sage-deep);
 }
 .shop-price small { font-family: var(--sans); font-size: 12.5px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-soft); }
 
@@ -1090,13 +1093,13 @@ html.pmodal-open .chat-card { display: none; }
   margin-top: 10px;
   font-size: 12px; font-weight: 600;
   letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--clay-deep);
+  color: var(--sage-deep);
 }
 .pmodal-desc { margin-top: 16px; font-size: 15px; line-height: 1.8; color: var(--ink-soft); }
 .pmodal-price {
   margin-top: 18px;
   display: flex; align-items: baseline; gap: 8px;
-  font-family: var(--display); font-size: 24px; font-weight: 400; letter-spacing: 0.01em; color: var(--clay-deep);
+  font-family: var(--display); font-size: 24px; font-weight: 400; letter-spacing: 0.01em; color: var(--sage-deep);
 }
 .pmodal-price small { font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-soft); }
 .pmodal-action { margin-top: 24px; display: flex; }
@@ -1158,19 +1161,19 @@ html.order-open .chat-card { display: none; }
 }
 .order-item-name { color: var(--ink); }
 .order-item-qty { color: var(--ink-soft); font-size: 13px; }
-.order-item-price { margin-left: auto; white-space: nowrap; color: var(--clay-deep); }
+.order-item-price { margin-left: auto; white-space: nowrap; color: var(--sage-deep); }
 .order-total {
   display: flex; justify-content: space-between; align-items: baseline; gap: 14px;
   padding-top: 14px; font-size: 15.5px; font-weight: 600;
 }
-.order-total-sum { color: var(--clay-deep); white-space: nowrap; }
+.order-total-sum { color: var(--sage-deep); white-space: nowrap; }
 .order-total-sum small { font-weight: 500; font-size: 12.5px; color: var(--ink-soft); }
 
 .cod-note {
   margin-top: 20px; padding: 14px 16px;
   border: 1px solid var(--clay); border-radius: var(--r-sm);
   background: var(--clay-tint);
-  color: var(--clay-deep); font-size: 13.5px; line-height: 1.65;
+  color: var(--sage-deep); font-size: 13.5px; line-height: 1.65;
 }
 
 .order-form { margin-top: 10px; }
@@ -1178,7 +1181,7 @@ html.order-open .chat-card { display: none; }
 .order-field label {
   display: block; margin-bottom: 7px;
   font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--clay-deep);
+  color: var(--sage-deep);
 }
 .order-field input, .order-field textarea {
   width: 100%; padding: 12px 14px;
@@ -1218,7 +1221,7 @@ html.order-open .chat-card { display: none; }
 .order-success-mark {
   width: 56px; height: 56px; margin: 0 auto 20px; border-radius: 50%;
   display: grid; place-items: center;
-  background: var(--clay-tint); color: var(--clay-deep);
+  background: var(--clay-tint); color: var(--sage-deep);
   font-size: 24px;
 }
 .order-success-title {
@@ -1332,7 +1335,7 @@ html.has-navjs .nav-right a { white-space: nowrap; }
   }
   html.has-navjs .nav-links a[hreflang] {
     font-family: var(--sans); font-weight: 600; font-size: 12px;
-    letter-spacing: 0.24em; text-transform: uppercase; color: var(--clay-deep);
+    letter-spacing: 0.24em; text-transform: uppercase; color: var(--sage-deep);
     padding-top: 17px; padding-bottom: 17px;
   }
   html.has-navjs .nav.menu-open .nav-links a { opacity: 1; transform: none; }
@@ -1394,13 +1397,13 @@ html.has-navjs .nav-right a { white-space: nowrap; }
 }
 .coll-card-meta { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; margin-top: 14px; align-items: baseline; }
 .coll-card-name { font-family: var(--display); font-size: 20px; letter-spacing: 0.01em; text-transform: none; }
-.coll-card-price { font-family: var(--display); font-size: 17px; color: var(--clay-deep); text-align: right; white-space: nowrap; }
+.coll-card-price { font-family: var(--display); font-size: 17px; color: var(--sage-deep); text-align: right; white-space: nowrap; }
 .coll-card-sub { grid-column: 1 / -1; font-family: var(--sans); font-size: 12.5px; color: var(--ink-soft); letter-spacing: 0.02em; margin-top: 2px; }
 
 /* trailing "shop all" tile — matching arch crown */
 .coll-card-all-inner {
   display: grid; place-items: center; text-align: center; aspect-ratio: 3 / 4; width: 100%;
-  border: 1px solid var(--clay); border-radius: var(--arch) var(--arch) var(--r-md) var(--r-md); color: var(--clay-deep);
+  border: 1px solid var(--clay); border-radius: var(--arch) var(--arch) var(--r-md) var(--r-md); color: var(--sage-deep);
   font-family: var(--display); text-transform: none; letter-spacing: 0.01em; font-size: 19px; line-height: 1.4;
   transition: background 0.3s var(--ease), color 0.3s var(--ease);
 }
