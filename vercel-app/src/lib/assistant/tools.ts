@@ -81,6 +81,9 @@ import {
 
 export interface ToolContext {
   chatId: number;
+  /** Public URL of a photo the owner attached this turn (e.g. a store-sale
+   *  item photo). Injected into record_in_store_sale's custom-item `photo`. */
+  imageUrl?: string;
   /**
    * Per-agent-run allowlist of URLs web_search surfaced this run. web_search
    * populates it; web_fetch is restricted to it (anti-exfiltration — see
@@ -231,11 +234,23 @@ export const TOOLS: OllamaTool[] = [
   ),
   tool(
     "record_in_store_sale",
-    "Record a PHYSICAL in-store sale at the El Gouna shop: it removes the item from inventory AND counts as paid revenue (recorded as a delivered order). Use for walk-in / in-person sales (cash, card, InstaPay). Do NOT use for website orders — those are counted automatically, and do NOT use log_income for hats sold in person (that wouldn't reduce stock). Identify the hat by its slug (from catalog_list) or its exact name. MUTATING — requires the owner's button confirmation.",
+    "Record a PHYSICAL in-store sale at the El Gouna shop: it removes the item from inventory (catalog items only) AND counts as paid revenue (a delivered order). Use for walk-in / in-person sales (cash, card, InstaPay). Do NOT use log_income for items sold in person (that wouldn't reduce stock). TWO modes: (1) a WEBSITE hat — give `product` (slug from catalog_list or exact name); or (2) a STORE-ONLY item NOT on the website — give `name` and `priceEgp` instead of `product` (this does not touch website stock). If the owner attached a photo of a store-only item, it is recorded automatically. MUTATING — requires the owner's button confirmation.",
     {
       product: {
         type: "string",
-        description: "Product slug (from catalog_list) or the exact product name",
+        description: "WEBSITE hat: slug (from catalog_list) or exact product name",
+      },
+      name: {
+        type: "string",
+        description: "STORE-ONLY item: its name (use instead of product)",
+      },
+      priceEgp: {
+        type: "number",
+        description: "STORE-ONLY item: unit price in EGP (required with name)",
+      },
+      photo: {
+        type: "string",
+        description: "STORE-ONLY item photo URL (usually auto-filled from the owner's attached photo)",
       },
       quantity: { type: "number", description: "Quantity sold (default 1)" },
       payment: {
@@ -246,7 +261,7 @@ export const TOOLS: OllamaTool[] = [
       customerEmail: { type: "string", description: "Customer email (optional)" },
       customerPhone: { type: "string", description: "Customer phone (optional)" },
     },
-    ["product"]
+    []
   ),
   tool(
     "stats_summary",
@@ -654,10 +669,18 @@ export function describeMutation(
       const qty = typeof args.quantity === "number" ? args.quantity : 1;
       const pay = s("payment") || "cash";
       const who = s("customerEmail") || s("customerPhone");
+      const custom = !s("product") && !!s("name");
+      const label = custom
+        ? `"${s("name")}" (store-only${
+            typeof args.priceEgp === "number" ? `, ${args.priceEgp} EGP` : ""
+          }${s("photo") ? ", with photo" : ""})`
+        : `"${s("product")}"`;
       return (
-        `Record in-store sale: ${qty}× "${s("product")}" · paid ${pay}` +
+        `Record in-store sale: ${qty}× ${label} · paid ${pay}` +
         `${who ? ` · customer ${who}` : ""}\n` +
-        `→ Removes the item(s) from inventory and counts as paid revenue (a delivered in-store order).`
+        (custom
+          ? `→ Counts as paid revenue. Store-only item — does NOT change website stock.`
+          : `→ Removes the item(s) from inventory and counts as paid revenue (a delivered in-store order).`)
       );
     }
     case "email_send":
@@ -1447,8 +1470,6 @@ function genOrderNumber(): string {
 async function execInStoreSale(args: Record<string, unknown>): Promise<string> {
   const str = (k: string) =>
     typeof args[k] === "string" ? (args[k] as string).trim() : "";
-  const query = str("product");
-  if (!query) return "Tell me which hat was sold (its name or slug).";
   const qty =
     typeof args.quantity === "number" && args.quantity >= 1
       ? Math.round(args.quantity)
@@ -1461,52 +1482,85 @@ async function execInStoreSale(args: Record<string, unknown>): Promise<string> {
     payment
   ];
 
-  const catalog = await getCatalog();
-  const q = query.toLowerCase();
-  let product = catalog.find((p) => p.slug.toLowerCase() === q);
-  if (!product) {
-    const exact = catalog.filter(
-      (p) => p.en.name.toLowerCase() === q || p.ru.name.toLowerCase() === q
-    );
-    if (exact.length === 1) product = exact[0];
-    else if (exact.length === 0) {
-      const partial = catalog.filter((p) =>
-        p.en.name.toLowerCase().includes(q)
-      );
-      if (partial.length === 1) product = partial[0];
-      else if (partial.length > 1)
-        return `Several hats match "${query}": ${partial
-          .map((p) => p.en.name)
-          .join(", ")}. Which one?`;
-    } else {
-      return `Several hats match "${query}". Use the exact name or the slug.`;
-    }
-  }
-  if (!product)
-    return `I couldn't find a hat matching "${query}". Use catalog_list to see exact names.`;
-  if (effectiveSoldOut(product))
-    return `"${product.en.name}" is sold out — can't record a sale.`;
-  if (typeof product.quantity === "number" && qty > product.quantity)
-    return `Only ${product.quantity} left of "${product.en.name}".`;
+  const query = str("product");
+  const customName = str("name");
+  let item: StoredOrderItem;
+  let lineEgp: number;
+  let decrement: { slug: string; qty: number } | null = null;
+  let stockNote = "";
 
-  const lineEgp = product.priceEgp * qty;
-  const lineRub = product.priceRub * qty;
-  const items: StoredOrderItem[] = [
-    {
+  if (query) {
+    // ---- website catalog hat ----
+    const catalog = await getCatalog();
+    const q = query.toLowerCase();
+    let product = catalog.find((p) => p.slug.toLowerCase() === q);
+    if (!product) {
+      const exact = catalog.filter(
+        (p) => p.en.name.toLowerCase() === q || p.ru.name.toLowerCase() === q
+      );
+      if (exact.length === 1) product = exact[0];
+      else if (exact.length === 0) {
+        const partial = catalog.filter((p) =>
+          p.en.name.toLowerCase().includes(q)
+        );
+        if (partial.length === 1) product = partial[0];
+        else if (partial.length > 1)
+          return `Several hats match "${query}": ${partial
+            .map((p) => p.en.name)
+            .join(", ")}. Which one?`;
+      } else {
+        return `Several hats match "${query}". Use the exact name or the slug.`;
+      }
+    }
+    if (!product)
+      return `I couldn't find a hat matching "${query}". Use catalog_list, or give a name + price to sell it as a store-only item.`;
+    if (effectiveSoldOut(product))
+      return `"${product.en.name}" is sold out — can't record a sale.`;
+    if (typeof product.quantity === "number" && qty > product.quantity)
+      return `Only ${product.quantity} left of "${product.en.name}".`;
+    lineEgp = product.priceEgp * qty;
+    item = {
       slug: product.slug,
       qty,
       names: { en: product.en.name, ru: product.ru.name },
-      lineTotals: { egp: lineEgp, rub: lineRub },
-    },
-  ];
+      lineTotals: { egp: lineEgp, rub: product.priceRub * qty },
+    };
+    decrement = { slug: product.slug, qty };
+    const left =
+      typeof product.quantity === "number"
+        ? Math.max(0, product.quantity - qty)
+        : null;
+    stockNote = left === null ? "Stock untracked." : `${left} left in stock.`;
+  } else if (customName) {
+    // ---- store-only item (not on the website) ----
+    const priceEgp =
+      typeof args.priceEgp === "number" && Number.isFinite(args.priceEgp)
+        ? Math.round(args.priceEgp)
+        : NaN;
+    if (!(priceEgp > 0))
+      return `What price did "${customName}" sell for? Give a positive EGP price.`;
+    lineEgp = priceEgp * qty;
+    const photo = str("photo").slice(0, 600);
+    item = {
+      slug: "",
+      qty,
+      names: { en: customName.slice(0, 100), ru: customName.slice(0, 100) },
+      lineTotals: { egp: lineEgp, rub: 0 },
+      ...(photo ? { photo } : {}),
+    };
+    stockNote = "Store-only item — website stock unchanged.";
+  } else {
+    return "Tell me which hat was sold (name or slug), or give a name + price for a store-only item.";
+  }
+
   const createdAt = new Date().toISOString();
   const orderNumber = genOrderNumber();
   const record: StoredOrder = {
     orderNumber,
     createdAt,
     status: "delivered",
-    items,
-    totals: { egp: lineEgp, rub: lineRub },
+    items: [item],
+    totals: { egp: lineEgp, rub: item.lineTotals.rub },
     name: "Walk-in",
     phone: str("customerPhone").slice(0, 40),
     email: str("customerEmail").slice(0, 120),
@@ -1517,15 +1571,9 @@ async function execInStoreSale(args: Record<string, unknown>): Promise<string> {
     payment,
     statusHistory: [{ status: "delivered", at: createdAt }],
   };
-  await decrementQuantities([{ slug: product.slug, qty }]);
+  if (decrement) await decrementQuantities([decrement]);
   await saveOrder(record);
-  const left =
-    typeof product.quantity === "number"
-      ? Math.max(0, product.quantity - qty)
-      : null;
-  return `Recorded in-store sale ${orderNumber}: ${qty}× ${product.en.name} — ${lineEgp} EGP (${paymentLabel}). ${
-    left === null ? "Stock untracked." : `${left} left in stock.`
-  } Counted as revenue.`;
+  return `Recorded in-store sale ${orderNumber}: ${qty}× ${item.names.en} — ${lineEgp} EGP (${paymentLabel}). ${stockNote} Counted as revenue.`;
 }
 
 const EXECUTORS: Record<string, Executor> = {

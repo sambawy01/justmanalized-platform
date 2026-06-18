@@ -1,5 +1,6 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
+import { put } from "@vercel/blob";
 import {
   answerCallbackQuery,
   confirmCancelKeyboard,
@@ -274,9 +275,10 @@ const OWNER_READ_ERROR =
 async function runAgentAndReply(
   chatId: number,
   text: string,
-  deadlineAt: number
+  deadlineAt: number,
+  imageUrl?: string
 ): Promise<void> {
-  const outcome = await runAgent(text, { chatId }, { deadlineAt });
+  const outcome = await runAgent(text, { chatId, imageUrl }, { deadlineAt });
   if (outcome.kind === "confirm") {
     await sendMessage(chatId, outcome.text, {
       replyMarkup: confirmCancelKeyboard(outcome.pendingId),
@@ -391,6 +393,36 @@ function largestPhoto(photos: TgPhotoSize[]): TgPhotoSize | null {
  * instruction through the SAME agent loop + confirm gate for receipt/product.
  * Owner-only; best effort (never crashes the webhook).
  */
+/** Does a photo caption signal an in-store sale? (EN keywords + common Arabic) */
+function isStoreSaleCaption(caption: string): boolean {
+  const c = caption.toLowerCase();
+  const en = /\b(sale|sold|sell)\b/.test(c) || c.trimStart().startsWith("store");
+  const ar =
+    caption.includes("بيع") ||
+    caption.includes("بعت") ||
+    caption.includes("باع");
+  return en || ar;
+}
+
+/** Upload a store-sale item photo to public Blob; returns the URL (or null). */
+async function uploadStorePhoto(bytes: Buffer): Promise<string | null> {
+  const token =
+    process.env.MEDIA_READ_WRITE_TOKEN || process.env.BLOB_READ_WRITE_TOKEN;
+  if (!token) return null;
+  try {
+    const blob = await put("store-sales/item.jpg", bytes, {
+      access: "public",
+      token,
+      contentType: "image/jpeg",
+      addRandomSuffix: true,
+    });
+    return blob.url;
+  } catch (error) {
+    console.error("[telegram] Store-sale photo upload failed:", error);
+    return null;
+  }
+}
+
 async function handlePhoto(
   chatId: number,
   photos: TgPhotoSize[],
@@ -446,6 +478,17 @@ async function handlePhoto(
       chatId,
       "I couldn't open that photo (download failed) — please try again."
     );
+    return;
+  }
+
+  // Store-only sale by photo: a caption that signals a sale routes straight to
+  // the in-store-sale flow (upload the photo, let Gameela record it behind the
+  // confirm tap) instead of the generic vision/receipt classifier.
+  if (isStoreSaleCaption(caption)) {
+    const url = await uploadStorePhoto(bytes);
+    const instruction =
+      caption || "Record this as a store-only in-store sale.";
+    await runAgentAndReply(chatId, instruction, deadlineAt, url ?? undefined);
     return;
   }
 

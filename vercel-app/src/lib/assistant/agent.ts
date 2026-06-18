@@ -371,6 +371,15 @@ export async function runAgent(
     for (const call of toolCalls) {
       const name = call.function?.name ?? "";
       const args = parseArgs(call);
+      // Attach the owner's uploaded photo to a store-only sale so it persists
+      // into the pending action and is recorded when they tap Confirm.
+      if (
+        name === "record_in_store_sale" &&
+        ctx.imageUrl &&
+        typeof args.photo !== "string"
+      ) {
+        args.photo = ctx.imageUrl;
+      }
       if (requiresConfirmation(name, args)) {
         // Validate/normalize ONCE — summary and executor must consume the
         // SAME validated object, so what the owner confirms is exactly what

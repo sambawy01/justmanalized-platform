@@ -44,10 +44,13 @@ function safeBaseName(filename: string): string {
 export async function POST(request: NextRequest) {
   if (!isAuthorizedAdminRequest(request)) return unauthorizedResponse();
 
-  const token = process.env.MEDIA_READ_WRITE_TOKEN;
+  // Prefer a dedicated public media token; fall back to the project's main
+  // Blob token (public `put` writes a publicly-readable URL either way).
+  const token =
+    process.env.MEDIA_READ_WRITE_TOKEN || process.env.BLOB_READ_WRITE_TOKEN;
   if (!token) {
     return NextResponse.json(
-      { error: "Media uploads are not configured (MEDIA_READ_WRITE_TOKEN missing)." },
+      { error: "Media uploads are not configured (no Blob token)." },
       { status: 503 }
     );
   }
