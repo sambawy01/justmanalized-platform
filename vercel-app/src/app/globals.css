@@ -3,7 +3,7 @@
 
 /*
  * Earthy light brand theme — Just Manalized
- * background #FAF7F2 · text #3A332C · accent: muted clay/bronze #A9745A
+ * background #FAF7F2 · text #3A332C · accent: dusty teal #357F75 · sage text #38492E
  * shadcn-style tokens for the booking-calendar components.
  */
 
@@ -38,24 +38,24 @@
 
 :root {
   --radius: 0.625rem;
-  --background: #faf7f2;
-  --foreground: #3a332c;
-  --card: #fffdf9;
-  --card-foreground: #3a332c;
-  --popover: #fffdf9;
-  --popover-foreground: #3a332c;
-  --primary: #a9745a;
-  --primary-foreground: #fdf9f3;
-  --secondary: #efe8dd;
-  --secondary-foreground: #3a332c;
-  --muted: #f1ece4;
-  --muted-foreground: #847866;
-  --accent: #a9745a;
-  --accent-foreground: #fdf9f3;
+  --background: #f5eedd;
+  --foreground: #38492e;
+  --card: #fbf4e6;
+  --card-foreground: #38492e;
+  --popover: #fbf4e6;
+  --popover-foreground: #38492e;
+  --primary: #357f75;
+  --primary-foreground: #fbf4e6;
+  --secondary: #ebdfc8;
+  --secondary-foreground: #38492e;
+  --muted: #efe7d6;
+  --muted-foreground: #5e6b4f;
+  --accent: #357f75;
+  --accent-foreground: #fbf4e6;
   --destructive: #b5483a;
-  --border: rgba(58, 51, 44, 0.14);
+  --border: rgba(53, 127, 117, 0.18);
   --input: rgba(58, 51, 44, 0.18);
-  --ring: #a9745a;
+  --ring: #357f75;
 }
 
 @layer base {
