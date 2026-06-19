@@ -244,7 +244,7 @@ h2 {
 .brand-logo-dark { display: block; }
 .has-js .nav:not(.visible):not(.nav-solid):not(.menu-open) .brand-logo-dark { display: none; }
 .has-js .nav:not(.visible):not(.nav-solid):not(.menu-open) .brand-logo-light { display: block; }
-.hero-logo-img { position: relative; z-index: 2; display: block; width: min(560px, 84vw); height: auto; margin: 0 auto; filter: drop-shadow(0 2px 18px rgba(26, 21, 17, 0.55)); }
+.hero-logo-img { position: relative; z-index: 2; display: block; width: min(448px, 67vw); height: auto; margin: 0 auto; filter: drop-shadow(0 2px 18px rgba(26, 21, 17, 0.55)); }
 .reserve-logo-img { display: block; width: min(360px, 66vw); height: auto; margin: 0 auto; }
 .hero-sub { margin-top: 18px; font-size: 12px; font-weight: 500; letter-spacing: 0.4em; text-indent: 0.4em; text-transform: uppercase; color: var(--photo-ink); text-shadow: 0 1px 12px rgba(26, 21, 17, 0.6); }
 /* "Made once. Never again." — a hand-written sunset signature */
