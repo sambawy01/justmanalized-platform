@@ -18,6 +18,7 @@ import {
   type StoredOrderItem,
 } from "../orders";
 import { sendOrderStatusEmail, type EmailStatus } from "../order-status-email";
+import { sendEmailReply } from "../email/send-reply";
 import { brandedEmailHtml, escapeHtml } from "../branded-email";
 import { buildDailyBriefEmail } from "../daily-brief-email";
 import { gatherDailyBriefData } from "../daily-brief-data";
@@ -452,6 +453,7 @@ const MUTATING_TOOLS = new Set([
   "product_remove",
   "record_in_store_sale",
   "email_send",
+  "email_send_reply",
   "log_expense",
   "log_income",
   "client_note_add",
@@ -1108,6 +1110,31 @@ async function execEmailSend(args: Record<string, unknown>): Promise<string> {
   return `Email sent to ${to}: "${subject}".`;
 }
 
+/**
+ * Send a threaded REPLY to an inbound customer email. Not exposed to the model
+ * in TOOLS — the /api/email/inbound route builds this pending action directly
+ * (to/subject/body + the inbound Message-ID for threading), so it only ever
+ * runs from the owner's [✅ Send] tap via the confirm handler → executeTool.
+ */
+async function execEmailSendReply(
+  args: Record<string, unknown>
+): Promise<string> {
+  const to = String(args.to ?? "").trim();
+  const subject = String(args.subject ?? "").trim().slice(0, 200);
+  const body = String(args.body ?? "").trim().slice(0, 8000);
+  const inReplyTo =
+    typeof args.inReplyTo === "string" ? args.inReplyTo.trim() : undefined;
+  const references =
+    typeof args.references === "string" ? args.references.trim() : undefined;
+  if (!EMAIL_RE.test(to)) return `"${to}" is not a valid email address.`;
+  if (!subject || !body) return "Subject and body are both required.";
+
+  const result = await sendEmailReply({ to, subject, body, inReplyTo, references });
+  return result.sent
+    ? `Reply sent to ${to}: "${subject}".`
+    : `Reply to ${to} FAILED (${result.reason ?? "unknown"}).`;
+}
+
 async function execDocumentCreate(
   args: Record<string, unknown>,
   ctx: ToolContext
@@ -1588,6 +1615,7 @@ const EXECUTORS: Record<string, Executor> = {
   stats_summary: (args) => execStatsSummary(args),
   daily_brief: () => execDailyBrief(),
   email_send: (args) => execEmailSend(args),
+  email_send_reply: (args) => execEmailSendReply(args),
   document_create: (args, ctx) => execDocumentCreate(args, ctx),
   log_expense: (args) => execLogLedger("expense", args),
   log_income: (args) => execLogLedger("income", args),

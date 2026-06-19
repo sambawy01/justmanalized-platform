@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Connect Vassili's Telegram bot to the production webhook.
+ * Connect the owner's Telegram bot (Mana) to the production webhook.
  *
  * Usage:  node scripts/setup-telegram.mjs            (run from vercel-app/)
  *         node scripts/setup-telegram.mjs --info     (only print webhook info)
@@ -12,11 +12,13 @@
  * 2. Generate the webhook secret:  openssl rand -hex 32
  *    and put it in .env.local as TELEGRAM_WEBHOOK_SECRET=...
  * 3. Add BOTH env vars to the Vercel project (production) too — the webhook
- *    route fails closed without them.
+ *    route fails closed without them. Also set ADMIN_PASS in the Vercel
+ *    project: the one-time `/start <ADMIN_PASS>` owner binding fails closed
+ *    without it.
  * 4. Run this script. It calls getMe (token sanity check), then setWebhook
  *    pointing at the production route with the secret_token, then prints
  *    getWebhookInfo so you can see Telegram's view.
- * 5. In Telegram, Victoria sends the bot:  /start <ADMIN_PASS>
+ * 5. In Telegram, the owner (Manal) sends the bot:  /start <ADMIN_PASS>
  *    to bind her chat as the owner.
  */
 
@@ -27,7 +29,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const WEBHOOK_URL =
-  "https://book.victoriaholisticbeauty.com/api/telegram/webhook";
+  "https://shop.justmanalized.com/api/telegram/webhook";
 
 // --- env ---------------------------------------------------------------------
 function loadEnvLocal() {
@@ -106,5 +108,5 @@ const info = await call("getWebhookInfo");
 console.log("\ngetWebhookInfo:");
 console.log(JSON.stringify(info, null, 2));
 console.log(
-  "\nNext: Victoria opens the bot in Telegram and sends:  /start <ADMIN_PASS>"
+  "\nNext: Manal opens the bot in Telegram and sends:  /start <ADMIN_PASS>"
 );
