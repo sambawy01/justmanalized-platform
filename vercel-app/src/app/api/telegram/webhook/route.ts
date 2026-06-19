@@ -4,6 +4,7 @@ import { put } from "@vercel/blob";
 import {
   answerCallbackQuery,
   confirmCancelKeyboard,
+  confirmEditCancelKeyboard,
   downloadFile,
   editMessageText,
   getFile,
@@ -26,9 +27,15 @@ import {
   appendAudit,
   appendHistory,
   bindOwner,
+  clearEmailEditing,
+  createPendingAction,
   discardPendingAction,
+  getEmailEditing,
   getOwnerChatId,
+  NOTIFY_PENDING_TTL_MS,
+  peekPendingAction,
   retirePendingAction,
+  setEmailEditing,
   shouldAlertOwner,
   takePendingAction,
   type IntrusionKind,
@@ -623,6 +630,38 @@ async function handleMessage(
     return;
   }
 
+  // Inbound-email "Edit draft": if the owner tapped ✏️ Edit on an email reply,
+  // her next plain-text message IS the revised reply — re-prompt for final
+  // approval rather than sending it to the agent. A slash command means she's
+  // doing something else, so abandon the edit and fall through.
+  const editing = await getEmailEditing(chatId);
+  if (editing) {
+    if (text.startsWith("/")) {
+      await clearEmailEditing(chatId);
+    } else {
+      await clearEmailEditing(chatId);
+      const pending = await createPendingAction({
+        chatId,
+        tool: "email_send_reply",
+        args: {
+          to: editing.to,
+          subject: editing.subject,
+          body: text,
+          ...(editing.inReplyTo ? { inReplyTo: editing.inReplyTo } : {}),
+          ...(editing.references ? { references: editing.references } : {}),
+        },
+        summary: `Reply to ${editing.to}: "${editing.subject}"`,
+        ttlMs: NOTIFY_PENDING_TTL_MS,
+      });
+      await sendMessage(
+        chatId,
+        `✍️ Your edited reply to ${editing.to}:\n\n${text}`,
+        { replyMarkup: confirmEditCancelKeyboard(pending.id) }
+      );
+      return;
+    }
+  }
+
   await runAgentAndReply(chatId, text, deadlineAt);
 }
 
@@ -683,12 +722,54 @@ async function handleCallback(cb: TgCallbackQuery): Promise<void> {
     return;
   }
 
-  const match = /^(confirm|cancel):([0-9a-f-]{36})$/.exec(data);
+  const match = /^(confirm|cancel|edit):([0-9a-f-]{36})$/.exec(data);
   if (!match) {
     await answerCallbackQuery(cb.id);
     return;
   }
   const [, verb, pendingId] = match;
+
+  if (verb === "edit") {
+    // Edit only applies to an email-reply draft. Read it WITHOUT consuming, so
+    // we keep the recipient/subject/threading for the revised send.
+    const draft = await peekPendingAction(pendingId);
+    if (!draft || draft.tool !== "email_send_reply") {
+      await answerCallbackQuery(cb.id);
+      if (messageId !== undefined) {
+        await editMessageText(
+          chatId,
+          messageId,
+          "This draft is no longer available to edit."
+        );
+      }
+      return;
+    }
+    const a = draft.args as {
+      to?: unknown;
+      subject?: unknown;
+      inReplyTo?: unknown;
+      references?: unknown;
+    };
+    const to = typeof a.to === "string" ? a.to : "";
+    await setEmailEditing(chatId, {
+      to,
+      subject: typeof a.subject === "string" ? a.subject : "",
+      inReplyTo: typeof a.inReplyTo === "string" ? a.inReplyTo : undefined,
+      references: typeof a.references === "string" ? a.references : undefined,
+    });
+    // Kill the original Send button so only the edited version can ever go out.
+    await retirePendingAction(pendingId);
+    await appendAudit({ chatId, kind: "email-edit-started", detail: { to } });
+    await answerCallbackQuery(cb.id, "Okay — send me your version.");
+    if (messageId !== undefined) {
+      await editMessageText(
+        chatId,
+        messageId,
+        `✏️ Editing reply to ${to || "the customer"}.\n\nSend me the revised reply text and I'll show it for final approval.`
+      );
+    }
+    return;
+  }
 
   if (verb === "cancel") {
     // discardPendingAction goes through the same atomic claim as Confirm:

@@ -123,6 +123,25 @@ export function confirmCancelKeyboard(pendingId: string): InlineKeyboard {
   };
 }
 
+/**
+ * Three-button keyboard for an inbound-email reply draft: Send / Edit / Cancel.
+ * Send and Cancel reuse the SAME `confirm:`/`cancel:` callbacks (and thus the
+ * exactly-once pending-action machinery) as every other mutation; `edit:`
+ * parks the draft and waits for the owner's revised text (see the webhook's
+ * email-editing flow).
+ */
+export function confirmEditCancelKeyboard(pendingId: string): InlineKeyboard {
+  return {
+    inline_keyboard: [
+      [
+        { text: "✅ Send", callback_data: `confirm:${pendingId}` },
+        { text: "✏️ Edit", callback_data: `edit:${pendingId}` },
+      ],
+      [{ text: "🚫 Cancel", callback_data: `cancel:${pendingId}` }],
+    ],
+  };
+}
+
 /** Split text into ≤4096-char chunks, preferring newline boundaries. */
 function chunkText(text: string): string[] {
   const chunks: string[] = [];

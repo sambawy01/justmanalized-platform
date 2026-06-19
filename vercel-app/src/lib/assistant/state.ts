@@ -375,6 +375,20 @@ export async function createPendingAction(
   return pending;
 }
 
+/**
+ * Read a pending action WITHOUT consuming it. Used by the inbound-email
+ * "Edit draft" flow to recover the original draft's recipient / subject /
+ * threading headers before re-prompting — the destructive takePendingAction
+ * would discard the data we still need. Returns null for a bad id or a
+ * missing blob.
+ */
+export async function peekPendingAction(
+  id: string
+): Promise<PendingAction | null> {
+  if (!PENDING_ID_RE.test(id)) return null;
+  return readJson<PendingAction>(pendingPath(id));
+}
+
 export type TakePendingResult =
   | { ok: true; action: PendingAction }
   | { ok: false; reason: "not-found" | "expired" | "invalid-id" };
@@ -464,6 +478,62 @@ export async function discardPendingAction(id: string): Promise<boolean> {
     console.error("[assistant] Failed to discard pending action:", error);
   }
   return true;
+}
+
+// --- Inbound-email "Edit draft" state -----------------------------------------
+//
+// When the owner taps ✏️ Edit on an email-reply draft, her NEXT plain-text
+// message is the revised reply. Telegram delivers that as an ordinary update,
+// so we remember (per owner chat) which email she's editing — the recipient,
+// subject and threading headers — until that message arrives or the prompt
+// expires. One record per chat; a new Edit overwrites any earlier one.
+
+const EMAIL_EDITING_PREFIX = "emails/editing/";
+/** How long an "awaiting your edited reply" prompt stays live (1 hour). */
+export const EMAIL_EDIT_TTL_MS = 60 * 60 * 1000;
+
+export interface EmailEditingState {
+  to: string;
+  subject: string;
+  inReplyTo?: string;
+  references?: string;
+  createdAt: string;
+}
+
+function emailEditingPath(chatId: number): string {
+  return `${EMAIL_EDITING_PREFIX}${chatId}.json`;
+}
+
+export async function setEmailEditing(
+  chatId: number,
+  data: Omit<EmailEditingState, "createdAt">
+): Promise<void> {
+  await writeJson(emailEditingPath(chatId), {
+    ...data,
+    createdAt: new Date().toISOString(),
+  } satisfies EmailEditingState);
+}
+
+/** The active edit prompt for this chat, or null when none / expired. */
+export async function getEmailEditing(
+  chatId: number
+): Promise<EmailEditingState | null> {
+  const state = await readJson<EmailEditingState>(emailEditingPath(chatId));
+  if (!state) return null;
+  const age = Date.now() - new Date(state.createdAt).getTime();
+  if (!Number.isFinite(age) || age > EMAIL_EDIT_TTL_MS) {
+    await clearEmailEditing(chatId);
+    return null;
+  }
+  return state;
+}
+
+export async function clearEmailEditing(chatId: number): Promise<void> {
+  try {
+    await del(emailEditingPath(chatId));
+  } catch (error) {
+    console.error("[assistant] Failed to clear email-editing state:", error);
+  }
 }
 
 // --- Audit log --------------------------------------------------------------------
