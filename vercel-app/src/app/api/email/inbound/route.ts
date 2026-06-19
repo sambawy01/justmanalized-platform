@@ -13,7 +13,7 @@ import {
   getOwnerChatId,
   NOTIFY_PENDING_TTL_MS,
 } from "@/lib/assistant/state";
-import { confirmCancelKeyboard, sendMessage } from "@/lib/telegram";
+import { confirmEditCancelKeyboard, sendMessage } from "@/lib/telegram";
 
 /**
  * POST /api/email/inbound — Resend Inbound webhook → Gameela drafts a reply →
@@ -142,7 +142,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     await sendMessage(
       owner,
       `${header}\n\n✍️ Draft reply:\n${draft.draftText}`,
-      { replyMarkup: confirmCancelKeyboard(pending.id) }
+      { replyMarkup: confirmEditCancelKeyboard(pending.id) }
     );
 
     return NextResponse.json({ ok: true, notified: true });
