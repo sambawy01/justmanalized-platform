@@ -42,7 +42,7 @@ jobs:
           set -euo pipefail
           code=$(curl -sS -m 120 -o /tmp/resp.json -w '%{http_code}' \
             -H "Authorization: Bearer ${CRON_SECRET}" \
-            "https://book.victoriaholisticbeauty.com/api/cron/monthly-pnl")
+            "https://shop.justmanalized.com/api/cron/monthly-pnl")
           echo "HTTP ${code}"
           # Public repo: never dump the full body (business data) into logs.
           jq '{ok, skipped, error}' /tmp/resp.json || echo "(non-JSON response body suppressed)"
