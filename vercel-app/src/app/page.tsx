@@ -14,16 +14,10 @@ export default function Home() {
       </div>
       <div className="flex flex-col items-center gap-4 sm:flex-row">
         <a
-          href="https://justmanalized.com/shop.html"
+          href="https://shop.justmanalized.com"
           className="rounded-full bg-[#A9745A] px-8 py-3 font-medium text-[#FDF9F3] transition-opacity hover:opacity-90"
         >
           Shop the collection
-        </a>
-        <a
-          href="https://justmanalized.com/"
-          className="rounded-full border border-[#A9745A]/50 px-8 py-3 text-[#3A332C] transition-colors hover:border-[#A9745A]"
-        >
-          Main site
         </a>
       </div>
     </main>
